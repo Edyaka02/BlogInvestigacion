@@ -1,0 +1,83 @@
+:root {
+    --color_primario: #F08236;
+    --color_letras: #4b4b4b;
+    --color_fondo_dropdown: #e0e0e0;
+    --color_1: #009970;
+    --color_2: #00b383;
+    --color_3: #f5b8e3;
+    --color_4: #d1fffd;
+    --color_5: #fff;
+    --color_6: #636363;
+    --color_7: #000;
+
+
+    /* --brand-color: hsl(46, 100%, 50%);
+    --black: hsl(0, 0%, 0%);
+    --white: hsl(0, 0%, 100%); */
+    --brand-color: #00b383;
+    --black: hsl(0, 0%, 0%);
+    --white: hsl(0, 0%, 100%);
+
+    --font-title: "Montserrat", sans-serif;
+    --font-text: "Lato", sans-serif;
+}
+
+/*    Navbar styles    */
+.navbar {
+    background-color: var(--color_5);
+    height: 80px;
+    margin: 20px;
+    border-radius: 16px;
+    padding: 0.5rem;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.navbar-brand {
+    font-weight: 500;
+    color: var(--color_1);
+    font-size: 24px;
+    transition: 0.3s color;
+}
+
+.navbar-toggler {
+    border: none;
+    font-size: 1.25rem;
+}
+
+.navbar-toggler:focus,
+.btn-close:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+.nav-link {
+    color: var(--color_6);
+    font-weight: 500;
+    position: relative;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--color_7);
+}
+
+@media (min-width: 991px) {
+    .nav-link::before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 2px;
+        background-color: var(--color_1);
+        visibility: hidden;
+        transition: 0.5s ease-in-out;
+    }
+
+    .nav-link:hover::before,
+    .nav-link.active::before {
+        width: 100%;
+        visibility: visible;
+    }
+}
