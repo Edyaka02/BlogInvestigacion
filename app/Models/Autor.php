@@ -18,9 +18,15 @@ class Autor extends Model
         'APELLIDO_AUTOR'
     ];
 
+    // public function articulos()
+    // {
+    //     return $this->belongsToMany(Articulo::class, 'tb_articulo_autor', 'ID_AUTOR', 'ID_ARTICULO')
+    //                 ->withPivot('ORDEN_AUTOR');
+    // }
+
     public function articulos()
     {
         return $this->belongsToMany(Articulo::class, 'tb_articulo_autor', 'ID_AUTOR', 'ID_ARTICULO')
-                    ->withPivot('ORDEN_AUTOR');
+            ->using(ArticuloAutor::class);
     }
 }

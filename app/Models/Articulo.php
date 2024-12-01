@@ -25,9 +25,15 @@ class Articulo extends Model
         'URL_IMAGEN_ARTICULO'
     ];
 
+    // public function autores()
+    // {
+    //     return $this->belongsToMany(Autor::class, 'tb_articulo_autor', 'ID_ARTICULO', 'ID_AUTOR')
+    //                 ->withPivot('ORDEN_AUTOR');
+    // }
+
     public function autores()
     {
         return $this->belongsToMany(Autor::class, 'tb_articulo_autor', 'ID_ARTICULO', 'ID_AUTOR')
-                    ->withPivot('ORDEN_AUTOR');
+                    ->using(ArticuloAutor::class);
     }
 }
