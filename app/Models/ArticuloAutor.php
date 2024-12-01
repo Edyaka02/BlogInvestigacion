@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class ArticuloAutor extends Model
+class ArticuloAutor extends Pivot
 {
-    use HasFactory;
+    protected $table = 'tb_articulo_autor';
+    public $timestamps = false;
 }
