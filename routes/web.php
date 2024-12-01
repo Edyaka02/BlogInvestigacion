@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticuloController; 
 
 
-Route::get('/', [ArticuloController::class, 'index'])->name('articulos.articulo');
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,3 +14,7 @@ Route::get('/', [ArticuloController::class, 'index'])->name('articulos.articulo'
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+// Rutas publicas
+Route::get('/', [ArticuloController::class, 'index'])->name('articulos.articulo');
+Route::get('/articulos/{id}', [ArticuloController::class, 'show'])->name('articulo.show');

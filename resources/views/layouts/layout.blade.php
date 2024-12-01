@@ -6,7 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title', 'RENOVATEC')</title>
-    @vite(['resources/css/navbar.css', 'resources/css/footer.css', 'resources/sass/app.scss', 'resources/js/app.js'])
+    @vite(['resources/css/navbar.css', 'resources/css/footer.css', 'resources/css/cards_public.css', 'resources/sass/app.scss', 'resources/js/app.js'])
+
+
+    <style>
+        /*    main style    */
+        .main {
+            padding-top: 120px;
+            margin-bottom: 30px;
+        }
+    </style>
 </head>
 
 <body class="d-flex flex-column min-vh-100">
@@ -108,7 +117,7 @@
     </header>
 
     <!-- Contenido dinámico -->
-    <main class="flex-grow-1 container mt-4">
+    <main class="flex-grow-1 container mt-4 main">
         @yield('content')
     </main>
 
