@@ -12,8 +12,8 @@
 
 
     /* --brand-color: hsl(46, 100%, 50%);
-  --black: hsl(0, 0%, 0%);
-  --white: hsl(0, 0%, 100%); */
+    --black: hsl(0, 0%, 0%);
+    --white: hsl(0, 0%, 100%); */
     --brand-color: #00b383;
     --black: hsl(0, 0%, 0%);
     --white: hsl(0, 0%, 100%);
@@ -172,4 +172,3 @@
         margin: 0% 3%;
     }
 }
-

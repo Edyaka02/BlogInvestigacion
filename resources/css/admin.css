@@ -1,0 +1,373 @@
+/*@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');*/
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
+:root {
+    --color_1: #3a3132;
+    --color_2: #0f4571;
+    --color_3: #386dbd;
+    --color_4: #009ddd;
+    --color_5: #05d3f8;
+    --color_6: #f5f5f5;
+    --color_7: #000000;
+
+    --btn-subir: #1AAB8A;
+    --btn-ver: #1b9fd3;
+    --btn-autor: #B0B0B0;
+    --btn-eliminar: #AB1A3A;
+    --btn-editar: #ffaa3e;
+}
+
+.admin .main {
+    padding-top: 50px;
+}
+
+.admin .navbar {
+    background-color: var(--color_2);
+    height: 80px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+.admin .offcanvas {
+    background-color: var(--color_2);
+}
+
+.admin .offcanvas-title {
+    color: var(--color_6);
+}
+
+/* Cambia el color del botón de cierre */
+.admin .btn-close {
+    background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e") center/1em auto no-repeat;
+}
+
+.admin .navbar-toggler {
+    margin-right: auto; /* Move toggler to the left */
+    border-color: #fff;
+}
+
+.admin .navbar-toggler:hover {
+    border-color: #fff;
+}
+
+/* Optional: Adjust the padding of the toggler button */
+.admin .navbar-toggler-icon {
+    padding: 0.25rem;
+    background-image: url(
+        "data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 0.8)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+}
+
+.admin .nav-link {
+    color: var(--color_6);
+    font-weight: 500;
+    position: relative;
+    padding: 0.5rem 1rem; /* Espaciado para un mejor diseño */
+    border-radius: 0.5rem; /* Bordes redondeados */
+    transition: color 0.3s ease-in-out, background-color 0.5s ease-in-out;
+}
+
+.admin .nav-link:hover, .admin .nav-link.active {
+    color: var(--color_7); /* Color del texto al interactuar */
+    background-color: rgba(253, 253, 253, 0.774); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para el efecto de elevación */
+}
+
+.admin .custom-main {
+    background-color: #fff;
+}
+
+.admin .contenedor {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.admin .custom-button-group {
+    display: flex;
+    justify-content: center;
+}
+
+/* Modal estilos */
+.admin .custom-modal-header {
+    background-color: var(--color_2);
+    color: white;
+    font-family: "Titillium Web", sans-serif;
+    font-weight: 900;
+    font-style: normal;
+}
+
+.admin .custom-modal-body {
+    font-family: "Titillium Web", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.admin .custom-modal-footer {
+    background-color: var(--color_4);
+}
+
+.admin .btn-custom {
+    background-color: var(--color_2);
+    color: white;
+}
+
+.admin .btn-custom:hover {
+    background-color: var(--color_5);
+}
+
+/* Card estilos */
+.admin .custom-card {
+    background-color: #fff;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    transition: 700ms;
+}
+
+.admin .card-title {
+    font-family: "Titillium Web", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+/* Cambia el color del texto del título */
+.admin .custom-card .card-title {
+    text-align: center;
+    color: var(--color_7);
+    font-family: "Titillium Web", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.admin .custom-card:hover {
+    border: 0.5px solid var(--color_2);
+    box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+    transition: 700ms;
+}
+
+.admin .custom-icon {
+    font-size: 50px;
+    /*margin-right: 5.5rem;*/
+}
+
+/* Botones subir, eliminar y ver todos */
+.admin .custom-button-eliminar, .admin .custom-button-subir, .admin .custom-button-ver, .admin .custom-button-editar {
+    font-family: "Titillium Web", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* Subir */
+.admin .custom-button-subir {
+    background: var(--btn-subir);
+    color: #fff;
+    border: none;
+    position: relative;
+    cursor: pointer;
+    transition: 800ms ease all;
+    outline: none;
+}
+
+.admin .custom-button-subir:hover {
+    background: #fff;
+    color: var(--btn-subir);
+}
+
+.admin .custom-button-subir:before, .admin .custom-button-subir:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 2px;
+    width: 0;
+    background: var(--btn-subir);
+    transition: 400ms ease all;
+}
+
+.admin .custom-button-subir:after {
+    right: inherit;
+    top: inherit;
+    left: 0;
+    bottom: 0;
+}
+
+.admin .custom-button-subir:hover:before, .admin .custom-button-subir:hover:after {
+    width: 100%;
+    transition: 800ms ease all;
+}
+
+/* Ver */
+.admin .custom-button-ver {
+    background: var(--btn-ver);
+    color: #fff;
+    border: none;
+    position: relative;
+    cursor: pointer;
+    transition: 800ms ease all;
+    outline: none;
+}
+
+.admin .custom-button-ver:hover {
+    background: #fff;
+    color: var(--btn-ver);
+}
+
+.admin .custom-button-ver:before, .admin .custom-button-ver:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 2px;
+    width: 0;
+    background: var(--btn-ver);
+    transition: 400ms ease all;
+}
+
+.admin .custom-button-ver:after {
+    right: inherit;
+    top: inherit;
+    left: 0;
+    bottom: 0;
+}
+
+.admin .custom-button-ver:hover:before, .admin .custom-button-ver:hover:after {
+    width: 100%;
+    transition: 800ms ease all;
+}
+
+/* Eliminar */
+.admin .custom-button-eliminar {
+    background: var(--btn-eliminar);
+    color: #fff;
+    border: none;
+    position: relative;
+    cursor: pointer;
+    transition: 800ms ease all;
+    outline: none;
+}
+
+.admin .custom-button-eliminar:hover {
+    background: #fff;
+    color: var(--btn-eliminar);
+}
+
+.admin .custom-button-eliminar:before, .admin .custom-button-eliminar:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 2px;
+    width: 0;
+    background: var(--btn-eliminar);
+    transition: 400ms ease all;
+}
+
+.admin .custom-button-eliminar:after {
+    right: inherit;
+    top: inherit;
+    left: 0;
+    bottom: 0;
+}
+
+.admin .custom-button-eliminar:hover:before, .admin .custom-button-eliminar:hover:after {
+    width: 100%;
+    transition: 800ms ease all;
+}
+
+/* Editar */
+.admin .custom-button-editar {
+    background: var(--btn-editar);
+    color: #fff;
+    border: none;
+    position: relative;
+    cursor: pointer;
+    transition: 800ms ease all;
+    outline: none;
+}
+
+.admin .custom-button-editar:hover {
+    background: #fff;
+    color: var(--btn-editar);
+}
+
+.admin .custom-button-editar:before, .admin .custom-button-editar:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 2px;
+    width: 0;
+    background: var(--btn-editar);
+    transition: 400ms ease all;
+}
+
+.admin .custom-button-editar:after {
+    right: inherit;
+    top: inherit;
+    left: 0;
+    bottom: 0;
+}
+
+.admin .custom-button-editar:hover:before, .admin .custom-button-editar:hover:after {
+    width: 100%;
+    transition: 800ms ease all;
+}
+
+.admin .file-input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.admin .custom-file-label {
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    margin-right: 0.5rem; /* Space between button and file name */
+}
+
+.admin .file-input-container input[type="file"] {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.admin .file-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #495057;
+    border: 1px solid #ced4da;
+    border-radius: 0.375rem;
+    padding: 0.75rem 1.25rem;
+    background-color: #e9ecef;
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.admin .search-input-group {
+    position: relative;
+}
+
+.admin .search-icon-container {
+    background-color: transparent; /* Elimina el fondo gris */
+    border: 1px solid #ccc; /* Asegúrate de que el borde se mantenga */
+    border-right: none; /* Elimina el borde derecho para que se vea continuo */
+    border-radius: 20px 0 0 20px; /* Bordes redondeados a la izquierda */
+}
+
+.admin .search-input {
+    padding-left: 0px; /* Espacio para el icono */
+    height: 36px;
+    font-size: 16px; /* Tamaño del texto */
+    box-sizing: border-box; /* Incluye padding en el ancho total */
+    border: 1px solid #ccc; /* Borde del input */
+    border-left: none; /* Elimina el borde izquierdo para que se vea continuo */
+    border-radius: 0 20px 20px 0; /* Bordes redondeados a la derecha */
+    outline: none; /* Elimina el contorno al enfocar */
+}
+
+.admin .search-input:focus {
+    border-color: #ccc; /* Mantiene el color del borde al enfocar */
+    box-shadow: none; /* Elimina el efecto de sombra al enfocar */
+}

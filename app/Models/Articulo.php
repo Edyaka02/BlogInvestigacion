@@ -22,18 +22,19 @@ class Articulo extends Model
         'TIPO_ARTICULO',
         'URL_REVISTA_ARTICULO',
         'URL_ARTICULO',
-        'URL_IMAGEN_ARTICULO'
+        'URL_IMAGEN_ARTICULO',
+        'ELIMINADO_ARTICULO'
     ];
-
-    // public function autores()
-    // {
-    //     return $this->belongsToMany(Autor::class, 'tb_articulo_autor', 'ID_ARTICULO', 'ID_AUTOR')
-    //                 ->withPivot('ORDEN_AUTOR');
-    // }
 
     public function autores()
     {
         return $this->belongsToMany(Autor::class, 'tb_articulo_autor', 'ID_ARTICULO', 'ID_AUTOR')
-                    ->using(ArticuloAutor::class);
+                    ->withPivot('ORDEN_AUTOR');
     }
+
+    // public function autores()
+    // {
+    //     return $this->belongsToMany(Autor::class, 'tb_articulo_autor', 'ID_ARTICULO', 'ID_AUTOR')
+    //                 ->using(ArticuloAutor::class);
+    // }
 }

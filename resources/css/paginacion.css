@@ -1,0 +1,25 @@
+.pagination {
+    display: flex;
+    justify-content: center;
+}
+
+.pagination li {
+    display: inline-block;
+    margin: 0 5px;
+}
+
+.pagination li a,
+.pagination li span {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #007bff;
+}
+
+.pagination li a:hover,
+.pagination li span.current {
+    background-color: #007bff;
+    color: #fff;
+}
+
