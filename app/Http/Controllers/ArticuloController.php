@@ -11,11 +11,6 @@ use Illuminate\Support\Str;
 
 class ArticuloController extends Controller
 {
-    // public function index()
-    // {
-    //     $articulos = Articulo::with('autores')->get();
-    //     return view('articulos.articulo', compact('articulos'));
-    // }
     public function index()
     {
         $articulos = Articulo::with('autores')
@@ -28,7 +23,7 @@ class ArticuloController extends Controller
     {
         $query = Articulo::with('autores')->where('ELIMINADO_ARTICULO', false);
 
-        if ($request->has('search')) {
+        if ($request->has('search') && !is_null($request->input('search'))) {
             $search = $request->input('search');
             $search = Str::singular($search); // Normaliza la palabra clave a singular
             $query->where(function ($q) use ($search) {
@@ -46,29 +41,72 @@ class ArticuloController extends Controller
             $query->whereIn('TIPO_ARTICULO', $request->input('tipo'));
         }
 
-        if ($request->has('anio') && !empty($request->input('anio'))) {
-            $query->whereIn(DB::raw('YEAR(FECHA_ARTICULO)'), $request->input('anio'));
-        }
+        // if ($request->has('anio') && !empty($request->input('anio'))) {
+        //     $query->whereIn(DB::raw('YEAR(FECHA_ARTICULO)'), $request->input('anio'));
+        // }
 
-        if ($request->has('ordenar') && $request->input('ordenar') != '') {
-            $ordenar = $request->input('ordenar');
-            switch ($ordenar) {
-                case 'titulo_asc':
-                    $query->orderBy('TITULO_ARTICULO', 'asc');
-                    break;
-                case 'titulo_desc':
-                    $query->orderBy('TITULO_ARTICULO', 'desc');
-                    break;
-                case 'fecha_asc':
-                    $query->orderBy('FECHA_ARTICULO', 'asc');
-                    break;
-                case 'fecha_desc':
-                    $query->orderBy('FECHA_ARTICULO', 'desc');
-                    break;
+        // if ($request->has('anio') && !empty($request->input('anio'))) {
+        //     $anios = $request->input('anio');
+        //     if (!is_array($anios)) {
+        //         $anios = [$anios];
+        //     }
+        //     $query->whereIn(DB::raw('YEAR(FECHA_ARTICULO)'), $anios);
+        // }
+
+        // if ($request->input('anio') === 'intervalo' && $request->has('anio_inicio') && $request->has('anio_fin') && !is_null($request->input('anio_inicio')) && !is_null($request->input('anio_fin'))) {
+        //     $anio_inicio = $request->input('anio_inicio');
+        //     $anio_fin = $request->input('anio_fin');
+        //     $query->whereBetween(DB::raw('YEAR(FECHA_ARTICULO)'), [$anio_inicio, $anio_fin]);
+        // }
+
+        if ($request->input('anio') === 'intervalo' && $request->has('anio_inicio') && $request->has('anio_fin') && !is_null($request->input('anio_inicio')) && !is_null($request->input('anio_fin'))) {
+            $anio_inicio = $request->input('anio_inicio');
+            $anio_fin = $request->input('anio_fin');
+            $query->whereBetween(DB::raw('YEAR(FECHA_ARTICULO)'), [$anio_inicio, $anio_fin]);
+            // } elseif ($request->has('anio') && !empty($request->input('anio'))) {
+        } elseif ($request->has('anio') && !empty($request->input('anio')) && $request->input('anio') !== 'todos') {
+            $anios = $request->input('anio');
+            if (!is_array($anios)) {
+                $anios = [$anios];
             }
+            $query->whereIn(DB::raw('YEAR(FECHA_ARTICULO)'), $anios);
         }
 
-        $articulos = $query->paginate(5)->appends($request->except('page'));
+        // $ordenar = $request->input('ordenar', 'fecha_desc');
+        // if ($request->has('ordenar') && !is_null($request->input('ordenar'))) {
+        //     $ordenar = $request->input('ordenar');
+        //     switch ($ordenar) {
+        //         case 'titulo_asc':
+        //             $query->orderBy('TITULO_ARTICULO', 'asc');
+        //             break;
+        //         case 'titulo_desc':
+        //             $query->orderBy('TITULO_ARTICULO', 'desc');
+        //             break;
+        //         case 'fecha_asc':
+        //             $query->orderBy('FECHA_ARTICULO', 'asc');
+        //             break;
+        //         case 'fecha_desc':
+        //             $query->orderBy('FECHA_ARTICULO', 'desc');
+        //             break;
+        //     }
+        // }
+        $ordenar = $request->input('ordenar', 'fecha_desc'); // Establecer 'fecha_desc' como predeterminado
+        switch ($ordenar) {
+            case 'titulo_asc':
+                $query->orderBy('TITULO_ARTICULO', 'asc');
+                break;
+            case 'titulo_desc':
+                $query->orderBy('TITULO_ARTICULO', 'desc');
+                break;
+            case 'fecha_asc':
+                $query->orderBy('FECHA_ARTICULO', 'asc');
+                break;
+            case 'fecha_desc':
+                $query->orderBy('FECHA_ARTICULO', 'desc');
+                break;
+        }
+
+        $articulos = $query->paginate(20)->appends($request->except('page'));
 
         $tiposArticulos = config('tipos.articulos');
         // Generar los últimos tres años
@@ -88,13 +126,6 @@ class ArticuloController extends Controller
 
         return view('articulos.articulo_detalle', compact('articulo'));
     }
-
-    // public function create()
-    // {
-    //     $autorController = new AutorController();
-    //     $autores = $autorController->index()->getData()['autores'];
-    //     return view('articulos.create', compact('autores'));
-    // }
 
     public function create()
     {

@@ -29,11 +29,13 @@
 
 .admin .offcanvas {
     background-color: var(--color_2);
+    width: 300px !important; 
 }
 
 .admin .offcanvas-title {
     color: var(--color_6);
 }
+
 
 /* Cambia el color del botón de cierre */
 .admin .btn-close {
