@@ -52,13 +52,13 @@
                                         Subir Libro
                                     </button>
                                     <a 
-                                    {{-- href="{{ route('admin.ver_libro') }}"  --}}
+                                    href="{{ route('admin.libros.index') }}" 
                                     class="btn custom-button-ver">
                                         <i class="bi bi-eye"></i>
                                         Ver todos</a>
                                 </div>
                             </div>
-                            {{-- @include('admin.modals.modal_libro') --}}
+                            @include('admin.modals.modal_libro')
                         </div>
                     </div>
                 </div>

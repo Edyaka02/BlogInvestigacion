@@ -1,105 +1,3 @@
-// export function initializeAuthorFields(authorFieldsId, addAuthorButtonId, removeAuthorButtonId, maxAuthors = 5) {
-//     let authorCount = 1;
-
-//     const authorFields = document.getElementById(authorFieldsId);
-//     const addAuthorButton = document.getElementById(addAuthorButtonId);
-//     const removeAuthorButton = document.getElementById(removeAuthorButtonId);
-
-//     addAuthorButton.addEventListener('click', function () {
-//         if (authorCount < maxAuthors) {
-//             authorCount++;
-//             const newAuthorField = document.createElement('div');
-//             newAuthorField.classList.add('mb-3', 'author-field');
-//             newAuthorField.id = `author${authorCount}`;
-//             newAuthorField.innerHTML = `
-//                 <label class="form-label">Autor ${authorCount}</label>
-//                 <div class="row mb-2">
-//                     <div class="col-md-6 mb-2">
-//                         <div class="form-floating">
-//                             <input type="text" class="form-control" name="nombre_autores[]" placeholder="Nombre" required>
-//                             <label>Nombre(s)</label>
-//                         </div>
-//                     </div>
-//                     <div class="col-md-6">
-//                         <div class="form-floating">
-//                             <input type="text" class="form-control" name="apellido_autores[]" placeholder="Apellido" required>
-//                             <label>Apellido(s)</label>
-//                         </div>
-//                     </div>
-//                 </div>
-//             `;
-//             authorFields.appendChild(newAuthorField);
-//             removeAuthorButton.style.display = 'inline-block';
-//             if (authorCount === maxAuthors) {
-//                 addAuthorButton.style.display = 'none';
-//             }
-//         }
-//     });
-
-//     removeAuthorButton.addEventListener('click', function () {
-//         if (authorCount > 1) {
-//             const lastAuthorField = document.getElementById(`author${authorCount}`);
-//             authorFields.removeChild(lastAuthorField);
-//             authorCount--;
-//             addAuthorButton.style.display = 'inline-block';
-//             if (authorCount === 1) {
-//                 removeAuthorButton.style.display = 'none';
-//             }
-//         }
-//     });
-// }
-
-// export function initializeAuthorFields(authorFieldsId, addAuthorButtonId, removeAuthorButtonId, maxAuthors = 5) {
-//     let authorCount = 1;
-
-//     const authorFields = document.getElementById(authorFieldsId);
-//     const addAuthorButton = document.getElementById(addAuthorButtonId);
-//     const removeAuthorButton = document.getElementById(removeAuthorButtonId);
-
-//     addAuthorButton.addEventListener('click', function () {
-//         if (authorCount < maxAuthors) {
-//             authorCount++;
-//             const newAuthorField = document.createElement('div');
-//             newAuthorField.classList.add('mb-3', 'author-field');
-//             newAuthorField.id = `author${authorCount}`;
-//             newAuthorField.innerHTML = `
-//                 <label class="form-label">Autor ${authorCount}</label>
-//                 <div class="row mb-2">
-//                     <div class="col-md-6 mb-2">
-//                         <div class="form-floating">
-//                             <input type="text" class="form-control" name="nombre_autores[]" placeholder="Nombre" required>
-//                             <label>Nombre(s)</label>
-//                         </div>
-//                     </div>
-//                     <div class="col-md-6">
-//                         <div class="form-floating">
-//                             <input type="text" class="form-control" name="apellido_autores[]" placeholder="Apellido" required>
-//                             <label>Apellido(s)</label>
-//                         </div>
-//                     </div>
-//                 </div>
-//             `;
-//             authorFields.appendChild(newAuthorField);
-//             removeAuthorButton.style.display = 'inline-block';
-//             if (authorCount === maxAuthors) {
-//                 addAuthorButton.style.display = 'none';
-//             }
-//         }
-//     });
-
-//     removeAuthorButton.addEventListener('click', function () {
-//         if (authorCount > 1) {
-//             const lastAuthorField = document.getElementById(`author${authorCount}`);
-//             authorFields.removeChild(lastAuthorField);
-//             authorCount--;
-//             addAuthorButton.style.display = 'inline-block';
-//             if (authorCount === 1) {
-//                 removeAuthorButton.style.display = 'none';
-//             }
-//         }
-//     });
-// }
-
 export function inicializarModalAutores(button, authorFieldsId, addAuthorButtonId, removeAuthorButtonId) {
     var nombresAutores = button.getAttribute('data-nombres-autores') ? button.getAttribute('data-nombres-autores').split(',') : [];
     var apellidosAutores = button.getAttribute('data-apellidos-autores') ? button.getAttribute('data-apellidos-autores').split(',') : [];
@@ -218,25 +116,67 @@ export function inicializarModalAutores(button, authorFieldsId, addAuthorButtonI
     remover_boton_autor.onclick = removerAutor;
 }
 
-export function updateFileName(inputId, displayId) {
+// export function updateFileName(inputId, displayId) {
+//     const fileInput = document.getElementById(inputId);
+//     const fileNameDisplay = document.getElementById(displayId);
+
+//     fileInput.addEventListener('change', function () {
+//         const fileName = fileInput.files[0] ? fileInput.files[0].name : 'No se ha elegido un archivo';
+//         fileNameDisplay.innerHTML = `<span>${fileName}</span>`;
+//     });
+// }
+
+export function updateFileName(inputId, displayId, noFileMessage = 'No se ha elegido un archivo') {
     const fileInput = document.getElementById(inputId);
     const fileNameDisplay = document.getElementById(displayId);
 
     fileInput.addEventListener('change', function () {
-        const fileName = fileInput.files[0] ? fileInput.files[0].name : 'No se ha elegido un archivo';
+        const fileName = fileInput.files[0] ? fileInput.files[0].name : noFileMessage;
         fileNameDisplay.innerHTML = `<span>${fileName}</span>`;
     });
 }
 
-export function setupDeleteModal(modalId, formId, urlBase) {
-    document.getElementById(modalId).addEventListener('show.bs.modal', function(event) {
-        var button = event.relatedTarget;
-        var id = button.getAttribute('data-id');
-        var type = button.getAttribute('data-type');
-        var form = document.getElementById(formId);
-        form.action = urlBase + "/" + id;
-        document.getElementById('id_eliminar').value = id;
-        document.getElementById('modalEliminarLabel').textContent = 'Confirmar Eliminación de ' + type;
-        document.getElementById('modalEliminarBody').textContent = '¿Estás seguro de que quieres eliminar este ' + type + '?';
+export function displayFileName(url, displayId, noFileMessage) {
+    const displayElement = document.getElementById(displayId);
+    const fileName = url ? url.split('/').pop() : noFileMessage;
+    displayElement.innerHTML = `<span>${fileName}</span>`;
+}
+
+
+// export function setupDeleteModal(modalId, formId, urlBase) {
+//     document.getElementById(modalId).addEventListener('show.bs.modal', function (event) {
+//         var button = event.relatedTarget;
+//         var id = button.getAttribute('data-id');
+//         var type = button.getAttribute('data-type');
+//         var form = document.getElementById(formId);
+//         form.action = urlBase + "/" + id;
+//         document.getElementById('id_eliminar').value = id;
+//         document.getElementById('modalEliminarLabel').textContent = 'Confirmar Eliminación de ' + type;
+//         document.getElementById('modalEliminarBody').textContent = '¿Estás seguro de que quieres eliminar este ' + type + '?';
+//     });
+// }
+
+export function setupDeleteModal(modalId, formId) {
+    const modal = document.getElementById(modalId);
+    const form = document.getElementById(formId);
+
+    if (!modal || !form) return;
+
+    modal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const itemId = button.getAttribute('data-id');
+        const itemType = button.getAttribute('data-type'); // Obtener el tipo de elemento (artículo o libro)
+
+        let actionUrl = '';
+        if (itemType === 'artículo') {
+            actionUrl = `/admin/articulos/${itemId}`;
+        } else if (itemType === 'libro') {
+            actionUrl = `/admin/libros/${itemId}`;
+        }
+
+        document.getElementById('modalEliminarLabel').textContent = 'Confirmar Eliminación de ' + itemType;
+        document.getElementById('modalEliminarBody').textContent = '¿Estás seguro de que quieres eliminar este ' + itemType + '?';
+
+        form.action = actionUrl;
     });
 }

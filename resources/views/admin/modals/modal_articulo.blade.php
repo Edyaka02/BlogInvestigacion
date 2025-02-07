@@ -1,32 +1,27 @@
 <div class="modal fade" id="articuloModal" tabindex="-1" aria-labelledby="articuloModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-lg">
-        <div class="modal-content">
+        <div class="modal-content custom-modal-border">
             <div class="modal-header custom-modal-header">
                 <h5 class="modal-title" id="articuloModalLabel">{{ isset($row) ? 'Editar' : 'Crear' }} Artículo</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body custom-modal-body">
-                <form id="articuloForm" class="needs-validation"
-                    action="{{ isset($row) ? route('admin.articulos.update', $row->ID_ARTICULO) : route('admin.articulos.store') }}"
+                <form id="articuloForm" class="needs-validation" action="{{ route('admin.articulos.store') }}"
                     method="POST" enctype="multipart/form-data" novalidate>
                     @csrf
-                    @if (isset($row))
-                        @method('PUT')
-                    @endif
                     <div class="row mb-2">
-                        <!-- Accion -->
-                        {{-- <input type="text" name="accion" id="accion" value="{{ $accion['accion'] }}"> --}}
-
                         <!-- ID del articulo -->
                         <input type="hidden" name="id_articulo" id="id_articulo">
-
 
                         <!-- ISSN -->
                         <div class="col-md-4 mb-2">
                             <div class="form-floating">
                                 <input type="text" class="form-control" id="issn_articulo" name="issn_articulo"
-                                    placeholder=" " required>
+                                    placeholder=" " pattern="^\d{4}-\d{4}$" maxlength="9" required>
                                 <label for="issn_articulo">ISSN</label>
+                                <div class="invalid-feedback">
+                                    Ingrese un ISSN válido (formato: 1234-5678).
+                                </div>
                             </div>
                         </div>
 
@@ -40,21 +35,11 @@
                         </div>
 
                         <!-- Tipo de articulo -->
-                        {{-- <div class="col-md-4">
-                            <div class="form-floating">
-                                <select class="form-select" id="tipo_articulo" name="tipo_articulo" required>
-                                    <option value="" disabled selected hidden>Seleccionar</option>
-                                    <option value="Investigacion">Investigación</option>
-                                    <option value="Divulgacion">Divulgación</option>
-                                </select>
-                                <label for="tipo" class="form-label">Tipo de Artículo</label>
-                            </div>
-                        </div> --}}
                         <div class="col-md-4">
                             <div class="form-floating">
                                 <select class="form-select" id="tipo_articulo" name="tipo_articulo" required>
                                     <option value="" disabled selected hidden>Seleccionar</option>
-                                    @foreach($tiposArticulos as $key => $value)
+                                    @foreach ($tiposArticulos as $key => $value)
                                         <option value="{{ $key }}">{{ $value }}</option>
                                     @endforeach
                                 </select>

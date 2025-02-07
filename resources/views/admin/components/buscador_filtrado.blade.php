@@ -1,19 +1,23 @@
-<form method="GET" action="{{ route('admin.articulos.index') }}" class="mb-4">
+<form method="GET" action="{{ $route }}" class="mb-4">
     <div class="row">
         <div class="col-md-9">
-            <div class="input-group mb-3">
-                <input type="text" name="search" class="form-control" placeholder="Buscar..."
+            <div class="input-group mb-3 search-input-group">
+                <span class="input-group-text search-icon-container" id="basic-addon1">
+                    <i class="fas fa-search search-icon"></i>
+                </span>
+                <input type="text" name="search" class="form-control search-input" placeholder="Buscar..."
                     value="{{ request()->query('search') }}">
                 <button type="submit" class="btn btn-primary">Buscar</button>
             </div>
         </div>
+
         <div class="col-md-3">
             <div class="dropend mb-3">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                     data-bs-toggle="dropdown" aria-expanded="false">
                     Filtrar
                 </button>
-                
+
                 <div class="dropdown-menu p-4" aria-labelledby="dropdownMenuButton"
                     style="max-height: 300px; overflow-y: auto;">
                     <div class="mb-3">
@@ -22,7 +26,7 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <div id="ordenarOptions" style="display: none;">
+                        <div id="ordenarOptions" class="options-container">
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="ordenar" value="titulo_asc"
                                     id="ordenarTituloAsc"
@@ -58,31 +62,33 @@
                         </div>
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label" style="cursor: pointer;"
-                            onclick="toggleOptions(event, 'tipoOptions')">Por tipo</label>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <div id="tipoOptions" style="display: none;">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="tipo[]" value="Investigacion"
-                                    id="tipoInvestigacion"
-                                    {{ in_array('Investigacion', request()->query('tipo', [])) ? 'checked' : '' }}>
-                                <label class="form-check-label" for="tipoInvestigacion">
-                                    Investigación
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="tipo[]" value="Divulgacion"
-                                    id="tipoDivulgacion"
-                                    {{ in_array('Divulgacion', request()->query('tipo', [])) ? 'checked' : '' }}>
-                                <label class="form-check-label" for="tipoDivulgacion">
-                                    Divulgación
-                                </label>
+                    @if (!empty($tiposArticulos))
+                        <div class="mb-3">
+                            <label class="form-label" style="cursor: pointer;"
+                                onclick="toggleOptions(event, 'tipoOptions')">Por tipo</label>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <div id="tipoOptions" style="display: none;">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="tipo[]" value="Investigacion"
+                                        id="tipoInvestigacion"
+                                        {{ in_array('Investigacion', request()->query('tipo', [])) ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="tipoInvestigacion">
+                                        Investigación
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="tipo[]" value="Divulgacion"
+                                        id="tipoDivulgacion"
+                                        {{ in_array('Divulgacion', request()->query('tipo', [])) ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="tipoDivulgacion">
+                                        Divulgación
+                                    </label>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
 
                     @if (!empty($years))
                         <div class="mb-3">
@@ -91,6 +97,7 @@
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
+
                             <div id="anioOptions" style="display: none;">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="anio" value="todos"
@@ -100,6 +107,7 @@
                                         Todos los años
                                     </label>
                                 </div>
+
                                 @foreach ($years as $year)
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="anio"
@@ -110,6 +118,7 @@
                                         </label>
                                     </div>
                                 @endforeach
+
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" id="intervaloAniosCheckbox"
                                         name="anio" value="intervalo"
@@ -118,6 +127,7 @@
                                         Intervalo de años
                                     </label>
                                 </div>
+
                                 <div id="intervaloAnios" class="mt-2"
                                     style="display: {{ request()->query('anio') == 'intervalo' ? 'block' : 'none' }};">
                                     <div class="input-group input-group-sm">
@@ -129,12 +139,13 @@
                                             value="{{ request()->query('anio_fin') }}" style="max-width: 80px;">
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     @endif
 
                     <div class="d-flex justify-content-center">
-                        <button type="submit" class="btn btn-primary">Aplicar Filtros</button>
+                        <button type="submit" class="btn btn-outline-primary">Aplicar Filtros</button>
                     </div>
                 </div>
             </div>

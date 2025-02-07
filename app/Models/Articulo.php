@@ -31,10 +31,4 @@ class Articulo extends Model
         return $this->belongsToMany(Autor::class, 'tb_articulo_autor', 'ID_ARTICULO', 'ID_AUTOR')
                     ->withPivot('ORDEN_AUTOR');
     }
-
-    // public function autores()
-    // {
-    //     return $this->belongsToMany(Autor::class, 'tb_articulo_autor', 'ID_ARTICULO', 'ID_AUTOR')
-    //                 ->using(ArticuloAutor::class);
-    // }
 }
