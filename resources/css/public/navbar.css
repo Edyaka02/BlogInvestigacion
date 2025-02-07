@@ -1,4 +1,4 @@
-:root {
+/* :root {
     --color_primario: #F08236;
     --color_letras: #4b4b4b;
     --color_fondo_dropdown: #e0e0e0;
@@ -10,20 +10,16 @@
     --color_6: #636363;
     --color_7: #000;
 
-
-    /* --brand-color: hsl(46, 100%, 50%);
-    --black: hsl(0, 0%, 0%);
-    --white: hsl(0, 0%, 100%); */
     --brand-color: #00b383;
     --black: hsl(0, 0%, 0%);
     --white: hsl(0, 0%, 100%);
 
     --font-title: "Montserrat", sans-serif;
     --font-text: "Lato", sans-serif;
-}
+} */
 
-/*    Navbar styles    */
-.navbar {
+/* Navbar styles */
+.public .navbar {
     background-color: var(--color_5);
     height: 80px;
     margin: 20px;
@@ -32,37 +28,37 @@
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
-.navbar-brand {
+.public .navbar-brand {
     font-weight: 500;
     color: var(--color_1);
     font-size: 24px;
     transition: 0.3s color;
 }
 
-.navbar-toggler {
+.public .navbar-toggler {
     border: none;
     font-size: 1.25rem;
 }
 
-.navbar-toggler:focus,
-.btn-close:focus {
+.public .navbar-toggler:focus,
+.public .btn-close:focus {
     box-shadow: none;
     outline: none;
 }
 
-.nav-link {
+.public .nav-link {
     color: var(--color_6);
     font-weight: 500;
     position: relative;
 }
 
-.nav-link:hover,
-.nav-link.active {
+.public .nav-link:hover,
+.public .nav-link.active {
     color: var(--color_7);
 }
 
 @media (min-width: 991px) {
-    .nav-link::before {
+    .public .nav-link::before {
         content: "";
         position: absolute;
         bottom: 0;
@@ -75,47 +71,44 @@
         transition: 0.5s ease-in-out;
     }
 
-    .nav-link:hover::before,
-    .nav-link.active::before {
+    .public .nav-link:hover::before,
+    .public .nav-link.active::before {
         width: 100%;
         visibility: visible;
     }
 }
 
-
-/*    Dropdown mega menu    */
-.custom-dropdown-menu-mega ul {
+/* Dropdown mega menu */
+.public .custom-dropdown-menu-mega ul {
     list-style: none;
     padding: 0;
 }
 
-.custom-dropdown-menu-mega li:first-child a {
+.public .custom-dropdown-menu-mega li:first-child a {
     font-weight: 600;
     font-size: 1.2em;
-    /*text-transform: uppercase;*/
     color: var(--color_letras);
 }
 
 @media only screen and (min-width: 992px) {
-    .custom-dropdown-menu-mega.show {
+    .public .custom-dropdown-menu-mega.show {
         display: flex;
     }
 }
 
-
 /* Dropdown Menu Styles */
-.dropdown-menu {
+.public .dropdown-menu {
     background-color: var(--color_5);
     border: none;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
-.dropdown-item {
+.public .dropdown-item {
     color: var(--color_6);
     transition: background-color 0.3s, color 0.3s;
 }
 
-.dropdown-item:hover {
+.public .dropdown-item:hover {
     background-color: var(--color_3);
     color: var(--color_7);
 }

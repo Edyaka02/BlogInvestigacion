@@ -1,4 +1,4 @@
-:root {
+/* :root {
     --color_primario: #F08236;
     --color_letras: #4b4b4b;
     --color_fondo_dropdown: #e0e0e0;
@@ -9,18 +9,13 @@
     --color_5: #fff;
     --color_6: #636363;
     --color_7: #000;
-
-
-    /* --brand-color: hsl(46, 100%, 50%);
-  --black: hsl(0, 0%, 0%);
-  --white: hsl(0, 0%, 100%); */
     --brand-color: #00b383;
     --black: hsl(0, 0%, 0%);
     --white: hsl(0, 0%, 100%);
 
     --font-title: "Montserrat", sans-serif;
     --font-text: "Lato", sans-serif;
-}
+} */
 
 /* footer */
 .footer {
@@ -172,4 +167,3 @@
         margin: 0% 3%;
     }
 }
-

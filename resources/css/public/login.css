@@ -1,0 +1,154 @@
+/* .login-container {
+    background-color: #333;
+    color: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.login-container h2 {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.login-container p {
+    color: #aaa;
+}
+
+.login-container form {
+    margin-top: 1rem;
+}
+
+.login-container label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.login-container input {
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    border: 1px solid #ccc;
+    margin-bottom: 1rem;
+}
+
+.login-container button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.25rem;
+    background-color: #6a11cb;
+    color: white;
+    cursor: pointer;
+}
+
+.login-container .social-links {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.login-container .social-links a {
+    color: white;
+    margin: 0 0.5rem;
+}
+
+.login-container .signup-link {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.login-container .signup-link a {
+    color: #aaa;
+    font-weight: bold;
+} */
+
+/* .full-height {
+    height: 75vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} */
+.full-height {
+    height: 75vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('/img/fondo_login.jpg'); /* Ruta a tu imagen de fondo */
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.login-card {
+    background-color: #f9f9f9; /* Color claro para la tarjeta */
+    color: #333; /* Color oscuro para el texto */
+    padding: 2rem;
+    border-radius: 1rem;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}
+
+.login-card h2 {
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #333; /* Color oscuro para el título */
+    text-decoration: none;
+}
+
+.login-card p {
+    color: #666; /* Color gris para el texto */
+    text-decoration: none;
+}
+
+.login-card form {
+    margin-top: 1rem;
+}
+
+.login-card label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #333; /* Color oscuro para las etiquetas */
+}
+
+.login-card input {
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    border: 1px solid #ccc;
+    margin-bottom: 1rem;
+}
+
+.login-card button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.25rem;
+    background-color: #6a11cb;
+    color: white;
+    cursor: pointer;
+}
+
+.login-card .social-links {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.login-card .social-links a {
+    color: #6a11cb; /* Color para los iconos de redes sociales */
+    margin: 0 0.5rem;
+}
+
+.login-card .signup-link {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.login-card .signup-link a {
+    color: #6a11cb; /* Color para el enlace de registro */
+    font-weight: bold;
+}

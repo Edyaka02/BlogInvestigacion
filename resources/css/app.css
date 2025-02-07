@@ -1,1 +1,18 @@
-@import 'bootstrap/css/bootstrap'
+/* @import 'bootstrap/css/bootstrap' */
+
+
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+@import '@fortawesome/fontawesome-free/css/all.min.css';
+
+@import './root.css';
+
+@import './public/navbar.css';
+@import './public/content.css';
+@import './public/footer.css';
+/* @import './public/cards_public.css'; */
+@import './public/cards.css';
+@import './public/login.css';
+@import './public/paginacion.css';
+
+@import './admin/admin.css';
+@import './admin/buscador_filtro.css';

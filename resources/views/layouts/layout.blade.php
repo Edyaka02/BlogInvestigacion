@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title', 'RENOVATEC')</title>
-    @vite(['resources/css/navbar.css', 'resources/css/footer.css', 'resources/css/cards_public.css', 'resources/sass/app.scss', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/sass/app.scss', 'resources/js/app.js'])
 
 
     <style>
@@ -18,7 +18,7 @@
     </style>
 </head>
 
-<body class="d-flex flex-column min-vh-100">
+<body class="public body d-flex flex-column min-vh-100">
     <header class="header">
         <nav class="navbar navbar-expand-lg fixed-top">
             <div class="container-fluid">
@@ -105,13 +105,14 @@
 
                 </div>
 
-                <a href="#" class="btn custom-btn custom-btn-login">
+                <a href="{{ route('login') }}" class="btn custom-btn custom-btn-login">
                     <i class="bi bi-door-open-fill"></i>Login</a>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
-                    data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar"
+                        aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
             </div>
         </nav>
     </header>

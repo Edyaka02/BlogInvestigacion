@@ -5,12 +5,14 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/css/navbar.css',
-                'resources/css/footer.css',
-                'resources/css/cards_public.css', 
+                'resources/css/app.css', 
                 'resources/sass/app.scss', 
                 'resources/js/app.js'],
             refresh: true,
         }),
     ],
+    server: {
+        host: '192.168.1.64',
+        port: 80,
+    },
 });
