@@ -24,9 +24,14 @@ class ArticuloController extends Controller
 
     public function index()
     {
+        // $articulos = Articulo::with('autores')
+        // ->where('ELIMINADO_ARTICULO', false)
+        // ->select('ID_ARTICULO', 'ISSN_ARTICULO', 'TITULO_ARTICULO', 'FECHA_ARTICULO', 'REVISTA_ARTICULO', 'URL_IMAGEN_ARTICULO')
+        // ->paginate(6);
         $articulos = Articulo::with('autores')
         ->where('ELIMINADO_ARTICULO', false)
         ->select('ID_ARTICULO', 'ISSN_ARTICULO', 'TITULO_ARTICULO', 'FECHA_ARTICULO', 'REVISTA_ARTICULO', 'URL_IMAGEN_ARTICULO')
+        ->orderBy('FECHA_ARTICULO', 'desc') // Ordenar por fecha más reciente
         ->paginate(6);
 
         // Procesar los nombres y apellidos de los autores
@@ -121,18 +126,32 @@ class ArticuloController extends Controller
         //     $articulo->URL_IMAGEN_ARTICULO = $filePath;
         // }
 
+        // if ($request->hasFile('url_articulo')) {
+        //     $file = $request->file('url_articulo');
+        //     $fileName = $this->getUniqueFileName($file, 'articulos');
+        //     $filePath = $file->move(public_path('articulos'), $fileName);
+        //     $articulo->URL_ARTICULO = 'articulos/' . $fileName;
+        // }
+
+        // if ($request->hasFile('url_imagen_articulo')) {
+        //     $file = $request->file('url_imagen_articulo');
+        //     $fileName = $this->getUniqueFileName($file, 'imagenes');
+        //     $filePath = $file->move(public_path('imagenes'), $fileName);
+        //     $articulo->URL_IMAGEN_ARTICULO = 'imagenes/' . $fileName;
+        // }
+
         if ($request->hasFile('url_articulo')) {
             $file = $request->file('url_articulo');
             $fileName = $this->getUniqueFileName($file, 'articulos');
-            $filePath = $file->move(public_path('articulos'), $fileName);
-            $articulo->URL_ARTICULO = 'articulos/' . $fileName;
+            $filePath = $file->storeAs('public/articulos', $fileName);
+            $articulo->URL_ARTICULO = 'storage/articulos/' . $fileName;
         }
-
+    
         if ($request->hasFile('url_imagen_articulo')) {
             $file = $request->file('url_imagen_articulo');
             $fileName = $this->getUniqueFileName($file, 'imagenes');
-            $filePath = $file->move(public_path('imagenes'), $fileName);
-            $articulo->URL_IMAGEN_ARTICULO = 'imagenes/' . $fileName;
+            $filePath = $file->storeAs('public/imagenes', $fileName);
+            $articulo->URL_IMAGEN_ARTICULO = 'storage/imagenes/' . $fileName;
         }
 
         $articulo->save();
@@ -195,18 +214,32 @@ class ArticuloController extends Controller
         //     $articulo->URL_IMAGEN_ARTICULO = $filePath;
         // }
 
+        // if ($request->hasFile('url_articulo')) {
+        //     $file = $request->file('url_articulo');
+        //     $fileName = $this->getUniqueFileName($file, 'articulos');
+        //     $filePath = $file->move(public_path('articulos'), $fileName);
+        //     $articulo->URL_ARTICULO = 'articulos/' . $fileName;
+        // }
+
+        // if ($request->hasFile('url_imagen_articulo')) {
+        //     $file = $request->file('url_imagen_articulo');
+        //     $fileName = $this->getUniqueFileName($file, 'imagenes');
+        //     $filePath = $file->move(public_path('imagenes'), $fileName);
+        //     $articulo->URL_IMAGEN_ARTICULO = 'imagenes/' . $fileName;
+        // }
+
         if ($request->hasFile('url_articulo')) {
             $file = $request->file('url_articulo');
             $fileName = $this->getUniqueFileName($file, 'articulos');
-            $filePath = $file->move(public_path('articulos'), $fileName);
+            $filePath = $file->storeAs('public/articulos', $fileName);
             $articulo->URL_ARTICULO = 'articulos/' . $fileName;
         }
-
+    
         if ($request->hasFile('url_imagen_articulo')) {
             $file = $request->file('url_imagen_articulo');
             $fileName = $this->getUniqueFileName($file, 'imagenes');
-            $filePath = $file->move(public_path('imagenes'), $fileName);
-            $articulo->URL_IMAGEN_ARTICULO = 'imagenes/' . $fileName;
+            $filePath = $file->storeAs('public/imagenes', $fileName);
+            $articulo->URL_IMAGEN_ARTICULO = 'storage/imagenes/' . $fileName;
         }
 
         $articulo->save();

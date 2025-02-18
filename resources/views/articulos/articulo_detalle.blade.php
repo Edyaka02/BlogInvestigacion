@@ -4,7 +4,7 @@
 
 
 @section('content')
-    <div class="container mt-5">
+    <div class="container mt-5 fade-in">
         <section class="row">
             <article class="col-lg-8 col-md-12 mb-4">
                 <div class="mb-4">
@@ -20,7 +20,8 @@
                         <p><strong>Autores:</strong>
 
                             @foreach ($articulo->autores as $autor)
-                                {{ $autor->NOMBRE_AUTOR }} {{ $autor->APELLIDO_AUTOR }}@if (!$loop->last),
+                                {{ $autor->NOMBRE_AUTOR }} {{ $autor->APELLIDO_AUTOR }}
+                                @if(!$loop->last),
                                 @endif
                             @endforeach
                         </p>
@@ -45,7 +46,9 @@
                         @if (!empty($articulo->URL_ARTICULO))
                             <div style="text-align: center;">
                                 <a href="{{ $articulo->URL_ARTICULO }}" class="btn custom-btn custom-btn-descargar"
-                                    download><i class="bi bi-download"></i> Descargar PDF</a>
+                                    download="{{ basename($articulo->URL_ARTICULO) }}"
+                                    >
+                                    <i class="bi bi-download"></i> Descargar PDF</a>
                             </div>
                         @endif
                     </div>

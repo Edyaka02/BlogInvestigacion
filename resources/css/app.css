@@ -13,6 +13,7 @@
 @import './public/cards.css';
 @import './public/login.css';
 @import './public/paginacion.css';
+@import './public/animacion.css';
 
 @import './admin/admin.css';
 @import './admin/buscador_filtro.css';
