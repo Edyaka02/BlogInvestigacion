@@ -34,7 +34,7 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('admin.basurero') }}">
-                                    Subir producto cientifico
+                                    Basurero
                                 </a>
                             </li>
                             <!-- <li class="nav-item dropdown">

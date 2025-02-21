@@ -1,4 +1,4 @@
-<form method="GET" action="{{ $route }}" class="mb-4">
+<form method="GET" action="{{ $route }}" class="mb-4 filter-form">
     <div class="row">
         <div class="col-md-9">
             <div class="input-group mb-3 search-input-group">
@@ -43,22 +43,24 @@
                                     Título (Z-A)
                                 </label>
                             </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="ordenar" value="fecha_desc"
-                                    id="ordenarFechaDesc"
-                                    {{ request()->query('ordenar', 'fecha_desc') == 'fecha_desc' ? 'checked' : '' }}>
-                                <label class="form-check-label" for="ordenarFechaDesc">
-                                    Más recientes
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="ordenar" value="fecha_asc"
-                                    id="ordenarFechaAsc"
-                                    {{ request()->query('ordenar') == 'fecha_asc' ? 'checked' : '' }}>
-                                <label class="form-check-label" for="ordenarFechaAsc">
-                                    Más antiguos
-                                </label>
-                            </div>
+                            @if (!empty($years))
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ordenar" value="fecha_desc"
+                                        id="ordenarFechaDesc"
+                                        {{ request()->query('ordenar', 'fecha_desc') == 'fecha_desc' ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="ordenarFechaDesc">
+                                        Más recientes
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ordenar" value="fecha_asc"
+                                        id="ordenarFechaAsc"
+                                        {{ request()->query('ordenar') == 'fecha_asc' ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="ordenarFechaAsc">
+                                        Más antiguos
+                                    </label>
+                                </div>
+                            @endif
                         </div>
                     </div>
 
@@ -86,6 +88,28 @@
                                         Divulgación
                                     </label>
                                 </div>
+                            </div>
+                        </div>
+                    @endif
+
+                    @if (!empty($config['tiposEventos']))
+                        <div class="mb-3">
+                            <label class="form-label" style="cursor: pointer;"
+                                onclick="toggleOptions(event, 'tipoOptions')">Por tipo</label>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <div id="tipoOptions" style="display: none;">
+                                @foreach ($config['tiposEventos'] as $key => $value)
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="tipo[]"
+                                            value="{{ $key }}" id="tipo{{ $key }}"
+                                            {{ in_array($key, request()->query('tipo', [])) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="tipo{{ $key }}">
+                                            {{ $value }}
+                                        </label>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
                     @endif
@@ -140,6 +164,72 @@
                                     </div>
                                 </div>
 
+                            </div>
+                        </div>
+                    @endif
+
+                    @if (!empty($config['ambitos']))
+                        <div class="mb-3">
+                            <label class="form-label" style="cursor: pointer;"
+                                onclick="toggleOptions(event, 'ambitoOptions')">Por ámbito</label>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <div id="ambitoOptions" style="display: none;">
+                                @foreach ($config['ambitos'] as $key => $value)
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="ambito[]"
+                                            value="{{ $key }}" id="ambito{{ $key }}"
+                                            {{ in_array($key, request()->query('ambito', [])) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="ambito{{ $key }}">
+                                            {{ $value }}
+                                        </label>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
+
+                    @if (!empty($config['modalidades']))
+                        <div class="mb-3">
+                            <label class="form-label" style="cursor: pointer;"
+                                onclick="toggleOptions(event, 'modalidadOptions')">Por modalidad</label>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <div id="modalidadOptions" style="display: none;">
+                                @foreach ($config['modalidades'] as $key => $value)
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="modalidad[]"
+                                            value="{{ $key }}" id="modalidad{{ $key }}"
+                                            {{ in_array($key, request()->query('modalidad', [])) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="modalidad{{ $key }}">
+                                            {{ $value }}
+                                        </label>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
+
+                    @if (!empty($config['comunicaciones']))
+                        <div class="mb-3">
+                            <label class="form-label" style="cursor: pointer;"
+                                onclick="toggleOptions(event, 'comunicacionOptions')">Por comunicación</label>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <div id="comunicacionOptions" style="display: none;">
+                                @foreach ($config['comunicaciones'] as $key => $value)
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="comunicacion[]"
+                                            value="{{ $key }}" id="comunicacion{{ $key }}"
+                                            {{ in_array($key, request()->query('comunicacion', [])) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="comunicacion{{ $key }}">
+                                            {{ $value }}
+                                        </label>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
                     @endif

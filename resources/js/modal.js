@@ -116,16 +116,6 @@ export function inicializarModalAutores(button, authorFieldsId, addAuthorButtonI
     remover_boton_autor.onclick = removerAutor;
 }
 
-// export function updateFileName(inputId, displayId) {
-//     const fileInput = document.getElementById(inputId);
-//     const fileNameDisplay = document.getElementById(displayId);
-
-//     fileInput.addEventListener('change', function () {
-//         const fileName = fileInput.files[0] ? fileInput.files[0].name : 'No se ha elegido un archivo';
-//         fileNameDisplay.innerHTML = `<span>${fileName}</span>`;
-//     });
-// }
-
 export function updateFileName(inputId, displayId, noFileMessage = 'No se ha elegido un archivo') {
     const fileInput = document.getElementById(inputId);
     const fileNameDisplay = document.getElementById(displayId);
@@ -136,47 +126,46 @@ export function updateFileName(inputId, displayId, noFileMessage = 'No se ha ele
     });
 }
 
-export function displayFileName(url, displayId, noFileMessage) {
-    const displayElement = document.getElementById(displayId);
-    const fileName = url ? url.split('/').pop() : noFileMessage;
-    displayElement.innerHTML = `<span>${fileName}</span>`;
+export function updateFileDisplay(fileInputId, fileUrl, defaultMessage) {
+    const fileInput = document.getElementById(fileInputId);
+    if (fileInput) {
+        fileInput.innerHTML = fileUrl ? `<span>${fileUrl.split('/').pop()}</span>` : `<span>${defaultMessage}</span>`;
+    }
 }
-
-
-// export function setupDeleteModal(modalId, formId, urlBase) {
-//     document.getElementById(modalId).addEventListener('show.bs.modal', function (event) {
-//         var button = event.relatedTarget;
-//         var id = button.getAttribute('data-id');
-//         var type = button.getAttribute('data-type');
-//         var form = document.getElementById(formId);
-//         form.action = urlBase + "/" + id;
-//         document.getElementById('id_eliminar').value = id;
-//         document.getElementById('modalEliminarLabel').textContent = 'Confirmar Eliminación de ' + type;
-//         document.getElementById('modalEliminarBody').textContent = '¿Estás seguro de que quieres eliminar este ' + type + '?';
-//     });
-// }
 
 export function setupDeleteModal(modalId, formId) {
     const modal = document.getElementById(modalId);
     const form = document.getElementById(formId);
 
-    if (!modal || !form) return;
+    if (!modal || !form ) return;
 
     modal.addEventListener('show.bs.modal', function (event) {
         const button = event.relatedTarget;
         const itemId = button.getAttribute('data-id');
-        const itemType = button.getAttribute('data-type'); // Obtener el tipo de elemento (artículo o libro)
+        const itemType = button.getAttribute('data-type'); 
+        const itemRoute = button.getAttribute('data-route');
 
-        let actionUrl = '';
-        if (itemType === 'artículo') {
-            actionUrl = `/admin/articulos/${itemId}`;
-        } else if (itemType === 'libro') {
-            actionUrl = `/admin/libros/${itemId}`;
-        }
+        let actionUrl = `/admin/${itemRoute}/${itemId}`;
 
         document.getElementById('modalEliminarLabel').textContent = 'Confirmar Eliminación de ' + itemType;
         document.getElementById('modalEliminarBody').textContent = '¿Estás seguro de que quieres eliminar este ' + itemType + '?';
 
         form.action = actionUrl;
     });
+}
+
+export function setModalData(modal, data) {
+    for (const [key, value] of Object.entries(data)) {
+        const input = modal.querySelector(`#${key}`);
+        if (input) {
+            input.value = value;
+        }
+    }
+}
+
+export function configureFormForEdit(form, id, entityType) {
+    if (id) {
+        form.action = `/admin/${entityType}/${id}`;
+        form.insertAdjacentHTML('beforeend', '<input type="hidden" name="_method" value="PUT">');
+    }
 }

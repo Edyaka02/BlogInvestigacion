@@ -5,14 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>@yield('title', 'RENOVATEC')</title>
+    <title>@yield('title', 'blog')</title>
     @vite(['resources/css/app.css', 'resources/sass/app.scss', 'resources/js/app.js'])
 
 
     <style>
         /*    main style    */
         .main {
-            padding-top: 120px;
+            padding-top: 100px;
             margin-bottom: 30px;
         }
     </style>
@@ -34,7 +34,7 @@
                     <div class="offcanvas-body">
                         <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="#">Inicio</a>
+                                <a class="nav-link" aria-current="page" href="{{ route('inicio') }}">Inicio</a>
                             </li>
 
                             <!-- Productos cientificos Dropdown -->
@@ -51,8 +51,8 @@
                                         <li>
                                             <hr class="dropdown-divider">
                                         </li>
-                                        <li><a class="dropdown-item" href="#">Artículos</a></li>
-                                        <li><a class="dropdown-item" href="#">Libros</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('articulos.articulo') }}">Artículos</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('libros.libro') }}">Libros</a></li>
                                     </ul>
 
                                     <!-- Investigación Dropdown -->
@@ -78,7 +78,7 @@
                                     Eventos
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Eventos</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('eventos.evento') }}">Eventos</a></li>
                                     <li><a class="dropdown-item" href="#">Concursos</a></li>
                                 </ul>
                             </li>
