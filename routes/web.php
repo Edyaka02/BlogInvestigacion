@@ -71,4 +71,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::put('/libros/{id}', [LibroController::class, 'update'])->name('libros.update');
     Route::delete('/libros/{id}', [LibroController::class, 'destroy'])->name('libros.destroy');
     Route::post('/libros/{id}/restore', [LibroController::class, 'restore'])->name('libros.restore');
+
+    // ------------------- Eventos -------------------
+
+    Route::get('/eventos', [EventoController::class, 'adminIndex'])->name('eventos.index');
+    Route::get('/eventos/create', [EventoController::class, 'create'])->name('eventos.create');
+    Route::post('/eventos', [EventoController::class, 'store'])->name('eventos.store');
+    // Route::get('/eventos/{id}/edit', [EventoController::class, 'edit'])->name('eventos.edit');
+    Route::put('/eventos/{id}', [EventoController::class, 'update'])->name('eventos.update');
+    Route::delete('/eventos/{id}', [EventoController::class, 'destroy'])->name('eventos.destroy');
+    Route::post('/eventos/{id}/restore', [EventoController::class, 'restore'])->name('eventos.restore');
 });

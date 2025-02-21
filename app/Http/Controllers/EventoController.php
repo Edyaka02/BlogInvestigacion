@@ -48,11 +48,16 @@ class EventoController extends Controller
 
         $eventos = $query->paginate(10)->appends($request->except('page'));
 
-        $tiposEventos = config('tipos.eventos');
+        $config = [
+            'tiposEventos' => config('tipos.eventos'),
+            'ambitos' => config('tipos.ambitos'),
+            'modalidades' => config('tipos.modalidad'),
+            'comunicacion' => config('tipos.comunicacion')
+        ];
 
         $route = route('admin.eventos.index');
 
-        return view('admin.admin_eventos', compact('eventos', 'tiposEventos', 'route', 'hasResults'));
+        return view('admin.admin_eventos', compact('eventos', 'config', 'route', 'hasResults'));
     }
 
     public function show($id)
@@ -67,9 +72,14 @@ class EventoController extends Controller
 
     public function create()
     {
-        $tiposEventos = config('tipos.eventos');
+        $config = [
+            'tiposEventos' => config('tipos.eventos'),
+            'ambitos' => config('tipos.ambitos'),
+            'modalidades' => config('tipos.modalidad'),
+            'comunicacion' => config('tipos.comunicacion')
+        ];
         $autores = Autor::all();
-        return view('admin.modals.modal_evento', compact('autores', 'tiposEventos'));
+        return view('admin.modals.modal_evento', compact('autores', 'config'));
     }
 
     public function store(Request $request)
@@ -143,6 +153,22 @@ class EventoController extends Controller
                 }
             });
         }
+
+        if ($request->has('tipo') && !is_null($request->input('tipo'))) {
+            $query->whereIn('TIPO_EVENTO', $request->input('tipo'));
+        }
+    
+        if ($request->has('modalidad') && !is_null($request->input('modalidad'))) {
+            $query->whereIn('MODALIDAD_EVENTO', $request->input('modalidad'));
+        }
+    
+        if ($request->has('comunicacion') && !is_null($request->input('comunicacion'))) {
+            $query->whereIn('COMUNICACION_EVENTO', $request->input('comunicacion'));
+        }
+    
+        if ($request->has('ambito') && !is_null($request->input('ambito'))) {
+            $query->whereIn('AMBITO_EVENTO', $request->input('ambito'));
+        }    
 
         // $query = $this->applyYearFilters($query, $request, 'FECHA_EVENTO', true);
 

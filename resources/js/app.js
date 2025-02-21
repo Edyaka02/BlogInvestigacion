@@ -26,12 +26,18 @@ document.addEventListener('DOMContentLoaded', function () {
         modalFunctions.updateFileName('url_libro', 'file-libro', 'No se ha elegido un libro');
         modalFunctions.updateFileName('url_imagen_libro', 'file-imagen_libro', 'No se ha elegido una imagen');
     }
+
+    // Para eventos
+    if (document.getElementById('file-imagen-evento')) {
+        modalFunctions.updateFileName('url_imagen_evento', 'file-imagen-evento', 'No se ha elegido una imagen');
+    }
 });
 
 document.addEventListener('DOMContentLoaded', function () {
     // Inicializar campos de autores para artículos y libros
     const articuloModal = document.getElementById('articuloModal');
     const libroModal = document.getElementById('libroModal');
+    const eventoModal = document.getElementById('eventoModal');
 
     if (articuloModal) {
         articuloModal.addEventListener('show.bs.modal', function (event) {
@@ -44,6 +50,13 @@ document.addEventListener('DOMContentLoaded', function () {
         libroModal.addEventListener('show.bs.modal', function (event) {
             var button = event.relatedTarget;
             modalFunctions.inicializarModalAutores(button, 'authorFields_libro', 'addAuthor_libro', 'removeAuthor_libro');
+        });
+    }
+
+    if (eventoModal) {
+        eventoModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            modalFunctions.inicializarModalAutores(button, 'authorFields_evento', 'addAuthor_evento', 'removeAuthor_evento');
         });
     }
 

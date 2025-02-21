@@ -13,7 +13,14 @@ class AdminController extends Controller
     {
         $tiposArticulos = config('tipos.articulos');
 
-        return view('admin.dashboard', compact('tiposArticulos'));
+        $config = [
+            'tiposEventos' => config('tipos.eventos'),
+            'ambitos' => config('tipos.ambitos'),
+            'modalidades' => config('tipos.modalidad'),
+            'comunicacion' => config('tipos.comunicacion')
+        ];
+
+        return view('admin.dashboard', compact('tiposArticulos', 'config'));
     }
 
     // public function basurero()

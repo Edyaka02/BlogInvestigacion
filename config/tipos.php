@@ -7,10 +7,25 @@ return [
     ],
     'eventos' => [
         'Conferencia' => 'Conferencia',
-        'Seminario' => 'Seminario',
+        'Ponencia' => 'Ponencia',
+        'Memoria' => 'Memoria',
+        'Taller' => 'Taller',
+        'Curso' => 'Curso',
+        'Webinar' => 'Webinar'
     ],
     'ambitos' => [
+        'Local' => 'Local',
+        'Estatal' => 'Estatal',
         'Nacional' => 'Nacional',
         'Internacional' => 'Internacional',
+    ],
+    'modalidad' => [
+        'Presencial' => 'Presencial',
+        'Virtual' => 'Virtual'
+    ],
+    'comunicacion' => [
+        'Ponencia' => 'Ponencia',
+        'Cartel' => 'Cartel',
+        'Resumen' => 'Resumen'
     ],
 ];

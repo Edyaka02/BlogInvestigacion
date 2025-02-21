@@ -86,7 +86,7 @@
                                         Subir Proyecto
                                     </button>
                                     <a 
-                                    {{-- href="{{ route('admin.ver_proyecto') }}"  --}}
+                                    {{-- href="{{ route('admin.eventos.index') }}"  --}}
                                     class="btn custom-button-ver">
                                         <i class="bi bi-eye"></i>
                                         Ver todos</a>
@@ -234,13 +234,13 @@
                                         Subir Evento
                                     </button>
                                     <a 
-                                    {{-- href="{{ route('admin.ver_evento') }}"  --}}
+                                    href="{{ route('admin.eventos.index') }}"
                                     class="btn custom-button-ver">
                                         <i class="bi bi-eye"></i>
                                         Ver todos</a>
                                 </div>
                             </div>
-                            {{-- @include('admin.modals.modal_evento') --}}
+                            @include('admin.modals.modal_evento', ['config' => $config])
                         </div>
                     </div>
                 </div>
