@@ -5,6 +5,7 @@ use App\Http\Controllers\ArticuloController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LibroController;
+use App\Http\Controllers\EventoController;
 
 
 /*
@@ -19,8 +20,20 @@ use App\Http\Controllers\LibroController;
 */
 
 // Rutas publicas
-Route::get('/', [ArticuloController::class, 'index'])->name('articulos.articulo');
+Route::get('/', function () {
+    return view('inicio');
+})->name('inicio');
+// Route::get('/')->name('inicio');
+Route::get('/articulos', [ArticuloController::class, 'index'])->name('articulos.articulo');
 Route::get('/articulos/{id}', [ArticuloController::class, 'show'])->name('articulo.show');
+
+// Libros
+Route::get('/libros', [LibroController::class, 'index'])->name('libros.libro');
+Route::get('/libros/{id}', [LibroController::class, 'show'])->name('libro.show');
+
+// Eventos
+Route::get('/eventos', [EventoController::class, 'index'])->name('eventos.evento');
+Route::get('/eventos/{id}', [EventoController::class, 'show'])->name('evento.show');
 
 // Login
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');

@@ -9,12 +9,8 @@
         {{-- Formulario de búsqueda y filtrado --}}
         @include('admin.components.buscador_filtrado')
         @if (!$hasResults)
-            <div class="text-center mt-5">
-                <img src="{{ asset('img/pagina-no-encontrada.png') }}" alt="No results found" class="img-fluid mb-4"
-                    style="max-width: 300px;">
-                <h2 class="text-muted">No se encontraron artículos</h2>
-                <p class="text-muted">Intenta ajustar tus criterios de búsqueda.</p>
-            </div>
+            @component('admin.components.no_resultados', ['entityName' => 'artículos'])
+            @endcomponent
         @else
             <div class="row flex-grow-1">
                 @foreach ($articulos as $row)
@@ -44,7 +40,7 @@
 
                                         <button type="button" class="btn custom-button-eliminar" data-bs-toggle="modal"
                                             data-bs-target="#modalEliminar" data-id="{{ $row->ID_ARTICULO }}"
-                                            data-type="artículo">
+                                            data-type="artículo" data-route="articulos">
                                             <i class="bi bi-trash"></i> Eliminar
                                         </button>
                                     </div>
@@ -72,41 +68,32 @@
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('articuloModal').addEventListener('show.bs.modal', function(event) {
                 var button = event.relatedTarget;
-                var id = button.getAttribute('data-id');
-                var issn = button.getAttribute('data-issn');
-                var titulo = button.getAttribute('data-titulo');
-                var resumen = button.getAttribute('data-resumen');
-                var fecha = button.getAttribute('data-fecha');
-                var revista = button.getAttribute('data-revista');
-                var tipo = button.getAttribute('data-tipo');
-                var url_revista = button.getAttribute('data-url-revista');
-                var url_articulo = button.getAttribute('data-url-articulo');
-                var url_imagen = button.getAttribute('data-url-imagen');
+
+                var data = {
+                    id_articulo: button.getAttribute('data-id'),
+                    issn_articulo: button.getAttribute('data-issn'),
+                    titulo_articulo: button.getAttribute('data-titulo'),
+                    resumen_articulo: button.getAttribute('data-resumen'),
+                    fecha_articulo: button.getAttribute('data-fecha'),
+                    revista_articulo: button.getAttribute('data-revista'),
+                    tipo_articulo: button.getAttribute('data-tipo'),
+                    url_revista_articulo: button.getAttribute('data-url-revista')
+                };
 
                 var modal = this;
                 var form = modal.querySelector('#articuloForm');
-                if (id) {
-                    form.action = `/admin/articulos/${id}`;
-                    form.insertAdjacentHTML('beforeend',
-                        '<input type="hidden" name="_method" value="PUT">');
-                }
 
-                modal.querySelector('#id_articulo').value = id;
-                modal.querySelector('#issn_articulo').value = issn;
-                modal.querySelector('#titulo_articulo').value = titulo;
-                modal.querySelector('#resumen_articulo').value = resumen;
-                modal.querySelector('#fecha_articulo').value = fecha;
-                modal.querySelector('#revista_articulo').value = revista;
-                modal.querySelector('#tipo_articulo').value = tipo;
-                modal.querySelector('#url_revista_articulo').value = url_revista;
+                // Configurar formulario para editar
+                configureFormForEdit(form, data.id_articulo, 'articulos');
+
+                // Muestra los datos en el modal
+                setModalData(modal, data);
 
                 // Mostrar nombre del archivo y la imagen
-                document.getElementById('file-articulo').innerHTML =
-                    url_articulo ? `<span>${url_articulo.split('/').pop()}</span>` :
-                    '<span>No se ha elegido un artículo</span>';
-                document.getElementById('file-imagen').innerHTML =
-                    url_imagen ? `<span>${url_imagen.split('/').pop()}</span>` :
-                    '<span>No se ha elegido una imagen</span>';
+                window.updateFileDisplay('file-articulo', button.getAttribute('data-url-articulo'),
+                    'No se ha elegido un artículo');
+                window.updateFileDisplay('file-imagen', button.getAttribute('data-url-imagen'),
+                    'No se ha elegido una imagen');
             });
         });
     </script>

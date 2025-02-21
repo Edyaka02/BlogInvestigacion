@@ -1,25 +1,31 @@
 import './bootstrap';
 import './validacion';
-import { inicializarModalAutores, updateFileName, setupDeleteModal } from './modal';
+//import { inicializarModalAutores, updateFileName, updateFileDisplay, setModalData, setupDeleteModal, configureFormForEdit } from './modal';
+import * as modalFunctions from './modal';
 import { toggleOptions, initializeFilters } from './buscador_filtro';
 import toastr from 'toastr';
 import 'toastr/build/toastr.min.css';
 
 document.addEventListener('DOMContentLoaded', function () {
-    initializeFilters();
+    // Inicializar filtros solo si el formulario de búsqueda y filtrado está presente
+    if (document.querySelector('.filter-form')) {
+        initializeFilters();
+    }
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-    // updateFileName('url_articulo', 'file-articulo', 'No se ha elegido un artículo');
-    // updateFileName('url_imagen_articulo', 'file-imagen', 'No se ha elegido una imagen');
 
     // Para artículos
-    updateFileName('url_articulo', 'file-articulo', 'No se ha elegido un artículo');
-    updateFileName('url_imagen_articulo', 'file-imagen', 'No se ha elegido una imagen');
+    if (document.getElementById('file-articulo') || document.getElementById('file-imagen')) {
+        modalFunctions.updateFileName('url_articulo', 'file-articulo', 'No se ha elegido un artículo');
+        modalFunctions.updateFileName('url_imagen_articulo', 'file-imagen', 'No se ha elegido una imagen');
+    }
 
     // Para libros
-    updateFileName('url_libro', 'file-libro', 'No se ha elegido un libro');
-    updateFileName('url_imagen_libro', 'file-imagen_libro', 'No se ha elegido una imagen');
+    if (document.getElementById('file-libro') || document.getElementById('file-imagen_libro')) {
+        modalFunctions.updateFileName('url_libro', 'file-libro', 'No se ha elegido un libro');
+        modalFunctions.updateFileName('url_imagen_libro', 'file-imagen_libro', 'No se ha elegido una imagen');
+    }
 });
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -30,14 +36,14 @@ document.addEventListener('DOMContentLoaded', function () {
     if (articuloModal) {
         articuloModal.addEventListener('show.bs.modal', function (event) {
             var button = event.relatedTarget;
-            inicializarModalAutores(button, 'authorFields_articulo', 'addAuthor_articulo', 'removeAuthor_articulo');
+            modalFunctions.inicializarModalAutores(button, 'authorFields_articulo', 'addAuthor_articulo', 'removeAuthor_articulo');
         });
     }
 
     if (libroModal) {
         libroModal.addEventListener('show.bs.modal', function (event) {
             var button = event.relatedTarget;
-            inicializarModalAutores(button, 'authorFields_libro', 'addAuthor_libro', 'removeAuthor_libro');
+            modalFunctions.inicializarModalAutores(button, 'authorFields_libro', 'addAuthor_libro', 'removeAuthor_libro');
         });
     }
 
@@ -75,11 +81,15 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-    // setupDeleteModal('modalEliminar', 'formEliminar', '/admin/articulos');
-    // setupDeleteModal('modalEliminar', 'formEliminar', '/admin/libros');
-    setupDeleteModal('modalEliminar', 'formEliminar');
+    // Configuración de modales de eliminación
+    if (document.getElementById('modalEliminar')) {
+        modalFunctions.setupDeleteModal('modalEliminar', 'formEliminar');
+    }
 });
 
 import * as bootstrap from 'bootstrap'
 
 window.toggleOptions = toggleOptions;
+window.updateFileDisplay = modalFunctions.updateFileDisplay;
+window.setModalData = modalFunctions.setModalData;
+window.configureFormForEdit = modalFunctions.configureFormForEdit;

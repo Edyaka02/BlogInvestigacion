@@ -1,4 +1,4 @@
-<form method="GET" action="{{ $route }}" class="mb-4">
+<form method="GET" action="{{ $route }}" class="mb-4 filter-form">
     <div class="row">
         <div class="col-md-9">
             <div class="input-group mb-3 search-input-group">
