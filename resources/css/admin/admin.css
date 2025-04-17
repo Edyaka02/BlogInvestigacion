@@ -1,38 +1,6 @@
 /*@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');*/
 @import url('https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
 
-/* :root {
-    --color_1: #3a3132;
-    --color_2: #0f4571;
-    --color_3: #386dbd;
-    --color_4: #009ddd;
-    --color_5: #05d3f8;
-    --color_6: #f5f5f5;
-    --color_7: #000000;
-
-    --btn-subir: #1AAB8A;
-    --btn-ver: #1b9fd3;
-    --btn-autor: #B0B0B0;
-    --btn-eliminar: #AB1A3A;
-    --btn-editar: #ffaa3e;
-} */
-
-/* :root {
-    --admin_c1: #3a3132;
-    --admin_c2: #0f4571;
-    --admin_c3: #386dbd;
-    --admin_c4: #009ddd;
-    --admin_c5: #05d3f8;
-    --admin_c6: #f5f5f5;
-    --admin_c7: #000000;
-
-    --btn-subir: #1AAB8A;
-    --btn-ver: #1b9fd3;
-    --btn-autor: #B0B0B0;
-    --btn-eliminar: #AB1A3A;
-    --btn-editar: #ffaa3e;
-} */
-
 .admin .main {
     padding-top: 50px;
 }

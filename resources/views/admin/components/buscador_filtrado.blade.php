@@ -13,7 +13,7 @@
 
         <div class="col-md-3">
             <div class="dropend mb-3">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
                     data-bs-toggle="dropdown" aria-expanded="false">
                     Filtrar
                 </button>

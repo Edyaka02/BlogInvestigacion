@@ -1,26 +1,8 @@
-/* :root {
-    --color_primario: #F08236;
-    --color_letras: #4b4b4b;
-    --color_fondo_dropdown: #e0e0e0;
-    --color_1: #009970;
-    --color_2: #00b383;
-    --color_3: #f5b8e3;
-    --color_4: #d1fffd;
-    --color_5: #fff;
-    --color_6: #636363;
-    --color_7: #000;
 
-    --brand-color: #00b383;
-    --black: hsl(0, 0%, 0%);
-    --white: hsl(0, 0%, 100%);
-
-    --font-title: "Montserrat", sans-serif;
-    --font-text: "Lato", sans-serif;
-} */
 
 /* Navbar styles */
 .public .navbar {
-    background-color: var(--color_5);
+    background-color: var(--color_6);
     height: 80px;
     margin: 20px;
     border-radius: 16px;
@@ -47,14 +29,14 @@
 }
 
 .public .nav-link {
-    color: var(--color_6);
+    color: var(--color_7);
     font-weight: 500;
     position: relative;
 }
 
 .public .nav-link:hover,
 .public .nav-link.active {
-    color: var(--color_7);
+    color: var(--color_8);
 }
 
 @media (min-width: 991px) {
@@ -98,17 +80,17 @@
 
 /* Dropdown Menu Styles */
 .public .dropdown-menu {
-    background-color: var(--color_5);
+    background-color: var(--color_6);
     border: none;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
 .public .dropdown-item {
-    color: var(--color_6);
+    color: var(--color_7);
     transition: background-color 0.3s, color 0.3s;
 }
 
 .public .dropdown-item:hover {
     background-color: var(--color_3);
-    color: var(--color_7);
+    color: var(--color_8);
 }

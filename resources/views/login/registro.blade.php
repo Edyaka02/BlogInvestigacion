@@ -3,7 +3,7 @@
 @section('title', 'Articulos')
 
 @section('content')
-    <form method="POST" action="{{ route('register') }}">
+    <form method="POST" action="{{ route('register.post') }}">
         @csrf
         <div>
             <label for="name">Name:</label>

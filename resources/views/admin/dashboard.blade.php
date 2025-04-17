@@ -32,7 +32,8 @@
                                         Ver todos</a>
                                 </div>
                             </div>
-                            @include('admin.modals.modal_articulo', ['tiposArticulos' => $tiposArticulos])
+                            {{-- @include('admin.modals.modal_articulo', ['tiposArticulos' => $tiposArticulos]) --}}
+                            @include('admin.modals.modal_articulo')
                         </div>
                     </div>
                 </div>

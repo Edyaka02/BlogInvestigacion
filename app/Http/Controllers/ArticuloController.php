@@ -18,7 +18,7 @@ class ArticuloController extends Controller
     public function index(Request $request)
     {
         $query = Articulo::with('autores')
-            ->where('ELIMINADO_ARTICULO', false)
+            // ->where('ELIMINADO_ARTICULO', false)
             ->select('ID_ARTICULO', 'ISSN_ARTICULO', 'TITULO_ARTICULO', 'FECHA_ARTICULO', 'REVISTA_ARTICULO', 'URL_IMAGEN_ARTICULO');
 
         $hasResults = $this->applyFilters($query, $request);
@@ -43,7 +43,8 @@ class ArticuloController extends Controller
 
     public function adminIndex(Request $request)
     {
-        $query = Articulo::with('autores')->where('ELIMINADO_ARTICULO', false);
+        $query = Articulo::with('autores');
+        // ->where('ELIMINADO_ARTICULO', false);
         $hasResults = $this->applyFilters($query, $request);
         $years = $this->applyYears(2);
 
@@ -85,7 +86,7 @@ class ArticuloController extends Controller
 
         $articulo = new Articulo();
         $this->assignArticuloData($articulo, $request);
-        $articulo->ELIMINADO_ARTICULO = false;
+        // $articulo->ELIMINADO_ARTICULO = false;
 
         $articulo->save();
 
@@ -122,7 +123,7 @@ class ArticuloController extends Controller
         $articulo = Articulo::findOrFail($id);
 
         // Realizar eliminación lógica
-        $articulo->ELIMINADO_ARTICULO = true;
+        // $articulo->ELIMINADO_ARTICULO = true;
         $articulo->save();
 
         return redirect()->route('admin.articulos.index')->with('success', 'Artículo eliminado.');

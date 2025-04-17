@@ -6,7 +6,7 @@
 
     <div class="container mt-5 fade-in">
         <div class="mb-4">
-            <h1>Artículos</h1>
+            <h1 class="text-white">Artículos</h1>
         </div>
 
         {{-- Formulario de búsqueda y filtrado --}}
@@ -27,7 +27,7 @@
                                 <div class="card-img-overlay d-flex flex-column">
                                     <div class="card-body">
                                         <small class="card-meta mb-2">{{ $articulo->REVISTA_ARTICULO }}</small>
-                                        <h4 class="card-title text-white mt-0">
+                                        <h4 class="card-title text-black mt-0">
                                             {{ $articulo->TITULO_ARTICULO }}
                                         </h4>
                                         <div>

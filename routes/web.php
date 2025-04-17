@@ -42,7 +42,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Registro
 Route::get('/register', [LoginController::class, 'showRegistrationForm'])->name('register');
-Route::post('/register', [LoginController::class, 'register']);
+Route::post('/register', [LoginController::class, 'register'])->name('register.post');
 
 
 

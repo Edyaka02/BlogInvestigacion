@@ -11,8 +11,8 @@ export default defineConfig({
             refresh: true,
         }),
     ],
-    server: {
-        host: '192.168.1.64',
-        port: 8080,
-    },
+    // server: {
+    //     host: '192.168.1.64',
+    //     port: 8080,
+    // },
 });
