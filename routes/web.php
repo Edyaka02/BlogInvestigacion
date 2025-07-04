@@ -6,6 +6,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LibroController;
 use App\Http\Controllers\EventoController;
+use App\Http\Controllers\PremioController;
 
 
 /*
@@ -23,6 +24,7 @@ use App\Http\Controllers\EventoController;
 Route::get('/', function () {
     return view('inicio');
 })->name('inicio');
+
 // Route::get('/')->name('inicio');
 Route::get('/articulos', [ArticuloController::class, 'index'])->name('articulos.articulo');
 Route::get('/articulos/{id}', [ArticuloController::class, 'show'])->name('articulo.show');
@@ -33,6 +35,7 @@ Route::get('/libros/{id}', [LibroController::class, 'show'])->name('libro.show')
 
 // Eventos
 Route::get('/eventos', [EventoController::class, 'index'])->name('eventos.evento');
+Route::get('/eventos/filtrar', [EventoController::class, 'filtrar'])->name('eventos.filtrar');
 Route::get('/eventos/{id}', [EventoController::class, 'show'])->name('evento.show');
 
 // Login
@@ -47,38 +50,32 @@ Route::post('/register', [LoginController::class, 'register'])->name('register.p
 
 
 
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::prefix('dashboard')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/basurero', [AdminController::class, 'basurero'])->name('basurero');
 
     // ------------------- Articulos -------------------
-
     Route::get('/articulos', [ArticuloController::class, 'adminIndex'])->name('articulos.index');
-    Route::get('/articulos/create', [ArticuloController::class, 'create'])->name('articulos.create');
     Route::post('/articulos', [ArticuloController::class, 'store'])->name('articulos.store');
-    // Route::get('/articulos/{id}/edit', [ArticuloController::class, 'edit'])->name('articulos.edit');
     Route::put('/articulos/{id}', [ArticuloController::class, 'update'])->name('articulos.update');
     Route::delete('/articulos/{id}', [ArticuloController::class, 'destroy'])->name('articulos.destroy');
-    Route::post('/articulos/{id}/restore', [ArticuloController::class, 'restore'])->name('articulos.restore');
-    // Route::delete('/articulos/{id}', [ArticuloController::class, 'forceDelete'])->name('articulos.forceDelete');
+    
 
     // ------------------- Libros -------------------
-
     Route::get('/libros', [LibroController::class, 'adminIndex'])->name('libros.index');
-    Route::get('/libros/create', [LibroController::class, 'create'])->name('libros.create');
     Route::post('/libros', [LibroController::class, 'store'])->name('libros.store');
-    // Route::get('/libros/{id}/edit', [LibroController::class, 'edit'])->name('libros.edit');
     Route::put('/libros/{id}', [LibroController::class, 'update'])->name('libros.update');
     Route::delete('/libros/{id}', [LibroController::class, 'destroy'])->name('libros.destroy');
-    Route::post('/libros/{id}/restore', [LibroController::class, 'restore'])->name('libros.restore');
 
     // ------------------- Eventos -------------------
-
     Route::get('/eventos', [EventoController::class, 'adminIndex'])->name('eventos.index');
-    Route::get('/eventos/create', [EventoController::class, 'create'])->name('eventos.create');
     Route::post('/eventos', [EventoController::class, 'store'])->name('eventos.store');
-    // Route::get('/eventos/{id}/edit', [EventoController::class, 'edit'])->name('eventos.edit');
     Route::put('/eventos/{id}', [EventoController::class, 'update'])->name('eventos.update');
     Route::delete('/eventos/{id}', [EventoController::class, 'destroy'])->name('eventos.destroy');
-    Route::post('/eventos/{id}/restore', [EventoController::class, 'restore'])->name('eventos.restore');
+
+    // ------------------- Premios -------------------
+    Route::get('/premios', [PremioController::class, 'adminIndex'])->name('premios.index');
+    Route::post('/premios', [PremioController::class, 'store'])->name('premios.store');
+    Route::put('/premios/{id}', [PremioController::class, 'update'])->name('premios.update');
+    Route::delete('/premios/{id}', [PremioController::class, 'destroy'])->name('premios.destroy');
 });

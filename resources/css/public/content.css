@@ -48,17 +48,35 @@
         background-position: 0% 50%;
     }
 } */
+.main {
+    /* padding-top: 100px; */
+    margin-bottom: 30px;
+}
 
 .body {
+    /* height: 100vh;
+    width: 1vw; */
+    background: var(--color-1);
+}
+
+h1, h2, h3 {
+    font-family: var(--font-title) !important; /* Usa Neutron para títulos */
+}
+
+p, span, a, button, h4, h5, h6, input {
+    font-family: var(--font-text) !important; /* Usa Noto Sans para texto */
+}
+
+/* .body {
     height: 100vh;
     width: 100vw;
     background: linear-gradient(
         -45deg,
-        rgba(var(--color_1-rgb), 0.8), /* Color 1 con opacidad */
-        rgba(var(--color_2-rgb), 0.7), /* Color 2 con opacidad */
-        rgba(var(--color_3-rgb), 0.6), /* Color 3 con opacidad */
-        rgba(var(--color_4-rgb), 0.5), /* Color 4 con opacidad */
-        rgba(var(--color_5-rgb), 0.4)  /* Color 5 con opacidad */
+        rgba(var(--color_1-rgb), 0.8), 
+        rgba(var(--color_2-rgb), 0.7), 
+        rgba(var(--color_3-rgb), 0.6), 
+        rgba(var(--color_4-rgb), 0.5), 
+        rgba(var(--color_5-rgb), 0.4)  
     );
     background-size: 400% 400%;
     animation: animarFondo 15s ease infinite;
@@ -74,4 +92,4 @@
     100% {
         background-position: 0% 50%;
     }
-}
+} */

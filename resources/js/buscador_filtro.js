@@ -30,14 +30,14 @@ export function initializeFilters() {
     }
 
     // Manejar clics en los labels para que no cierren el contenedor
-    document.querySelectorAll('.form-check-label').forEach(label => {
-        label.addEventListener('click', function(event) {
-            event.stopPropagation();
-            const input = document.getElementById(this.htmlFor);
-            if (input) {
-                input.checked = true;
-                input.dispatchEvent(new Event('change'));
-            }
-        });
-    });
+    // document.querySelectorAll('.form-check-label').forEach(label => {
+    //     label.addEventListener('click', function(event) {
+    //         event.stopPropagation();
+    //         const input = document.getElementById(this.htmlFor);
+    //         if (input) {
+    //             input.checked = true;
+    //             input.dispatchEvent(new Event('change'));
+    //         }
+    //     });
+    // });
 }

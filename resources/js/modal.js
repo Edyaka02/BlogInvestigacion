@@ -143,9 +143,9 @@ export function setupDeleteModal(modalId, formId) {
         const button = event.relatedTarget;
         const itemId = button.getAttribute('data-id');
         const itemType = button.getAttribute('data-type'); 
-        const itemRoute = button.getAttribute('data-route');
+        const itemRoute = button.getAttribute('data-route');    
 
-        let actionUrl = `/admin/${itemRoute}/${itemId}`;
+        let actionUrl = `/dashboard/${itemRoute}/${itemId}`;
 
         document.getElementById('modalEliminarLabel').textContent = 'Confirmar Eliminación de ' + itemType;
         document.getElementById('modalEliminarBody').textContent = '¿Estás seguro de que quieres eliminar este ' + itemType + '?';
@@ -165,7 +165,43 @@ export function setModalData(modal, data) {
 
 export function configureFormForEdit(form, id, entityType) {
     if (id) {
-        form.action = `/admin/${entityType}/${id}`;
+        form.action = `/dashboard/${entityType}/${id}`;
         form.insertAdjacentHTML('beforeend', '<input type="hidden" name="_method" value="PUT">');
+    }
+}
+
+export function handleFormSubmission(buttonId, formId) {
+    const button = document.getElementById(buttonId);
+    const form = document.getElementById(formId);
+
+    if (button && form) {
+        button.addEventListener('click', function () {
+            // Validar el formulario antes de enviarlo
+            if (form.checkValidity()) {
+                form.submit(); // Envía el formulario si es válido
+            } else {
+                form.reportValidity(); // Muestra los errores de validación
+            }
+        });
+    }
+}
+
+export function handleFormValidationAndSubmission(buttonId, formId) {
+    const button = document.getElementById(buttonId);
+    const form = document.getElementById(formId);
+
+    if (button && form) {
+        button.addEventListener('click', function (event) {
+            // Validar el formulario antes de enviarlo
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+                form.classList.add('was-validated'); // Agrega estilos de validación de Bootstrap
+            } else {
+                form.submit(); // Envía el formulario si es válido
+            }
+        });
+    } else {
+        console.error(`No se encontró el botón o el formulario: ${buttonId}, ${formId}`);
     }
 }

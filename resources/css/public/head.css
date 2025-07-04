@@ -1,0 +1,17 @@
+/* Rectángulo azul */
+.blue-banner {
+    background-color: var(--color-2); /* Azul Bootstrap */
+    padding: 50px 0; /* Espaciado vertical */
+    text-align: center;
+}
+
+.blue-banner-text {
+    font-size: 2.5rem; /* Tamaño del título */
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.blue-banner-breadcrumb {
+    font-size: 1rem; /* Tamaño del texto del breadcrumb */
+    opacity: 0.8; /* Transparencia ligera */
+}

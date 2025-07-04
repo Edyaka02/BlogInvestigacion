@@ -16,8 +16,6 @@ class ArchivoController extends Controller
         $file = $request->file('file');
         $path = $file->store('public/archivos');
 
-        // Aquí puedes guardar la ruta del archivo en la base de datos, si es necesario
-
         return back()->with('success', 'Archivo subido exitosamente.');
     }
 }

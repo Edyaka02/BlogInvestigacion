@@ -3,17 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Articulo;
-use App\Models\Autor;
+use App\Models\Core\Articulo;
+use App\Models\Core\Autor;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use App\Traits\Archivos;
 use App\Traits\AutorTrait;
 use App\Traits\YearTrait;
+use App\Traits\OpcionesTrait;
+use Illuminate\Support\Facades\Auth;
 
 class ArticuloController extends Controller
 {
-    use Archivos, AutorTrait, YearTrait;
+    use Archivos, AutorTrait, YearTrait, OpcionesTrait;
 
     public function index(Request $request)
     {
@@ -24,9 +26,9 @@ class ArticuloController extends Controller
         $hasResults = $this->applyFilters($query, $request);
         $years = $this->applyYears(2);
 
-        $articulos = $query->paginate(10)->appends($request->except('page'));
+        $articulos = $query->paginate(1)->appends($request->except('page'));
 
-        $tiposArticulos = config('tipos.articulos');
+        $config = $this->getConfig(['tiposArticulos']);
 
         $route = route('articulos.articulo');
 
@@ -38,7 +40,8 @@ class ArticuloController extends Controller
             $articulo->URL_IMAGEN_ARTICULO = Storage::url($articulo->URL_IMAGEN_ARTICULO);
         }
 
-        return view('articulos.articulo', compact('articulos', 'tiposArticulos', 'years', 'route', 'hasResults'));
+        // return view('articulos.articulo', compact('articulos', 'tiposArticulos', 'years', 'route', 'hasResults'));
+        return view('entities.articulos.index', compact('articulos', 'config', 'years', 'route', 'hasResults'));
     }
 
     public function adminIndex(Request $request)
@@ -50,11 +53,11 @@ class ArticuloController extends Controller
 
         $articulos = $query->paginate(10)->appends($request->except('page'));
 
-        $tiposArticulos = config('tipos.articulos');
+        $config = $this->getConfig(['tiposArticulos']);
 
         $route = route('admin.articulos.index');
-
-        return view('admin.admin_articulos', compact('articulos', 'tiposArticulos', 'years', 'route', 'hasResults'));
+        
+        return view('entities.articulos.edit', compact('articulos', 'config', 'years', 'route', 'hasResults'));
     }
 
     public function show($id)
@@ -65,15 +68,15 @@ class ArticuloController extends Controller
         $articulo->URL_ARTICULO = Storage::url($articulo->URL_ARTICULO);
         $articulo->URL_IMAGEN_ARTICULO = Storage::url($articulo->URL_IMAGEN_ARTICULO);
 
-        return view('articulos.articulo_detalle', compact('articulo'));
+        return view('entities.articulos.show', compact('articulo'));
     }
 
-    public function create()
-    {
-        $tiposArticulos = config('tipos.articulos');
-        $autores = Autor::all();
-        return view('admin.modals.modal_articulo', compact('autores', 'tiposArticulos'));
-    }
+    // public function create()
+    // {
+    //     $tiposArticulos = config('tipos.articulos');
+    //     $autores = Autor::all();
+    //     return view('admin.modals.modal_articulo', compact('autores', 'tiposArticulos'));
+    // }
 
     public function store(Request $request)
     {
@@ -120,35 +123,17 @@ class ArticuloController extends Controller
 
     public function destroy($id)
     {
-        $articulo = Articulo::findOrFail($id);
-
-        // Realizar eliminación lógica
-        // $articulo->ELIMINADO_ARTICULO = true;
-        $articulo->save();
-
-        return redirect()->route('admin.articulos.index')->with('success', 'Artículo eliminado.');
-    }
-
-    public function restore($id)
-    {
-        $articulo = Articulo::findOrFail($id);
-
-        // Restaurar el artículo si fue eliminado hace menos de una semana
-        if ($articulo->ELIMINADO_ARTICULO && $articulo->updated_at->gt(now()->subWeek())) {
-            $articulo->ELIMINADO_ARTICULO = false;
-            $articulo->save();
-            return redirect()->route('admin.articulos.index')->with('success', 'Artículo restaurado exitosamente.');
+        try {
+            $articulo = Articulo::findOrFail($id);
+    
+            // Intentar eliminar el artículo
+            $articulo->delete();
+    
+            return redirect()->route('admin.articulos.index')->with('success', 'Artículo eliminado.');
+        } catch (\Exception $e) {
+            // Manejar errores y mostrar un mensaje al usuario
+            return redirect()->route('admin.articulos.index')->with('error', 'No se pudo eliminar el artículo. Inténtalo de nuevo.');
         }
-
-        return redirect()->route('admin.articulos.index')->with('error', 'No se puede restaurar el artículo.');
-    }
-
-    public function forceDelete($id)
-    {
-        $articulo = Articulo::findOrFail($id);
-        $articulo->delete();
-
-        return redirect()->route('admin.basurero')->with('success', 'Artículo eliminado.');
     }
 
     private function applyFilters($query, Request $request)
@@ -224,6 +209,8 @@ class ArticuloController extends Controller
         $articulo->TIPO_ARTICULO = $request->tipo_articulo;
         $articulo->URL_REVISTA_ARTICULO = $request->url_revista_articulo;
 
+        $articulo->ID_USUARIO = Auth::id();
+
         if ($request->hasFile('url_articulo')) {
             $articulo->URL_ARTICULO = $this->handleFileUpload($request, 'url_articulo', 'articulos');
         }
@@ -232,4 +219,6 @@ class ArticuloController extends Controller
             $articulo->URL_IMAGEN_ARTICULO = $this->handleFileUpload($request, 'url_imagen_articulo', 'imagenes');
         }
     }
+
+    
 }

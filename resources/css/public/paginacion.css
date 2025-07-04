@@ -26,18 +26,18 @@
 .public .page-link {
     position: relative;
     display: block;
-    color: var(--color_1) !important;
+    color: var(--color-5) !important;
     text-decoration: none;
-    background-color: #fff;
-    border: 1px solid var(--color_7) !important;
+    background-color: var(--color-6);
+    border: 1px solid var(--color-3) !important;
 }
 
 
 .public .page-link:hover {
     z-index: 2;
-    color: #fff !important;
-    background-color: var(--color_2);
-    border-color: #024dbc;
+    color: var(--color-6) !important;
+    background-color: var(--color-4);
+    border-color: var(--color-5);
 }
 
 
@@ -49,8 +49,8 @@
 
 .public .page-item.active .page-link {
     z-index: 3;
-    color: #fff !important;
-    background-color: var(--color_2);
-    border-color: var(--color_2);
+    color: var(--color-6) !important;
+    background-color: var(--color-5);
+    border-color: var(--color-5);
 }
 

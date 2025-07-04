@@ -1,5 +1,5 @@
 /* @import 'bootstrap/css/bootstrap' */
-
+@import 'bootstrap/dist/css/bootstrap.min.css';
 
 @import 'bootstrap-icons/font/bootstrap-icons.css';
 @import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -10,10 +10,13 @@
 @import './public/content.css';
 @import './public/footer.css';
 /* @import './public/cards_public.css'; */
-@import './public/cards.css';
+/* @import './public/cards.css'; */
+/* @import './public/card2.css'; */
+@import './public/card3.css';
 @import './public/login.css';
 @import './public/paginacion.css';
 @import './public/animacion.css';
 
-@import './admin/admin.css';
+/* @import './admin/admin.css'; */
+@import './admin/btn.css';
 @import './admin/buscador_filtro.css';

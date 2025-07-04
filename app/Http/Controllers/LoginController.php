@@ -22,7 +22,8 @@ class LoginController extends Controller
             // Authentication passed...
             // return redirect()->intended('/');
             // return view('admin.dashboard');
-            return redirect()->intended('/admin/dashboard');
+            // return redirect()->intended('/admin/dashboard');
+            return redirect()->route('admin.dashboard');
         }
 
         return back()->withErrors([

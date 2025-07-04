@@ -1,0 +1,96 @@
+/* Estilos generales para todos los botones */
+.custom-button-group {
+    display: flex;
+    justify-content: center;
+}
+
+.custom-button {
+    /* font-family: "Titillium Web", sans-serif;
+    font-weight: 400;
+    font-style: normal; */
+    color: #fff;
+    border: none;
+    position: relative;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: 800ms ease all;
+    outline: none;
+}
+
+.custom-button:hover {
+    background: #fff;
+}
+
+.custom-button:before, .custom-button:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 2px;
+    width: 0;
+    transition: 400ms ease all;
+}
+
+.custom-button:after {
+    right: inherit;
+    top: inherit;
+    left: 0;
+    bottom: 0;
+}
+
+.custom-button:hover:before, .custom-button:hover:after {
+    width: 100%;
+    transition: 800ms ease all;
+}
+
+/* Botón Subir */
+.custom-button-subir {
+    background: var(--btn-subir);
+}
+
+.custom-button-subir:hover {
+    color: var(--btn-subir);
+}
+
+.custom-button-subir:before, .custom-button-subir:after {
+    background: var(--btn-subir);
+}
+
+/* Botón Ver */
+.custom-button-ver {
+    background: var(--btn-ver);
+}
+
+.custom-button-ver:hover {
+    color: var(--btn-ver);
+}
+
+.custom-button-ver:before, .custom-button-ver:after {
+    background: var(--btn-ver);
+}
+
+/* Botón Eliminar */
+.custom-button-eliminar {
+    background: var(--btn-eliminar);
+}
+
+.custom-button-eliminar:hover {
+    color: var(--btn-eliminar);
+}
+
+.custom-button-eliminar:before, .custom-button-eliminar:after {
+    background: var(--btn-eliminar);
+}
+
+/* Botón Editar */
+.custom-button-editar {
+    background: var(--btn-editar);
+}
+
+.custom-button-editar:hover {
+    color: var(--btn-editar);
+}
+
+.custom-button-editar:before, .custom-button-editar:after {
+    background: var(--btn-editar);
+}

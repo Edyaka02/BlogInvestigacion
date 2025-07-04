@@ -3,81 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Articulo;
-use App\Models\Libro;
+use App\Models\Core\Articulo;
+use App\Models\Core\Libro;
+use App\Traits\OpcionesTrait;
 use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
+    use OpcionesTrait;
+
     public function dashboard($action = 'subir')
     {
-        $tiposArticulos = config('tipos.articulos');
-
-        $config = [
-            'tiposEventos' => config('tipos.eventos'),
-            'ambitos' => config('tipos.ambitos'),
-            'modalidades' => config('tipos.modalidad'),
-            'comunicacion' => config('tipos.comunicacion')
-        ];
-
-        return view('admin.dashboard', compact('tiposArticulos', 'config'));
+        $config = $this->getConfig();
+        
+        return view('admin.dashboard', compact('config'));
     }
-
-    // public function basurero()
-    // {
-    //     $articulosEliminados = Articulo::select('ID_ARTICULO', 'TITULO_ARTICULO')->where('ELIMINADO_ARTICULO', 1)->get();
-    //     // $librosEliminados = Libro::onlyTrashed()->get();
-    //     // $eventosEliminados = Evento::onlyTrashed()->get();
-
-    //     return view('admin.admin_basurero', compact('articulosEliminados'));
-    // }
-
-    // public function basurero()
-    // {
-    //     $eliminados = DB::select("
-    //         SELECT ID_ARTICULO as id, TITULO_ARTICULO as titulo, 'articulo' as tipo, ELIMINADO_ARTICULO as eliminado
-    //         FROM tb_articulo
-    //         WHERE ELIMINADO_ARTICULO = 1
-    //         UNION
-    //         SELECT ID_LIBRO as id, TITULO_LIBRO as titulo, 'libro' as tipo, ELIMINADO_LIBRO as eliminado
-    //         FROM tb_libro
-    //         WHERE ELIMINADO_LIBRO = 1
-    //     ");
-
-    //     return view('admin.admin_basurero', compact('eliminados'));
-    // }
-
-    // public function basurero(Request $request)
-    // {
-    //     $search = $request->input('search');
-    //     $route = route('admin.basurero');
-
-    //     $query = "
-    //         SELECT ID_ARTICULO as id, TITULO_ARTICULO as titulo, 'articulo' as tipo, ELIMINADO_ARTICULO as eliminado
-    //         FROM tb_articulo
-    //         WHERE ELIMINADO_ARTICULO = 1
-    //         UNION
-    //         SELECT ID_LIBRO as id, TITULO_LIBRO as titulo, 'libro' as tipo, ELIMINADO_LIBRO as eliminado
-    //         FROM tb_libro
-    //         WHERE ELIMINADO_LIBRO = 1
-    //     ";
-
-    //     if ($search) {
-    //         $query = "
-    //             SELECT ID_ARTICULO as id, TITULO_ARTICULO as titulo, 'articulo' as tipo, ELIMINADO_ARTICULO as eliminado
-    //             FROM tb_articulo
-    //             WHERE ELIMINADO_ARTICULO = 1 AND TITULO_ARTICULO LIKE '%$search%'
-    //             UNION
-    //             SELECT ID_LIBRO as id, TITULO_LIBRO as titulo, 'libro' as tipo, ELIMINADO_LIBRO as eliminado
-    //             FROM tb_libro
-    //             WHERE ELIMINADO_LIBRO = 1 AND TITULO_LIBRO LIKE '%$search%'
-    //         ";
-    //     }
-
-    //     $eliminados = DB::select($query);
-
-    //     return view('admin.admin_basurero', compact('eliminados', 'search', 'route'));
-    // }
 
     public function basurero(Request $request)
     {

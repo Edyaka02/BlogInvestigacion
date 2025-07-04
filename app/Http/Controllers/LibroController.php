@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use App\Traits\Archivos;
 use App\Traits\AutorTrait;
 use App\Traits\YearTrait;
+use Illuminate\Support\Facades\Auth;
 
 class LibroController extends Controller
 {
@@ -18,7 +19,7 @@ class LibroController extends Controller
     public function index(Request $request)
     {
         $query = Libro::with('autores')
-            ->where('ELIMINADO_LIBRO', false)
+            // ->where('ELIMINADO_LIBRO', false)
             ->select('ID_LIBRO', 'TITULO_LIBRO', 'YEAR_LIBRO', 'ISBN_LIBRO', 'URL_IMAGEN_LIBRO');
 
         $hasResults = $this->applyFilters($query, $request);
@@ -36,12 +37,13 @@ class LibroController extends Controller
             $libro->URL_IMAGEN_LIBRO = Storage::url($libro->URL_IMAGEN_LIBRO);
         }
 
-        return view('libros.libro', compact('libros', 'years', 'route', 'hasResults'));
+        return view('entities.libros.index', compact('libros', 'years', 'route', 'hasResults'));
     }
 
     public function adminIndex(Request $request)
     {
-        $query = Libro::with('autores')->where('ELIMINADO_LIBRO', false);
+        $query = Libro::with('autores');
+        // ->where('ELIMINADO_LIBRO', false);
         $hasResults = $this->applyFilters($query, $request);
         $years = $this->applyYears(2);
 
@@ -49,7 +51,7 @@ class LibroController extends Controller
 
         $route = route('admin.libros.index');
 
-        return view('admin.admin_libros', compact('libros', 'years', 'route', 'hasResults'));
+        return view('entities.libros.edit', compact('libros', 'years', 'route', 'hasResults'));
     }
 
     public function show($id)
@@ -59,7 +61,7 @@ class LibroController extends Controller
         $libro->URL_LIBRO = Storage::url($libro->URL_LIBRO);
         $libro->URL_IMAGEN_LIBRO = Storage::url($libro->URL_IMAGEN_LIBRO);
 
-        return view('libros.libro_detalle', compact('libro'));
+        return view('entities.libros.show', compact('libro'));
     }
 
     public function create()
@@ -79,7 +81,7 @@ class LibroController extends Controller
 
         $libro = new Libro();
         $this->assignLibroData($libro, $request);
-        $libro->ELIMINADO_LIBRO = false;
+        // $libro->ELIMINADO_LIBRO = false;
 
         $libro->save();
 
@@ -104,28 +106,28 @@ class LibroController extends Controller
         return redirect()->route('admin.libros.index')->with('success', 'Libro actualizado.');
     }
 
-    public function destroy($id)
-    {
-        $libro = Libro::findOrFail($id);
-        $libro->ELIMINADO_LIBRO = true;
-        $libro->save();
+    // public function destroy($id)
+    // {
+    //     $libro = Libro::findOrFail($id);
+    //     $libro->ELIMINADO_LIBRO = true;
+    //     $libro->save();
 
-        return redirect()->route('admin.libros.index')->with('success', 'Libro eliminado.');
-    }
+    //     return redirect()->route('admin.libros.index')->with('success', 'Libro eliminado.');
+    // }
 
-    public function restore($id)
-    {
-        $libro = Libro::findOrFail($id);
+    // public function restore($id)
+    // {
+    //     $libro = Libro::findOrFail($id);
 
-        if ($libro->ELIMINADO_LIBRO && $libro->updated_at->gt(now()->subWeek())) {
-            $libro->ELIMINADO_LIBRO = false;
-            $libro->save();
+    //     if ($libro->ELIMINADO_LIBRO && $libro->updated_at->gt(now()->subWeek())) {
+    //         $libro->ELIMINADO_LIBRO = false;
+    //         $libro->save();
 
-            return redirect()->route('admin.libros.index')->with('success', 'Libro restaurado exitosamente.');
-        }
+    //         return redirect()->route('admin.libros.index')->with('success', 'Libro restaurado exitosamente.');
+    //     }
 
-        return redirect()->route('admin.libros.index')->with('error', 'No se puede restaurar el libro.');
-    }
+    //     return redirect()->route('admin.libros.index')->with('error', 'No se puede restaurar el libro.');
+    // }
 
     private function applyFilters($query, Request $request)
     {
@@ -193,6 +195,8 @@ class LibroController extends Controller
         $libro->YEAR_LIBRO = $request->year_libro;
         $libro->EDITORIAL_LIBRO = $request->editorial_libro;
         $libro->DOI_LIBRO = $request->doi_libro;
+
+        $libro->ID_USUARIO = Auth::id();
 
         if ($request->hasFile('url_libro')) {
             $libro->URL_LIBRO = $this->handleFileUpload($request, 'url_libro', 'libros');
