@@ -2,13 +2,29 @@
     <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <div class="modal-content custom-modal-border">
             <div class="modal-header custom-modal-header">
-                <h5 class="modal-title" id="articuloModalLabel">{{ isset($row) ? 'Editar' : 'Crear' }} Artículo modal</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="articuloModalLabel">{{ isset($row) ? 'Editar' : 'Crear' }} Artículo</h5>
+                {{-- <button type="button" class="btn " data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </button> --}}
+                <button type="button" class="btn ms-auto" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
             </div>
             <div class="modal-body custom-modal-body">
                 <form id="articuloForm" class="needs-validation" action="{{ route('admin.articulos.store') }}"
                     method="POST" enctype="multipart/form-data" novalidate>
                     @csrf
+
+                    <!-- Titulo -->
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="titulo_articulo" name="titulo_articulo"
+                            placeholder=" " required>
+                        <label for="titulo_articulo" class="form-label">Título</label>
+                        <div class="invalid-feedback">
+                            Por favor, ingrese un ISSN válido.
+                        </div>
+                    </div>
+
                     <div class="row mb-2">
                         <!-- ID del articulo -->
                         <input type="hidden" name="id_articulo" id="id_articulo">
@@ -40,22 +56,12 @@
                                 <select class="form-select" id="tipo_articulo" name="tipo_articulo" required>
                                     <option value="" disabled selected hidden>Seleccionar</option>
                                     {{-- @foreach ($tiposArticulos as $key => $value) --}}
-                                    @foreach ($config['tiposArticulos'] as $key => $value)
+                                    @foreach ($tiposArticulos as $key => $value)
                                         <option value="{{ $key }}">{{ $value }}</option>
                                     @endforeach
                                 </select>
                                 <label for="tipo" class="form-label">Tipo de Artículo</label>
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- Titulo -->
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="titulo_articulo" name="titulo_articulo"
-                            placeholder=" " required>
-                        <label for="titulo_articulo" class="form-label">Título</label>
-                        <div class="invalid-feedback">
-                            Por favor, ingrese un ISSN válido.
                         </div>
                     </div>
 
@@ -155,6 +161,12 @@
                 </form>
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn custom-button custom-button-cancelar" data-bs-dismiss="modal"
+                    aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                    Cancelar
+                </button>
+
                 <button id="btn_articulo" type="submit" class="btn custom-button custom-button-subir"
                     style="float: right;">
                     <i class="{{ isset($row) ? 'fa-solid fa-pen-to-square' : 'fa-solid fa-upload' }}"></i>

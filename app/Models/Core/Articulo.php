@@ -4,7 +4,8 @@ namespace App\Models\Core;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\Core\Autor;
+use App\Models\Options\Tipo;
 class Articulo extends Model
 {
     use HasFactory;
@@ -14,7 +15,7 @@ class Articulo extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'ISSN_ARTICULO', 
+        'ISSN_ARTICULO',
         'TITULO_ARTICULO',
         'RESUMEN_ARTICULO',
         'FECHA_ARTICULO',
@@ -29,6 +30,11 @@ class Articulo extends Model
     public function autores()
     {
         return $this->belongsToMany(Autor::class, 'tb_articulo_autor', 'ID_ARTICULO', 'ID_AUTOR')
-                    ->withPivot('ORDEN_AUTOR');
+            ->withPivot('ORDEN_AUTOR');
+    }
+
+    public function tipo()
+    {
+        return $this->belongsTo(Tipo::class, 'ID_TIPO', 'ID_TIPO');
     }
 }

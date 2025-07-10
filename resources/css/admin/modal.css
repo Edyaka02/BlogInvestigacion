@@ -3,15 +3,15 @@
 }
 
 .custom-modal-header {
-    background-color: var(--admin_c2);
+    background-color: var(--color-primario);
     color: white;
-    font-family: "Titillium Web", sans-serif;
-    font-weight: 900;
-    font-style: normal;
+    font-family: var(--font-title);
+    /* font-weight: 900;
+    font-style: normal; */
 }
 
 .custom-modal-body {
-    font-family: "Titillium Web", sans-serif;
+    font-family: var(--font-text);
     font-weight: 400;
     font-style: normal;
 }

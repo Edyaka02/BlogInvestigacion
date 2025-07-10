@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Core\Articulo;
 use App\Models\Core\Autor;
+use App\Models\Options\Tipo;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use App\Traits\Archivos;
@@ -26,9 +27,11 @@ class ArticuloController extends Controller
         $hasResults = $this->applyFilters($query, $request);
         $years = $this->applyYears(2);
 
+        $tiposArticulos = Tipo::pluck('NOMBRE_TIPO', 'ID_TIPO');
+
         $articulos = $query->paginate(1)->appends($request->except('page'));
 
-        $config = $this->getConfig(['tiposArticulos']);
+        // $config = $this->getConfig(['tiposArticulos']);
 
         $route = route('articulos.articulo');
 
@@ -41,23 +44,25 @@ class ArticuloController extends Controller
         }
 
         // return view('articulos.articulo', compact('articulos', 'tiposArticulos', 'years', 'route', 'hasResults'));
-        return view('entities.articulos.index', compact('articulos', 'config', 'years', 'route', 'hasResults'));
+        return view('entities.articulos.index', compact('articulos', 'tiposArticulos', 'years', 'route', 'hasResults'));
     }
 
     public function adminIndex(Request $request)
     {
-        $query = Articulo::with('autores');
-        // ->where('ELIMINADO_ARTICULO', false);
+        // $query = Articulo::with('autores');
+        $query = Articulo::with(['autores', 'tipo']);
+
         $hasResults = $this->applyFilters($query, $request);
+
         $years = $this->applyYears(2);
 
-        $articulos = $query->paginate(10)->appends($request->except('page'));
+        $tiposArticulos = Tipo::pluck('NOMBRE_TIPO', 'ID_TIPO'); 
 
-        $config = $this->getConfig(['tiposArticulos']);
+        $articulos = $query->paginate(1)->appends($request->except('page'));
 
         $route = route('admin.articulos.index');
         
-        return view('entities.articulos.edit', compact('articulos', 'config', 'years', 'route', 'hasResults'));
+        return view('entities.articulos.edit', compact('articulos', 'tiposArticulos','years', 'route', 'hasResults'));
     }
 
     public function show($id)
@@ -70,13 +75,6 @@ class ArticuloController extends Controller
 
         return view('entities.articulos.show', compact('articulo'));
     }
-
-    // public function create()
-    // {
-    //     $tiposArticulos = config('tipos.articulos');
-    //     $autores = Autor::all();
-    //     return view('admin.modals.modal_articulo', compact('autores', 'tiposArticulos'));
-    // }
 
     public function store(Request $request)
     {
@@ -190,7 +188,7 @@ class ArticuloController extends Controller
             'resumen_articulo' => 'required|string',
             'fecha_articulo' => 'required|date',
             'revista_articulo' => 'required|string|max:100',
-            'tipo_articulo' => 'required|string|max:100',
+            'id_tipo' => 'required|integer',
             'url_revista_articulo' => 'required|url',
             'url_articulo' => 'nullable|file|mimes:pdf',
             'url_imagen_articulo' => 'nullable|file|mimes:png,jpg,jpeg,webp',

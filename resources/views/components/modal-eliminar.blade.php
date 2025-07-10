@@ -13,11 +13,20 @@
                     @csrf
                     @method('DELETE')
                     <input type="hidden" name="id_elemento" id="id_eliminar">
-                    <button type="submit" class="btn custom-button custom-button-eliminar mt-3" style="float: right;">
-                        <i class="fa-solid fa-trash-can"></i> Eliminar
-                    </button>
+
+                    <div class="d-flex justify-content-end gap-2 mt-3">
+                        <button type="submit" class="btn custom-button custom-button-eliminar">
+                            <i class="fa-solid fa-trash-can"></i> Eliminar
+                        </button>
+                        <button type="button" class="btn custom-button custom-button-cancelar" data-bs-dismiss="modal"
+                            aria-label="Close">
+                            <i class="fa-solid fa-xmark"></i> Cancelar
+                        </button>
+                    </div>
+
                 </form>
             </div>
+
         </div>
     </div>
 </div>

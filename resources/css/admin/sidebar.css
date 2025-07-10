@@ -4,9 +4,12 @@
     --header-height: 3rem;
     --nav-width: 68px;
     --first-color: #4723D9;
+    /* --first-color: #F7F6FB; */
     --first-color-light: #AFA5D9;
     --white-color: #F7F6FB;
-    --body-font: 'Nunito', sans-serif;
+    /* --white-color: #4723D9; */
+    /* --body-font: 'Nunito', sans-serif; */
+    --body-font: var(--font-title);
     --normal-font-size: 1rem;
     --z-fixed: 100;
 }
@@ -46,13 +49,13 @@ a {
     align-items: center;
     justify-content: space-between;
     padding: 0 1rem;
-    background-color: var(--white-color);
+    background-color: var(--color-fondo);
     z-index: var(--z-fixed);
     transition: .5s
 }
 
 .header_toggle {
-    color: var(--first-color);
+    color: var(--color-primario);
     font-size: 1.5rem;
     cursor: pointer
 }
@@ -76,7 +79,7 @@ a {
     left: -30%;
     width: var(--nav-width);
     height: 100vh;
-    background-color: var(--first-color);
+    background-color: var(--color-primario);
     padding: .5rem 1rem 0 0;
     transition: .5s;
     z-index: var(--z-fixed)
@@ -105,23 +108,29 @@ a {
 
 .nav_logo-icon {
     font-size: 1.25rem;
-    color: var(--white-color)
+    color: var(--color-fondo)
 }
 
 .nav_logo-name {
-    color: var(--white-color);
+    color: var(--color-fondo);
     font-weight: 700
 }
 
 .nav_link {
     position: relative;
-    color: var(--first-color-light);
+    color: var(--color-secundario);
     margin-bottom: 1.5rem;
-    transition: .3s
+    transition: .3s;
+
+    overflow: hidden;
 }
 
 .nav_link:hover {
-    color: var(--white-color)
+    color: var(--color-fondo);
+    /* background: var(--white-color);
+    color: var(--first-color); */
+
+
 }
 
 .nav_icon {
@@ -141,7 +150,7 @@ a {
 }
 
 .active {
-    color: var(--white-color)
+    color: var(--color-fondo)
 }
 
 .active::before {
@@ -150,7 +159,7 @@ a {
     left: 0;
     width: 2px;
     height: 32px;
-    background-color: var(--white-color)
+    background-color: var(--color-fondo);
 }
 
 .height-100 {

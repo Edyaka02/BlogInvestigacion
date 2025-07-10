@@ -332,7 +332,8 @@
 
 @push('modals')
     {{-- Modales para Artículos --}}
-    @include('entities.articulos.modal', ['config' => $config])
+    {{-- @include('entities.articulos.modal', ['config' => $config]) --}}
+    @include('entities.articulos.modal')
 
     {{-- Modales para Libros --}}
     @include('entities.libros.modal', ['config' => $config])

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Autor;
+use App\Models\Core\Autor;
 
 class AutorController extends Controller
 {

@@ -56,6 +56,19 @@
     background: var(--btn-subir);
 }
 
+/* Botón Crear */
+.custom-button-crear {
+    background: var(--btn-crear);
+}
+
+.custom-button-crear:hover {
+    color: var(--btn-crear);
+}
+
+.custom-button-crear:before, .custom-button-crear:after {
+    background: var(--btn-crear);
+}
+
 /* Botón Ver */
 .custom-button-ver {
     background: var(--btn-ver);
@@ -93,4 +106,23 @@
 
 .custom-button-editar:before, .custom-button-editar:after {
     background: var(--btn-editar);
+}
+
+/* Botón cancelar */
+.custom-button-cancelar {
+    background: var(--btn-cancelar);
+}
+
+.custom-button-cancelar:hover {
+    color: var(--btn-cancelar);
+}
+
+.custom-button-cancelar:before, .custom-button-cancelar:after {
+    background: var(--btn-cancelar);
+}
+
+@media (max-width: 576px) {
+    .btn-text {
+        display: none;
+    }
 }

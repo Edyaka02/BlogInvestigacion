@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Libro;
-use App\Models\Autor;
+use App\Models\Core\Libro;
+use App\Models\Core\Autor;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use App\Traits\Archivos;

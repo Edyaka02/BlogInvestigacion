@@ -4,7 +4,7 @@ namespace App\Traits;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
-use App\Models\Autor;
+use App\Models\Core\Autor;
 
 trait Archivos
 {

@@ -3,69 +3,102 @@
 @section('title', 'Artículos')
 
 @section('content')
-    <div class="container mt-5 flex-grow-1 d-flex flex-column">
-        <h1 class="h-white mb-3 tracking-in-expand">Artículos es edit</h1>
 
-        {{-- Formulario de búsqueda y filtrado --}}
-        {{-- @include('components.buscador_filtrado') --}}
-        <div class="w-100">
-            {{-- @include('components.buscador_filtrado') --}}
-            @include('components.buscador')
+    <div class="container-fluid mt-5 flex-grow-1 d-flex flex-column">
+        <div class="row mb-3">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center mb-2 gap-2">
+                    <form method="GET" {{-- action="{{ route('admin.articulos.index') }}"  --}} class="d-flex align-items-center gap-2">
+                        <input type="text" name="q" class="form-control form-control-sm w-auto"
+                            style="min-width:180px;" placeholder="Buscar..." value="{{ request('q') }}">
+                        <button class="btn custom-button custom-button-ver" type="submit">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </form>
+                    <div class="d-flex gap-1">
+                        <button type="button" class="btn custom-button custom-button-ver" data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasFiltros" aria-controls="offcanvasFiltros">
+                            <i class="fa-solid fa-filter"></i>
+                            <span class="btn-text">Filtro</span>
+                        </button>
+                        @include('components.filtro')
+                        <button type="button" class="btn custom-button custom-button-subir" data-bs-toggle="modal"
+                            data-bs-target="#articuloModal">
+                            <i class="fa-solid fa-upload"></i>
+                            <span class="btn-text">Crear</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        @if (!$hasResults)
-            @component('components.no_resultados', ['entityName' => 'artículos'])
-            @endcomponent
-        @else
-            <div class="row flex-grow-1">
-                @foreach ($articulos as $row)
-                    <div class="col-md-3 mb-3 card_busqueda">
-                        <div class="card custom-card">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ $row->TITULO_ARTICULO }}</h5>
-                                <input type="hidden" name="id_articulo_card" value="{{ $row->ID_ARTICULO }}">
+        <div class="row mb-3">
+            <div class="col-12">
+                <div class="table-responsive">
+                    <table class="table-custom align-middle w-100">
+                        <thead>
+                            <tr>
+                                <th>Título</th>
+                                <th>ISSN</th>
+                                <th>Fecha</th>
+                                <th>Revista</th>
+                                <th>Tipo</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($articulos as $row)
+                                <tr>
+                                    <td>{{ $row->TITULO_ARTICULO }}</td>
+                                    <td>{{ $row->ISSN_ARTICULO }}</td>
+                                    <td>{{ $row->FECHA_ARTICULO }}</td>
+                                    <td>{{ $row->REVISTA_ARTICULO }}</td>
+                                    <td>{{ $row->tipo->NOMBRE_TIPO ?? '' }}</td>
+                                    <td>
 
-                                <div class="custom-button-group">
-                                    <div class="btn-group mt-2" role="group" aria-label="Actions">
-                                        <button type="button" class="btn custom-button custom-button-editar"
-                                            data-bs-toggle="modal" data-bs-target="#articuloModal"
-                                            data-id="{{ $row->ID_ARTICULO }}" data-issn="{{ $row->ISSN_ARTICULO }}"
-                                            data-titulo="{{ $row->TITULO_ARTICULO }}"
-                                            data-resumen="{{ $row->RESUMEN_ARTICULO }}"
-                                            data-fecha="{{ $row->FECHA_ARTICULO }}"
-                                            data-revista="{{ $row->REVISTA_ARTICULO }}"
-                                            data-tipo="{{ $row->TIPO_ARTICULO }}"
-                                            data-url-revista="{{ $row->URL_REVISTA_ARTICULO }}"
-                                            data-url-articulo="{{ $row->URL_ARTICULO }}"
-                                            data-url-imagen="{{ $row->URL_IMAGEN_ARTICULO }}"
-                                            data-nombres-autores="{{ $row->autores->pluck('NOMBRE_AUTOR')->implode(',') }}"
-                                            data-apellidos-autores="{{ $row->autores->pluck('APELLIDO_AUTOR')->implode(',') }}"
-                                            data-orden-autores="{{ $row->autores->pluck('pivot.ORDEN_AUTOR')->implode(',') }}">
-                                            <i class="fa-solid fa-pen-to-square"></i> Editar
-                                        </button>
+                                        <div class="d-flex">
+                                            <div class="ms-2">
+                                                <button type="button" class="btn custom-button custom-button-editar"
+                                                    data-bs-toggle="modal" data-bs-target="#articuloModal"
+                                                    data-id="{{ $row->ID_ARTICULO }}" data-issn="{{ $row->ISSN_ARTICULO }}"
+                                                    data-titulo="{{ $row->TITULO_ARTICULO }}"
+                                                    data-resumen="{{ $row->RESUMEN_ARTICULO }}"
+                                                    data-fecha="{{ $row->FECHA_ARTICULO }}"
+                                                    data-revista="{{ $row->REVISTA_ARTICULO }}"
+                                                    data-tipo="{{ $row->ID_TIPO }}"
+                                                    data-url-revista="{{ $row->URL_REVISTA_ARTICULO }}"
+                                                    data-url-articulo="{{ $row->URL_ARTICULO }}"
+                                                    data-url-imagen="{{ $row->URL_IMAGEN_ARTICULO }}"
+                                                    data-nombres-autores="{{ $row->autores->pluck('NOMBRE_AUTOR')->implode(',') }}"
+                                                    data-apellidos-autores="{{ $row->autores->pluck('APELLIDO_AUTOR')->implode(',') }}"
+                                                    data-orden-autores="{{ $row->autores->pluck('pivot.ORDEN_AUTOR')->implode(',') }}">
+                                                    <i class="fa-solid fa-pen-to-square"></i>
+                                                </button>
+                                            </div>
 
-                                        <button type="button" class="btn custom-button custom-button-eliminar"
-                                            data-bs-toggle="modal" data-bs-target="#modalEliminar"
-                                            data-id="{{ $row->ID_ARTICULO }}" data-type="artículo" data-route="articulos">
-                                            <i class="fa-solid fa-trash-can"></i> Eliminar
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
+                                            <div class="ms-2">
+                                                <button type="button" class="btn custom-button custom-button-eliminar"
+                                                    data-bs-toggle="modal" data-bs-target="#modalEliminar"
+                                                    data-id="{{ $row->ID_ARTICULO }}" data-type="artículo"
+                                                    data-route="articulos">
+                                                    <i class="fa-solid fa-trash-can"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="d-flex justify-content-end mt-3">
+                    {{ $articulos->links() }}
+                </div>
             </div>
-        @endif
-
-        @include('entities.articulos.modal', ['config' => $config])
-        @include('components.modal-eliminar')
-
-        <!-- Mostrar enlaces de paginación -->
-        <div class="d-flex justify-content-center mt-auto">
-            {{ $articulos->links() }}
         </div>
     </div>
+    @include('entities.articulos.modal')
+    @include('components.modal-eliminar')
 
 @endsection
 
