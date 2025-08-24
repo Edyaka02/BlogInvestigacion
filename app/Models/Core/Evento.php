@@ -17,6 +17,7 @@ class Evento extends Model
         'ID_TIPO',
         'TITULO_EVENTO',
         'RESUMEN_EVENTO',
+        'FECHA_EVENTO',
         'NOMBRE_EVENTO',
         'ID_MODALIDAD',
         'ID_COMUNICACION',

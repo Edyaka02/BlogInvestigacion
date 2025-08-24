@@ -15,6 +15,11 @@ trait Archivos
         $fileName = $originalName . '.' . $extension;
         $counter = 1;
 
+        // while (Storage::exists($directory . '/' . $fileName)) {
+        //     $fileName = $originalName . '(' . $counter . ').' . $extension;
+        //     $counter++;
+        // }
+        // ✅ Cambiar para usar storage privado
         while (Storage::exists($directory . '/' . $fileName)) {
             $fileName = $originalName . '(' . $counter . ').' . $extension;
             $counter++;
@@ -28,8 +33,11 @@ trait Archivos
         if ($request->hasFile($fieldName)) {
             $file = $request->file($fieldName);
             $fileName = $this->getUniqueFileName($file, $directory);
-            $filePath = $file->storeAs('public/' . $directory, $fileName);
-            return  $directory . '/' . $fileName;
+            // $filePath = $file->storeAs('public/' . $directory, $fileName);
+            // return  $directory . '/' . $fileName;
+            // ✅ GUARDAR EN STORAGE PRIVADO (sin 'public/')
+            $filePath = $file->storeAs($directory, $fileName);
+            return $filePath; // Devuelve: "articulos/archivo.pdf"
         }
         return null;
     }
@@ -47,8 +55,8 @@ trait Archivos
         return $autores;
     }
 
-    private function applyYears($num)
-    {
-        return range(date('Y'), date('Y') - $num);
-    }
+    // private function applyYears($num)
+    // {
+    //     return range(date('Y'), date('Y') - $num);
+    // }
 }

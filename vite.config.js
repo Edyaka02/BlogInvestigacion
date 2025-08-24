@@ -21,8 +21,8 @@ export default defineConfig({
         laravel({
             input: [
                 // Archivos compartidos
-                'resources/css/shared/shared.css',
-                'resources/js/shared/utilities.js',
+                // 'resources/css/shared/shared.css',
+                // 'resources/js/shared/utilities.js',
 
                 // Admin
                 'resources/css/admin.css',
@@ -33,9 +33,25 @@ export default defineConfig({
                 'resources/js/app.js',
 
                 // Agrega aquí tu archivo de eventos:
-                'resources/js/entities/eventos/index.js',
+                // 'resources/js/entities/eventos/index.js',
             ],
             refresh: true,
         }),
     ],
+    server: {
+        host: 'bloginvestigacion.test',
+        port: 8080,
+        cors: true,
+        hmr: {
+            host: 'bloginvestigacion.test',
+        },
+    },
+    // server: {
+    //     host: '0.0.0.0', // ✅ Escucha en todas las interfaces de red
+    //     port: 5173,
+    //     cors: true,
+    //     hmr: {
+    //         host: '192.168.1.66', // 👉 tu IP local real
+    //     },
+    // },
 });

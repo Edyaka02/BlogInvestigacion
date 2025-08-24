@@ -1,4 +1,5 @@
 <form id="filtro-form" class="mb-4 filter-form">
+    {{-- <form id="searchForm" class="mb-4 filter-form"> --}}
     <!-- Offcanvas para los filtros -->
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasFiltros" aria-labelledby="offcanvasFiltrosLabel">
         <div class="offcanvas-header">
@@ -59,7 +60,7 @@
 
                 <!-- Sección: Por tipo -->
                 {{-- @if (!empty($config['tiposArticulos'])) --}}
-                @if (!empty($tiposArticulos))
+                @if (!empty($tipos))
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingTipo">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -70,8 +71,7 @@
                         <div id="collapseTipo" class="accordion-collapse collapse" aria-labelledby="headingTipo"
                             data-bs-parent="#accordionFiltros">
                             <div class="accordion-body">
-                                {{-- @foreach ($config['tiposArticulos'] as $key => $value) --}}
-                                @foreach ($tiposArticulos as $key => $value)
+                                @foreach ($tipos as $key => $value)
                                     <div class="form-check">
                                         <input class="form-check-input custom-checkbox" type="checkbox" name="tipo[]"
                                             value="{{ $key }}" id="tipo{{ $key }}"
@@ -81,22 +81,6 @@
                                         </label>
                                     </div>
                                 @endforeach
-                                {{-- <div class="form-check">
-                                    <input class="custom-checkbox" type="checkbox" name="tipo[]"
-                                        value="Investigacion" id="tipoInvestigacion"
-                                        {{ in_array('Investigacion', request()->query('tipo', [])) ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="tipoInvestigacion">
-                                        Investigación
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="custom-checkbox" type="checkbox" name="tipo[]"
-                                        value="Divulgacion" id="tipoDivulgacion"
-                                        {{ in_array('Divulgacion', request()->query('tipo', [])) ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="tipoDivulgacion">
-                                        Divulgación
-                                    </label>
-                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -148,15 +132,28 @@
                                         Intervalo de años
                                     </label>
                                 </div>
-                                <div id="intervaloAnios" class="mt-2"
+                                {{-- <div id="intervaloAnios" class="mt-2"
                                     style="display: {{ request()->query('anio') == 'intervalo' ? 'block' : 'none' }};">
                                     <div class="input-group input-group-sm">
-                                        <input type="number" name="anio_inicio" class="form-control"
-                                            placeholder="Inicio" value="{{ request()->query('anio_inicio') }}"
-                                            style="max-width: 80px;">
+                                        <input type="number" name="anio_inicio" class="form-control flex-fill"
+                                            placeholder="Inicio" value="{{ request()->query('anio_inicio') }}">
                                         <span class="input-group-text">-</span>
-                                        <input type="number" name="anio_fin" class="form-control" placeholder="Fin"
-                                            value="{{ request()->query('anio_fin') }}" style="max-width: 80px;">
+                                        <input type="number" name="anio_fin" class="form-control flex-fill" placeholder="Fin"
+                                            value="{{ request()->query('anio_fin') }}">
+                                    </div>
+                                </div> --}}
+                                <div id="intervaloAnios" class="intervalo-container"
+                                    style="display: {{ request()->query('anio') == 'intervalo' ? 'block' : 'none' }};">
+                                    <div class="intervalo-wrapper">
+                                        <div class="input-group">
+                                            <input type="number" name="anio_inicio" class="form-control"
+                                                placeholder="Desde" value="{{ request()->query('anio_inicio') }}"
+                                                min="1900" max="{{ date('Y') }}">
+                                            <span class="input-group-text">—</span>
+                                            <input type="number" name="anio_fin" class="form-control"
+                                                placeholder="Hasta" value="{{ request()->query('anio_fin') }}"
+                                                min="1900" max="{{ date('Y') }}">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -169,7 +166,7 @@
             <div class="d-flex justify-content-center mt-3">
                 {{-- <button type="button" class="btn btn-outline-custom" id="aplicar-filtros-btn">Aplicar
                     Filtros</button> --}}
-                <button type="button" class="btn custom-button custom-button-ver" id="aplicar-filtros-btn">
+                <button type="button" class="btn custom-button custom-button-primario" id="aplicar-filtros-btn">
                     <i class="fa-solid fa-filter"></i> Aplicar
                 </button>
             </div>

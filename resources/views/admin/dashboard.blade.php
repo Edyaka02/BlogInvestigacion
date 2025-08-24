@@ -319,7 +319,7 @@
                                     </div>
                                 </div>
                                 {{-- @include('admin.modals.modal_premio') --}}
-                                @include('entities.premios.modal', ['config' => $config])
+                                {{-- @include('entities.premios.modal', ['config' => $config]) --}}
                             </div>
                         </div>
                     </div>
@@ -333,8 +333,8 @@
 @push('modals')
     {{-- Modales para Artículos --}}
     {{-- @include('entities.articulos.modal', ['config' => $config]) --}}
-    @include('entities.articulos.modal')
+    {{-- @include('entities.articulos.modal') --}}
 
     {{-- Modales para Libros --}}
-    @include('entities.libros.modal', ['config' => $config])
+    {{-- @include('entities.libros.modal', ['config' => $config]) --}}
 @endpush

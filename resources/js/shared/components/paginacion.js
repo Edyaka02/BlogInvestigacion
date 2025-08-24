@@ -1,4 +1,9 @@
-function generatePagination(data, queryParams, urlBase = '') {
+// ✅ MODIFICAR: resources/js/shared/components/paginacion.js
+/**
+ * Funciones de paginación básicas
+ */
+
+export function generatePagination(data, queryParams, urlBase = '') {
     if (data.total > 0) {
         let paginationHTML = `
             <nav>
@@ -44,28 +49,58 @@ function generatePagination(data, queryParams, urlBase = '') {
     return '';
 }
 
+export function gestionarPaginacion(paginacionDiv, contenido = '', selectoresFallback = ['.d-flex.justify-content-end.mt-3']) {
+    if (paginacionDiv) {
+        paginacionDiv.innerHTML = contenido;
+    } else {
+        for (const selector of selectoresFallback) {
+            const container = document.querySelector(selector);
+            if (container) {
+                container.innerHTML = contenido;
+                break;
+            }
+        }
+    }
+}
+
+export function addPaginationEventListeners(cargarResultados) {
+    document.querySelectorAll('.pagination a').forEach(link => {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+            cargarResultados(this.getAttribute('href'));
+        });
+    });
+}
+
+// ✅ MANTENER: Función para tarjetas (se queda aquí por ahora)
 export function cargarResultadosGenerico({
     urlBase,
+    buscadorFormId,
     filtroFormId,
     resultadosDivId,
     renderCard,
     key = 'eventos'
 }) {
     const filtroForm = document.getElementById(filtroFormId);
+    const buscadorForm = document.getElementById(buscadorFormId);
     const resultadosDiv = document.getElementById(resultadosDivId);
 
-    if (filtroForm && resultadosDiv) {
-        filtroForm.addEventListener('change', () => cargarResultados());
-        const buscarBtn = filtroForm.querySelector('button[type="submit"], #buscar-btn');
-        if (buscarBtn) {
-            buscarBtn.addEventListener('click', function (e) {
-                e.preventDefault();
-                cargarResultados();
-            });
+    const formularioActivo = filtroForm || buscadorForm;
+
+    if (formularioActivo && resultadosDiv) {
+        if (filtroForm) {
+            filtroForm.addEventListener('change', () => cargarResultados());
+            const buscarBtn = filtroForm.querySelector('button[type="submit"], #buscar-btn');
+            if (buscarBtn) {
+                buscarBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    cargarResultados();
+                });
+            }
         }
 
         function cargarResultados(url = urlBase) {
-            const formData = new FormData(filtroForm);
+            const formData = new FormData(formularioActivo);
             const queryParams = new URLSearchParams(Object.fromEntries(formData)).toString();
             const fullUrl = url.includes('?') ? `${url}&${queryParams}` : `${url}?${queryParams}`;
 
@@ -91,17 +126,9 @@ export function cargarResultadosGenerico({
                             rowDiv.innerHTML += renderCard(item);
                         });
 
-                        // Paginación (puedes importar generatePagination si la tienes aparte)
-                        if (typeof generatePagination === 'function') {
-                            const paginationHTML = generatePagination(response.data, queryParams, urlBase);
-                            resultadosDiv.innerHTML += paginationHTML;
-                            resultadosDiv.querySelectorAll('.pagination a').forEach(link => {
-                                link.addEventListener('click', function (e) {
-                                    e.preventDefault();
-                                    cargarResultados(this.getAttribute('href'));
-                                });
-                            });
-                        }
+                        const paginationHTML = generatePagination(response.data, queryParams, urlBase);
+                        resultadosDiv.innerHTML += paginationHTML;
+                        addPaginationEventListeners(cargarResultados);
                     } else {
                         resultadosDiv.innerHTML = '<p>No se encontraron resultados.</p>';
                     }
@@ -111,18 +138,16 @@ export function cargarResultadosGenerico({
                 });
         }
 
+        // Configurar orden por defecto
         if (filtroForm) {
-            // Busca un select o input con name="orden" o similar
             const ordenInput = filtroForm.querySelector('[name="orden"]');
             if (ordenInput) {
-                // Si tiene opción "recientes", selecciónala
                 const recientesOption = Array.from(ordenInput.options || []).find(opt =>
                     opt.value.toLowerCase().includes('reciente')
                 );
                 if (recientesOption) {
                     ordenInput.value = recientesOption.value;
                 } else {
-                    // Si no hay "recientes", busca por título
                     const tituloOption = Array.from(ordenInput.options || []).find(opt =>
                         opt.value.toLowerCase().includes('titulo')
                     );
@@ -132,7 +157,6 @@ export function cargarResultadosGenerico({
                 }
             }
         }
-
 
         cargarResultados();
     }

@@ -16,9 +16,9 @@ class AdminController extends Controller
     public function dashboard($action = 'subir')
     {
         $config = $this->getConfig();
-        $tiposArticulos = Tipo::pluck('NOMBRE_TIPO', 'ID_TIPO'); 
+        $tipos = Tipo::pluck('NOMBRE_TIPO', 'ID_TIPO'); 
         
-        return view('admin.dashboard', compact('config', 'tiposArticulos'));
+        return view('admin.dashboard', compact('config', 'tipos'));
     }
 
     public function basurero(Request $request)

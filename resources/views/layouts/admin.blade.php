@@ -13,17 +13,17 @@
         @include('components.navbar-admin2')
         <main class="main d-flex">
             {{-- Menú lateral --}}
-            
+
             {{-- @include('components.navbar-admin2') --}}
 
             {{-- Contenido principal --}}
             {{-- <div class="content flex-grow-1 p-3"> --}}
-                @yield('content')
-                @stack('modals')
+            @yield('content')
+            @stack('modals')
             {{-- </div> --}}
         </main>
 
-        
+
 
         @stack('scripts')
         <script>
@@ -37,6 +37,6 @@
                 @endif
             });
         </script>
-
+        
     </body>
 @endsection

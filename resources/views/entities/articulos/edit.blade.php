@@ -3,98 +3,73 @@
 @section('title', 'Artículos')
 
 @section('content')
-
     <div class="container-fluid mt-5 flex-grow-1 d-flex flex-column">
+
         <div class="row mb-3">
             <div class="col-12">
-                <div class="d-flex justify-content-between align-items-center mb-2 gap-2">
-                    <form method="GET" {{-- action="{{ route('admin.articulos.index') }}"  --}} class="d-flex align-items-center gap-2">
-                        <input type="text" name="q" class="form-control form-control-sm w-auto"
-                            style="min-width:180px;" placeholder="Buscar..." value="{{ request('q') }}">
-                        <button class="btn custom-button custom-button-ver" type="submit">
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                        </button>
-                    </form>
-                    <div class="d-flex gap-1">
-                        <button type="button" class="btn custom-button custom-button-ver" data-bs-toggle="offcanvas"
-                            data-bs-target="#offcanvasFiltros" aria-controls="offcanvasFiltros">
-                            <i class="fa-solid fa-filter"></i>
-                            <span class="btn-text">Filtro</span>
-                        </button>
-                        @include('components.filtro')
-                        <button type="button" class="btn custom-button custom-button-subir" data-bs-toggle="modal"
-                            data-bs-target="#articuloModal">
-                            <i class="fa-solid fa-upload"></i>
-                            <span class="btn-text">Crear</span>
-                        </button>
-                    </div>
-                </div>
+                <h1 class="text-start fw-bold">Artículos</h1>
             </div>
         </div>
 
-        <div class="row mb-3">
-            <div class="col-12">
-                <div class="table-responsive">
-                    <table class="table-custom align-middle w-100">
-                        <thead>
-                            <tr>
-                                <th>Título</th>
-                                <th>ISSN</th>
-                                <th>Fecha</th>
-                                <th>Revista</th>
-                                <th>Tipo</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($articulos as $row)
-                                <tr>
-                                    <td>{{ $row->TITULO_ARTICULO }}</td>
-                                    <td>{{ $row->ISSN_ARTICULO }}</td>
-                                    <td>{{ $row->FECHA_ARTICULO }}</td>
-                                    <td>{{ $row->REVISTA_ARTICULO }}</td>
-                                    <td>{{ $row->tipo->NOMBRE_TIPO ?? '' }}</td>
-                                    <td>
+        <div class="tabla-container">
+            <div class="row mb-3">
+                <div class="col-12">
+                    <div class="d-flex justify-content-between align-items-center mb-2 gap-2">
+                        @include('components.buscador.buscador')
 
-                                        <div class="d-flex">
-                                            <div class="ms-2">
-                                                <button type="button" class="btn custom-button custom-button-editar"
-                                                    data-bs-toggle="modal" data-bs-target="#articuloModal"
-                                                    data-id="{{ $row->ID_ARTICULO }}" data-issn="{{ $row->ISSN_ARTICULO }}"
-                                                    data-titulo="{{ $row->TITULO_ARTICULO }}"
-                                                    data-resumen="{{ $row->RESUMEN_ARTICULO }}"
-                                                    data-fecha="{{ $row->FECHA_ARTICULO }}"
-                                                    data-revista="{{ $row->REVISTA_ARTICULO }}"
-                                                    data-tipo="{{ $row->ID_TIPO }}"
-                                                    data-url-revista="{{ $row->URL_REVISTA_ARTICULO }}"
-                                                    data-url-articulo="{{ $row->URL_ARTICULO }}"
-                                                    data-url-imagen="{{ $row->URL_IMAGEN_ARTICULO }}"
-                                                    data-nombres-autores="{{ $row->autores->pluck('NOMBRE_AUTOR')->implode(',') }}"
-                                                    data-apellidos-autores="{{ $row->autores->pluck('APELLIDO_AUTOR')->implode(',') }}"
-                                                    data-orden-autores="{{ $row->autores->pluck('pivot.ORDEN_AUTOR')->implode(',') }}">
-                                                    <i class="fa-solid fa-pen-to-square"></i>
-                                                </button>
-                                            </div>
+                        <div class="d-flex gap-1">
+                            <button type="button" class="btn custom-button custom-button-ver" data-bs-toggle="offcanvas"
+                                data-bs-target="#offcanvasFiltros" aria-controls="offcanvasFiltros">
+                                <i class="fa-solid fa-filter"></i>
+                                <span class="btn-text">Filtro</span>
+                            </button>
 
-                                            <div class="ms-2">
-                                                <button type="button" class="btn custom-button custom-button-eliminar"
-                                                    data-bs-toggle="modal" data-bs-target="#modalEliminar"
-                                                    data-id="{{ $row->ID_ARTICULO }}" data-type="artículo"
-                                                    data-route="articulos">
-                                                    <i class="fa-solid fa-trash-can"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                <div class="d-flex justify-content-end mt-3">
-                    {{ $articulos->links() }}
+                            @include('components.filtro')
+                            <!-- ✅ Incluir el componente filtro -->
+                            {{-- @include('components.filtro', [
+                                'tiposArticulos' => $tiposArticulos ?? [],
+                                'years' => $years ?? [],
+                            ]) --}}
+
+                            <button type="button" class="btn custom-button custom-button-subir" data-bs-toggle="modal"
+                                data-bs-target="#articuloModal">
+                                <i class="fa-solid fa-upload"></i>
+                                <span class="btn-text">Crear</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            <div class="row mb-3">
+                <div class="col-12">
+                    <div id="tabla-resultados">
+                        {{-- Aquí se cargará la tabla completa con header desde JavaScript --}}
+                    </div>
+                    {{-- <div class="table-responsive">
+                                <table class="table-custom align-middle w-100"> --}}
+                    {{-- <thead>
+                                        <tr>
+                                            <th>Título</th>
+                                            <th>ISSN</th>
+                                            <th>Fecha</th>
+                                            <th>Revista</th>
+                                            <th>Tipo</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead> --}}
+                    {{-- <tbody id="tabla-resultados"> --}}
+                    {{-- Aquí se cargarán los resultados de los artículos --}}
+                    {{-- Los datos se cargarán automáticamente vía AJAX --}}
+                    {{-- </tbody> --}}
+                    {{-- </table>
+                            </div> --}}
+                    <div class="d-flex justify-content-end mt-3">
+                        {{-- Aquí se cargarán los controles de paginación --}}
+                    </div>
+                </div>
+            </div>
+            @include('components.carga')
         </div>
     </div>
     @include('entities.articulos.modal')
@@ -103,7 +78,10 @@
 @endsection
 
 @push('scripts')
-    <script>
+    @vite(['resources/js/entities/articulos/edit.js'])
+    {{-- @vite(['resources/js/entities/articulos/edit2.js']) --}}
+
+    {{-- <script>
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('articuloModal').addEventListener('show.bs.modal', function(event) {
                 var button = event.relatedTarget;
@@ -135,5 +113,5 @@
                     'No se ha elegido una imagen');
             });
         });
-    </script>
+    </script> --}}
 @endpush

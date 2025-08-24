@@ -56,10 +56,11 @@ Route::prefix('dashboard')->name('admin.')->middleware('auth')->group(function (
 
     // ------------------- Articulos -------------------
     Route::get('/articulos', [ArticuloController::class, 'adminIndex'])->name('articulos.index');
+    // Route::get('/articulos/filtrar', [ArticuloController::class, 'adminFiltrar'])->name('articulos.filtrar');
     Route::post('/articulos', [ArticuloController::class, 'store'])->name('articulos.store');
     Route::put('/articulos/{id}', [ArticuloController::class, 'update'])->name('articulos.update');
     Route::delete('/articulos/{id}', [ArticuloController::class, 'destroy'])->name('articulos.destroy');
-    
+
 
     // ------------------- Libros -------------------
     Route::get('/libros', [LibroController::class, 'adminIndex'])->name('libros.index');

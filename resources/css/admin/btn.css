@@ -19,6 +19,7 @@
 
 .custom-button:hover {
     background: #fff;
+    border-radius: 0px;
 }
 
 .custom-button:before, .custom-button:after {
@@ -121,8 +122,102 @@
     background: var(--btn-cancelar);
 }
 
+/* Botón primario */
+.custom-button-primario {
+    background: var(--color-primario);
+}
+
+.custom-button-primario:hover {
+    color: var(--color-primario);
+}
+
+.custom-button-primario:before, .custom-button-primario:after {
+    background: var(--color-primario);
+}
+
+/* botones con otro nombre */
+
+/* Botón Crear */
+.custom-button-verde {
+    background: var(--btn-verde);
+}
+
+.custom-button-verde:hover {
+    color: var(--btn-verde);
+}
+
+.custom-button-verde:before, .custom-button-verde:after {
+    background: var(--btn-verde);
+}
+
+/* Botón Ver */
+.custom-button-azul {
+    background: var(--btn-azul);
+}
+
+.custom-button-azul:hover {
+    color: var(--btn-azul);
+}
+
+.custom-button-azul:before, .custom-button-azul:after {
+    background: var(--btn-azul);
+}
+
+/* Botón Eliminar */
+.custom-button-rojo {
+    background: var(--btn-rojo);
+}
+
+.custom-button-rojo:hover {
+    color: var(--btn-rojo);
+}
+
+.custom-button-rojo:before, .custom-button-rojo:after {
+    background: var(--btn-rojo);
+}
+
+/* Botón Editar */
+.custom-button-naranja {
+    background: var(--btn-naranja);
+}
+
+.custom-button-naranja:hover {
+    color: var(--btn-naranja);
+}
+
+.custom-button-naranja:before, .custom-button-naranja:after {
+    background: var(--btn-naranja);
+}
+
+/* Botón cancelar */
+.custom-button-gris {
+    background: var(--btn-gris);
+}
+
+.custom-button-gris:hover {
+    color: var(--btn-gris);
+}
+
+.custom-button-gris:before, .custom-button-gris:after {
+    background: var(--btn-gris);
+}
+
+/* Botón primario */
+.custom-button-primario {
+    background: var(--color-primario);
+}
+
+.custom-button-primario:hover {
+    color: var(--color-primario);
+}
+
+.custom-button-primario:before, .custom-button-primario:after {
+    background: var(--color-primario);
+}
+
 @media (max-width: 576px) {
     .btn-text {
         display: none;
     }
 }
+

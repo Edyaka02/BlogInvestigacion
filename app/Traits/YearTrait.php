@@ -38,4 +38,9 @@ trait YearTrait
 
         return $query;
     }
+
+    private function applyYears($num)
+    {
+        return range(date('Y'), date('Y') - $num);
+    }
 }

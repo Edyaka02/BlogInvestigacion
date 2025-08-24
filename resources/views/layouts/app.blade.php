@@ -19,7 +19,7 @@
     @endif
 
     <!-- Archivos compartidos -->
-    @vite(['resources/css/shared.css', 'resources/js/shared/utilities.js'])
+    {{-- @vite(['resources/css/shared.css', 'resources/js/shared/utilities.js']) --}}
     
 
 </head>
