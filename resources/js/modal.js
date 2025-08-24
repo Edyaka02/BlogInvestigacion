@@ -1,3 +1,5 @@
+import { showSuccessToast, showErrorToast } from './shared/components/toast.js'; // ✅ AGREGAR
+
 export function inicializarModalAutores(button, authorFieldsId, addAuthorButtonId, removeAuthorButtonId) {
     var nombresAutores = button.getAttribute('data-nombres-autores') ? button.getAttribute('data-nombres-autores').split(',') : [];
     var apellidosAutores = button.getAttribute('data-apellidos-autores') ? button.getAttribute('data-apellidos-autores').split(',') : [];
@@ -38,15 +40,10 @@ export function inicializarModalAutores(button, authorFieldsId, addAuthorButtonI
             <label class="form-label">Autor ${index + 1}</label>
             <div class="row mb-2">
                 <div class="col-md-6 mb-2">
-                    <div class="form-floating">
-                        <input type="text" class="form-control" name="nombre_autores[]" placeholder="Nombre" value="${autor.nombre}" required>
-                        <label>Nombre(s)</label>
-                    </div>
+                    <input type="text" class="form-control" name="nombre_autores[]" placeholder="Nombre(s)" value="${autor.nombre}" required>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-floating">
-                        <input type="text" class="form-control" name="apellido_autores[]" placeholder="Apellido" value="${autor.apellido}" required>
-                        <label>Apellido(s)</label>
+                    <input type="text" class="form-control" name="apellido_autores[]" placeholder="Apellido(s)" value="${autor.apellido}" required>
                     </div>
                 </div>
             </div>
@@ -72,16 +69,10 @@ export function inicializarModalAutores(button, authorFieldsId, addAuthorButtonI
                 <label class="form-label">Autor ${cant_autores}</label>
                 <div class="row mb-2">
                     <div class="col-md-6 mb-2">
-                        <div class="form-floating">
-                            <input type="text" class="form-control" name="nombre_autores[]" placeholder="Nombre" required>
-                            <label>Nombre(s)</label>
-                        </div>
+                        <input type="text" class="form-control" name="nombre_autores[]" placeholder="Nombre(s)" required>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-floating">
-                            <input type="text" class="form-control" name="apellido_autores[]" placeholder="Apellido" required>
-                            <label>Apellido(s)</label>
-                        </div>
+                        <input type="text" class="form-control" name="apellido_autores[]" placeholder="Apellido(s)" required>
                     </div>
                 </div>
             `;
@@ -133,27 +124,6 @@ export function updateFileDisplay(fileInputId, fileUrl, defaultMessage) {
     }
 }
 
-export function setupDeleteModal(modalId, formId) {
-    const modal = document.getElementById(modalId);
-    const form = document.getElementById(formId);
-
-    if (!modal || !form ) return;
-
-    modal.addEventListener('show.bs.modal', function (event) {
-        const button = event.relatedTarget;
-        const itemId = button.getAttribute('data-id');
-        const itemType = button.getAttribute('data-type'); 
-        const itemRoute = button.getAttribute('data-route');
-
-        let actionUrl = `/admin/${itemRoute}/${itemId}`;
-
-        document.getElementById('modalEliminarLabel').textContent = 'Confirmar Eliminación de ' + itemType;
-        document.getElementById('modalEliminarBody').textContent = '¿Estás seguro de que quieres eliminar este ' + itemType + '?';
-
-        form.action = actionUrl;
-    });
-}
-
 export function setModalData(modal, data) {
     for (const [key, value] of Object.entries(data)) {
         const input = modal.querySelector(`#${key}`);
@@ -165,7 +135,548 @@ export function setModalData(modal, data) {
 
 export function configureFormForEdit(form, id, entityType) {
     if (id) {
-        form.action = `/admin/${entityType}/${id}`;
-        form.insertAdjacentHTML('beforeend', '<input type="hidden" name="_method" value="PUT">');
+        form.action = `/dashboard/${entityType}/${id}`;
+        
+        // Verificar si ya existe el input _method antes de agregarlo
+        const existingMethod = form.querySelector('input[name="_method"]');
+        if (!existingMethod) {
+            form.insertAdjacentHTML('beforeend', '<input type="hidden" name="_method" value="PUT">');
+        } else {
+            existingMethod.value = 'PUT';
+        }
+        
+        console.log(`Formulario configurado para editar ${entityType} con ID: ${id}`);
     }
 }
+
+// ✅ AGREGAR: Función para configurar formulario en modo crear
+export function configureFormForCreate(form, entityType) {
+    // Cambiar action del formulario para crear
+    const baseUrl = window.location.origin;
+    form.action = `${baseUrl}/dashboard/${entityType}`;
+    form.method = 'POST';
+    
+    // Asegurar que no hay input de método PUT
+    const methodInput = form.querySelector('input[name="_method"]');
+    if (methodInput) {
+        methodInput.remove();
+    }
+    
+    console.log(`Formulario configurado para crear ${entityType}`);
+}
+
+export function handleFormSubmission(buttonId, formId) {
+    const button = document.getElementById(buttonId);
+    const form = document.getElementById(formId);
+
+    if (button && form) {
+        button.addEventListener('click', function () {
+            // Validar el formulario antes de enviarlo
+            if (form.checkValidity()) {
+                form.submit(); // Envía el formulario si es válido
+            } else {
+                form.reportValidity(); // Muestra los errores de validación
+            }
+        });
+    }
+}
+
+export function handleFormValidationAndSubmission(buttonId, formId) {
+    const button = document.getElementById(buttonId);
+    const form = document.getElementById(formId);
+
+    if (button && form) {
+        button.addEventListener('click', function (event) {
+            // Validar el formulario antes de enviarlo
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+                form.classList.add('was-validated'); // Agrega estilos de validación de Bootstrap
+            } else {
+                form.submit(); // Envía el formulario si es válido
+            }
+        });
+    } else {
+        console.error(`No se encontró el botón o el formulario: ${buttonId}, ${formId}`);
+    }
+}
+
+
+export function actualizarModal(esEdicion = false, opciones = {}) {
+    const config = {
+        botonId: 'btn_modal',
+        iconoId: 'btn_modal_icon',
+        textoId: 'btn_modal_text',
+        tituloId: 'modalLabel',
+        entidad: 'Elemento',
+        ...opciones
+    };
+
+    const boton = document.getElementById(config.botonId);
+    const icono = document.getElementById(config.iconoId);
+    const texto = document.getElementById(config.textoId);
+    const titulo = document.getElementById(config.tituloId);
+
+    // Verificar que los elementos existen
+    if (!boton || !icono || !texto || !titulo) {
+        console.error('No se encontraron los elementos del modal:', {
+            boton: !!boton,
+            icono: !!icono,
+            texto: !!texto,
+            titulo: !!titulo
+        });
+        return;
+    }
+    
+    if (esEdicion) {
+        icono.className = 'fa-solid fa-pen-to-square';
+        texto.textContent = 'Actualizar';
+        titulo.textContent = config.entidad ? `Actualizar ${config.entidad}` : 'Actualizar';
+        boton.setAttribute('data-modo', 'editar');
+    } else {
+        icono.className = 'fa-solid fa-upload';
+        texto.textContent = 'Crear';
+        titulo.textContent = config.entidad ? `Crear ${config.entidad}` : 'Crear';
+        boton.setAttribute('data-modo', 'crear');
+    }
+}
+
+// ...existing code...
+
+// /**
+//  * AJAX PARA CREAR/EDITAR
+//  */
+// export function setupFormSubmission(formId, modalId, entityType, entityRoute) {
+//     const form = document.getElementById(formId);
+//     const modal = document.getElementById(modalId);
+    
+//     if (!form || !modal) return;
+
+//     form.addEventListener('submit', function(e) {
+//         e.preventDefault();
+        
+//         const formData = new FormData(form);
+//         const isEdit = form.querySelector('input[name="_method"]')?.value === 'PUT';
+//         const actionUrl = form.action;
+        
+//         // Botón en estado loading
+//         const submitBtn = form.querySelector('button[type="submit"]');
+//         const originalText = submitBtn.textContent;
+//         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ' + (isEdit ? 'Actualizando...' : 'Creando...');
+//         submitBtn.disabled = true;
+        
+//         // AJAX
+//         fetch(actionUrl, {
+//             method: 'POST',
+//             body: formData,
+//             headers: {
+//                 'X-Requested-With': 'XMLHttpRequest',
+//                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+//                 'Accept': 'application/json'
+//             }
+//         })
+//         .then(response => response.json())
+//         .then(result => {
+//             if (result.success) {
+//                 console.log(`✅ ${entityType} ${isEdit ? 'actualizado' : 'creado'} exitosamente`);
+                
+//                 // Cerrar modal
+//                 const bsModal = bootstrap.Modal.getInstance(modal);
+//                 if (bsModal) {
+//                     bsModal.hide();
+//                 }
+                
+//                 // Recargar tabla
+//                 setTimeout(() => {
+//                     rechargeTable(entityRoute);
+//                 }, 300);
+                
+//             } else {
+//                 if (result.errors) {
+//                     showValidationErrors(result.errors, form);
+//                 } else {
+//                     console.error(result.message || 'Error al procesar la solicitud');
+//                 }
+//             }
+//         })
+//         .catch(error => {
+//             console.error('Error:', error);
+//         })
+//         .finally(() => {
+//             submitBtn.textContent = originalText;
+//             submitBtn.disabled = false;
+//         });
+//     });
+// }
+
+// /**
+//  * AJAX PARA ELIMINAR
+//  */
+// export function setupDeleteModal(modalId, formId) {
+//     const modal = document.getElementById(modalId);
+//     const form = document.getElementById(formId);
+
+//     if (!modal || !form) return;
+
+//     modal.addEventListener('show.bs.modal', function (event) {
+//         const button = event.relatedTarget;
+//         const itemId = button.getAttribute('data-id');
+//         const itemType = button.getAttribute('data-type'); 
+//         const itemRoute = button.getAttribute('data-route');
+//         const itemName = button.getAttribute('data-name') || itemType;
+
+//         let actionUrl = `/dashboard/${itemRoute}/${itemId}`;
+
+//         document.getElementById('modalEliminarLabel').textContent = `Eliminar ${itemType}`;
+//         document.getElementById('modalEliminarBody').textContent = `¿Estás seguro de que deseas eliminar ${itemType} "${itemName}"?`;
+
+//         form.action = actionUrl;
+//         form.setAttribute('data-item-type', itemType);
+//         form.setAttribute('data-item-name', itemName);
+//         form.setAttribute('data-item-route', itemRoute);
+//     });
+
+//     form.addEventListener('submit', function(e) {
+//         e.preventDefault();
+        
+//         const actionUrl = form.action;
+//         const itemType = form.getAttribute('data-item-type');
+//         const itemRoute = form.getAttribute('data-item-route');
+        
+//         const submitBtn = form.querySelector('button[type="submit"]');
+//         const originalText = submitBtn.textContent;
+//         submitBtn.textContent = 'Eliminando...';
+//         submitBtn.disabled = true;
+        
+//         fetch(actionUrl, {
+//             method: 'DELETE',
+//             headers: {
+//                 'X-Requested-With': 'XMLHttpRequest',
+//                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+//                 'Accept': 'application/json',
+//                 'Content-Type': 'application/json'
+//             }
+//         })
+//         .then(response => response.json())
+//         .then(result => {
+//             if (result.success) {
+//                 console.log(`✅ ${itemType} eliminado exitosamente`);
+                
+//                 const bsModal = bootstrap.Modal.getInstance(modal);
+//                 if (bsModal) {
+//                     bsModal.hide();
+//                 }
+                
+//                 setTimeout(() => {
+//                     rechargeTable(itemRoute);
+//                 }, 300);
+                
+//             } else {
+//                 console.error(result.message || 'Error al eliminar');
+//             }
+//         })
+//         .catch(error => {
+//             console.error('Error:', error);
+//         })
+//         .finally(() => {
+//             submitBtn.textContent = originalText;
+//             submitBtn.disabled = false;
+//         });
+//     });
+// }
+
+// /**
+//  * Función para recargar tabla según entidad
+//  */
+// function rechargeTable(entityRoute) {
+//     const entityName = entityRoute.charAt(0).toUpperCase() + entityRoute.slice(1);
+//     const reloadFunctionName = `recargarTabla${entityName}`;
+    
+//     if (typeof window[reloadFunctionName] === 'function') {
+//         console.log(`🔄 Recargando tabla: ${reloadFunctionName}`);
+//         window[reloadFunctionName]();
+//     } else {
+//         console.log(`⚠️ Función ${reloadFunctionName} no encontrada`);
+//     }
+// }
+
+// function showValidationErrors(errors, form) {
+//     // Limpiar errores anteriores
+//     form.querySelectorAll('.is-invalid').forEach(input => {
+//         input.classList.remove('is-invalid');
+//     });
+//     form.querySelectorAll('.invalid-feedback').forEach(feedback => {
+//         feedback.remove();
+//     });
+    
+//     // Mostrar nuevos errores
+//     Object.keys(errors).forEach(fieldName => {
+//         const input = form.querySelector(`[name="${fieldName}"]`) || 
+//                      form.querySelector(`[name="${fieldName}[]"]`);
+        
+//         if (input) {
+//             input.classList.add('is-invalid');
+            
+//             const errorDiv = document.createElement('div');
+//             errorDiv.className = 'invalid-feedback';
+//             errorDiv.textContent = errors[fieldName][0];
+            
+//             input.parentNode.insertBefore(errorDiv, input.nextSibling);
+//         }
+//     });
+// }
+
+// ...existing code...
+
+export function setupDeleteModal(modalId, formId) {
+    const modal = document.getElementById(modalId);
+    const form = document.getElementById(formId);
+
+    if (!modal || !form) return;
+
+    modal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const itemId = button.getAttribute('data-id');
+        const itemType = button.getAttribute('data-type'); 
+        const itemRoute = button.getAttribute('data-route');
+        const itemName = button.getAttribute('data-name') || itemType; // ✅ AGREGAR
+
+        let actionUrl = `/dashboard/${itemRoute}/${itemId}`;
+
+        // ✅ MEJORAR: Mostrar nombre específico
+        document.getElementById('modalEliminarLabel').textContent = `Eliminar ${itemType}`;
+        document.getElementById('modalEliminarBody').textContent = `¿Estás seguro de que deseas eliminar ${itemType} "${itemName}"?`;
+
+        form.action = actionUrl;
+        
+        // ✅ AGREGAR: Guardar datos para AJAX
+        form.setAttribute('data-item-type', itemType);
+        form.setAttribute('data-item-name', itemName);
+        form.setAttribute('data-item-route', itemRoute);
+    });
+
+    // ✅ AGREGAR: Interceptar submit para usar AJAX
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const actionUrl = form.action;
+        const itemType = form.getAttribute('data-item-type');
+        const itemName = form.getAttribute('data-item-name');
+        const itemRoute = form.getAttribute('data-item-route');
+        
+        // Botón en estado loading
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Eliminando...';
+        submitBtn.disabled = true;
+        
+        // ✅ AJAX con fetch
+        fetch(actionUrl, {
+            method: 'DELETE',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                // ✅ USAR: Sistema de toasts
+                if (typeof showSuccessToast === 'function') {
+                    showSuccessToast(result.message);
+                } else {
+                    console.log('✅ ' + result.message);
+                }
+                
+                // Cerrar modal
+                const bsModal = bootstrap.Modal.getInstance(modal);
+                if (bsModal) {
+                    bsModal.hide();
+                }
+                
+                // ✅ RECARGAR: Solo tabla sin recargar página
+                setTimeout(() => {
+                    //recargarSoloTabla(itemRoute);
+                    rechargeTable(itemRoute);
+                }, 300);
+                
+            } else {
+                // ✅ MOSTRAR: Error
+                if (typeof showErrorToast === 'function') {
+                    showErrorToast(result.message || 'Error al eliminar');
+                } else {
+                    alert(result.message || 'Error al eliminar');
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            if (typeof showErrorToast === 'function') {
+                showErrorToast('Error de conexión al eliminar');
+            } else {
+                alert('Error de conexión al eliminar');
+            }
+        })
+        .finally(() => {
+            // Restaurar botón
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        });
+    });
+}
+
+/**
+ * Función para recargar tabla según entidad
+ */
+function rechargeTable(entityRoute) {
+    console.log(`🔄 Intentando recargar tabla para: ${entityRoute}`);
+    
+    // ✅ MAPEAR: rutas de entidades a funciones globales
+    const entityFunctions = {
+        'articulos': 'recargarTablaArticulos',
+        'libros': 'recargarTablaLibros',
+        'proyectos': 'recargarTablaProyectos'
+    };
+    
+    const functionName = entityFunctions[entityRoute];
+    
+    if (functionName && typeof window[functionName] === 'function') {
+        console.log(`✅ Ejecutando función: ${functionName}`);
+        window[functionName]();
+    } else if (typeof window.dispararRecargaTabla === 'function') {
+        console.log('⚠️ Usando función genérica de recarga');
+        window.dispararRecargaTabla();
+    } else {
+        console.warn(`⚠️ No se encontró función de recarga para ${entityRoute}`);
+        // Último fallback: recargar página
+        console.log('🔄 Recargando página como último recurso...');
+        window.location.reload();
+    }
+}
+
+function capitalizeFirst(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+
+// ...existing code...
+
+/**
+ * Configurar formulario para crear/editar con AJAX
+ */
+export function setupFormSubmission(formId, modalId, entityType, entityRoute) {
+    const form = document.getElementById(formId);
+    const modal = document.getElementById(modalId);
+    
+    if (!form || !modal) return;
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(form);
+        const isEdit = form.querySelector('input[name="_method"]')?.value === 'PUT';
+        const actionUrl = form.action;
+        
+        // Botón en estado loading
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ' + (isEdit ? 'Actualizando...' : 'Creando...');
+        submitBtn.disabled = true;
+        
+        // AJAX con fetch
+        fetch(actionUrl, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Accept': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                // ✅ MOSTRAR: Toast de éxito
+                if (typeof showSuccessToast === 'function') {
+                    showSuccessToast(result.message || `${entityType} ${isEdit ? 'actualizado' : 'creado'} exitosamente`);
+                } else {
+                    console.log('✅ ' + result.message);
+                }
+                
+                // Cerrar modal
+                const bsModal = bootstrap.Modal.getInstance(modal);
+                if (bsModal) {
+                    bsModal.hide();
+                }
+                
+                // ✅ RECARGAR: Solo tabla sin recargar página
+                setTimeout(() => {
+                    rechargeTable(entityRoute);
+                }, 300);
+                
+            } else {
+                // ✅ MOSTRAR: Errores de validación
+                if (result.errors) {
+                    showValidationErrors(result.errors, form);
+                } else if (typeof showErrorToast === 'function') {
+                    showErrorToast(result.message || 'Error al procesar la solicitud');
+                } else {
+                    alert(result.message || 'Error al procesar la solicitud');
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            if (typeof showErrorToast === 'function') {
+                showErrorToast('Error de conexión');
+            } else {
+                alert('Error de conexión');
+            }
+        })
+        .finally(() => {
+            // Restaurar botón
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        });
+    });
+}
+
+/**
+ * Mostrar errores de validación en el formulario
+ */
+function showValidationErrors(errors, form) {
+    // Limpiar errores anteriores
+    form.querySelectorAll('.is-invalid').forEach(input => {
+        input.classList.remove('is-invalid');
+    });
+    form.querySelectorAll('.invalid-feedback').forEach(feedback => {
+        feedback.remove();
+    });
+    
+    // Mostrar nuevos errores
+    Object.keys(errors).forEach(fieldName => {
+        const input = form.querySelector(`[name="${fieldName}"]`) || 
+                    form.querySelector(`[name="${fieldName}[]"]`);
+        
+        if (input) {
+            input.classList.add('is-invalid');
+            
+            // Crear mensaje de error
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'invalid-feedback';
+            errorDiv.textContent = errors[fieldName][0];
+            
+            // Insertar después del input
+            input.parentNode.insertBefore(errorDiv, input.nextSibling);
+        }
+    });
+    
+    // Mostrar toast general de error
+    if (typeof showErrorToast === 'function') {
+        showErrorToast('Por favor, corrige los errores en el formulario');
+    }
+}
+
+// ...existing code...F

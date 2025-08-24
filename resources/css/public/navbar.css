@@ -1,36 +1,26 @@
-/* :root {
-    --color_primario: #F08236;
-    --color_letras: #4b4b4b;
-    --color_fondo_dropdown: #e0e0e0;
-    --color_1: #009970;
-    --color_2: #00b383;
-    --color_3: #f5b8e3;
-    --color_4: #d1fffd;
-    --color_5: #fff;
-    --color_6: #636363;
-    --color_7: #000;
 
-    --brand-color: #00b383;
-    --black: hsl(0, 0%, 0%);
-    --white: hsl(0, 0%, 100%);
-
-    --font-title: "Montserrat", sans-serif;
-    --font-text: "Lato", sans-serif;
-} */
 
 /* Navbar styles */
 .public .navbar {
-    background-color: var(--color_5);
+    /* background-color: var(--color_6); */
+    background-color: var(--color-6);
     height: 80px;
-    margin: 20px;
-    border-radius: 16px;
-    padding: 0.5rem;
+    max-width: 1400px;
+    margin: 60px auto;
+    border-radius: 24px;
+    padding: 0.5rem 1rem;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+/* Ajustar el contenido interno */
+.public .container-fluid {
+    max-width: 100%; /* Asegura que el contenido no se desborde */
+    padding: 0; /* Elimina el relleno adicional */
 }
 
 .public .navbar-brand {
     font-weight: 500;
-    color: var(--color_1);
+    /* color: var(--color_1); */
+    color: var(--color-3);
     font-size: 24px;
     transition: 0.3s color;
 }
@@ -47,17 +37,32 @@
 }
 
 .public .nav-link {
-    color: var(--color_6);
+    color: var(--color-3);
+    /* color: var(--color_7); */
     font-weight: 500;
     position: relative;
 }
 
 .public .nav-link:hover,
 .public .nav-link.active {
-    color: var(--color_7);
+    /* color: var(--color_8); */
+    color: var(--color-5);
+}
+
+@media (max-width: 991px) {
+    .public .navbar {
+        margin: 0 15px; /* Agrega un margen lateral */
+        border-radius: 14px; /* Mantén las esquinas redondeadas */
+        top: 60px; /* Resetea cualquier desplazamiento */
+    }
+
+    .public .container-fluid {
+        padding: 0; /* Elimina el relleno adicional del contenedor */
+    }
 }
 
 @media (min-width: 991px) {
+    
     .public .nav-link::before {
         content: "";
         position: absolute;
@@ -66,7 +71,8 @@
         transform: translateX(-50%);
         width: 0;
         height: 2px;
-        background-color: var(--color_1);
+        /* background-color: var(--color_1); */
+        background-color: var(--color-5);
         visibility: hidden;
         transition: 0.5s ease-in-out;
     }
@@ -74,6 +80,7 @@
     .public .nav-link:hover::before,
     .public .nav-link.active::before {
         width: 100%;
+        color: var(--color-5);
         visibility: visible;
     }
 }
@@ -82,12 +89,14 @@
 .public .custom-dropdown-menu-mega ul {
     list-style: none;
     padding: 0;
+    
 }
 
 .public .custom-dropdown-menu-mega li:first-child a {
     font-weight: 600;
     font-size: 1.2em;
-    color: var(--color_letras);
+    /* color: var(--color_letras); */
+    color: var(--color-7);
 }
 
 @media only screen and (min-width: 992px) {
@@ -98,17 +107,40 @@
 
 /* Dropdown Menu Styles */
 .public .dropdown-menu {
-    background-color: var(--color_5);
+    /* background-color: var(--color_6); */
+    background-color: var(--color-6);
     border: none;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-radius: 14px;
 }
 
 .public .dropdown-item {
-    color: var(--color_6);
+    /* color: var(--color_7); */
+    color: var(--color-7);
+    border-radius: 10px;
     transition: background-color 0.3s, color 0.3s;
+    /* transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out; */
 }
 
-.public .dropdown-item:hover {
-    background-color: var(--color_3);
-    color: var(--color_7);
+/* .public .nav-item .nav-link {
+    color: var(--color-5); 
+    transition: color 0.3s ease;
+} */
+
+
+.public .dropdown-item:hover, .public .dropdown-item.active {
+    /* background-color: var(--color_3);
+    color: var(--color_8); */
+    background-color: var(--color-5);
+    color: var(--color-6);
+    border-radius: 10px;
 }
+
+/* Estilo inicial del dropdown cerrado */
+.public .dropdown-menu {
+    background-color: var(--color-6);
+    border: none;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-radius: 14px;
+}
+

@@ -1,0 +1,48 @@
+.btn-filtro {
+    background-color: var(--color-5); /* Color de fondo personalizado (azul) */
+    color: var(--color-6); /* Color del texto */
+    border: none; /* Sin bordes */
+    padding: 10px 20px; /* Espaciado interno */
+    font-size: 16px; /* Tamaño de fuente */
+    font-weight: bold; /* Texto en negrita */
+    border-radius: 10px; /* Bordes redondeados */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Animación suave */
+}
+
+.btn-filtro:hover {
+    color: var(--color-6);
+    background-color: var(--color-4); /* Color de fondo al pasar el mouse */
+    transform: scale(1.05); /* Efecto de agrandamiento */
+}
+
+.btn-filtro:active {
+    background-color: #003f7f; /* Color de fondo al hacer clic */
+    transform: scale(0.95); /* Efecto de reducción */
+}
+
+.btn-filtro:focus {
+    outline: none; /* Elimina el contorno predeterminado */
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5); /* Sombra de enfoque */
+}
+
+.btn-outline-custom {
+    background-color: transparent; /* Fondo transparente */
+    color: var(--color-5); /* Color del texto (azul) */
+    border: 2px solid var(--color-5); /* Borde azul */
+    padding: 10px 20px; /* Espaciado interno */
+    border-radius: 10px; /* Bordes redondeados */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease; /* Animación suave */
+}
+
+.btn-outline-custom:hover {
+    background-color: var(--color-4); /* Fondo azul al pasar el mouse */
+    color: var(--color-6); /* Texto blanco */
+}
+
+.btn-outline-custom:active {
+    background-color: var(--color-4); /* Fondo azul oscuro al hacer clic */
+    color: var(--color-6); /* Texto blanco */
+}
+

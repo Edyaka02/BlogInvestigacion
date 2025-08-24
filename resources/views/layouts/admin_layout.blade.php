@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title', 'Dasboard')</title>
-    @vite(['resources/css/app.css', 'resources/sass/app.scss', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 
+    // 'resources/sass/app.scss', 
+    'resources/js/app.js'])
     @stack('styles')
 </head>
 
@@ -36,6 +38,14 @@
                                 <a class="nav-link" href="{{ route('admin.basurero') }}">
                                     Basurero
                                 </a>
+                            </li>
+                            <li class="nav-item">
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-inline">
+                                    @csrf
+                                    <button type="submit" class="nav-link btn btn-link text-decoration-none">
+                                        Cerrar sesión
+                                    </button>
+                                </form>
                             </li>
                             <!-- <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

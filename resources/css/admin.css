@@ -1,0 +1,42 @@
+/* @import 'bootstrap/css/bootstrap' */
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+@import '@fortawesome/fontawesome-free/css/all.min.css';
+
+/* @import './admin/admin.css'; */
+@import './admin/btn.css';
+@import './admin/sidebar.css'; 
+@import './admin/modal.css';
+@import './admin/cards.css';
+@import './admin/tabla.css';
+@import './admin/paginacion.css';
+@import './shared/spinner.css';
+@import './shared/filtro.css';
+
+/* @import './admin/buscador_filtro.css'; */
+
+:root {
+    /* Colores del página */
+    --color-primario: #4723D9;
+    --color-primario-oscuro: #381ca8;
+    --color-secundario: #AFA5D9;
+    --color-fondo: #F7F6FB;
+
+    /* Colores de los botones */
+    --btn-subir: #009970;
+    --btn-crear: #009970;
+    --btn-ver: #1b9fd3;
+    --btn-cancelar: #999999;
+    --btn-eliminar: #AB1A3A;
+    --btn-editar: #ffaa3e;
+
+    --btn-verde: #009970;
+    --btn-azul: #1b9fd3;
+    --btn-gris: #999999;
+    --btn-rojo: #AB1A3A;
+    --btn-naranja: #ffaa3e;
+
+    --font-title: "Neutron", sans-serif;
+    --font-text: "Noto Sans", sans-serif;
+}

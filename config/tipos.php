@@ -28,4 +28,11 @@ return [
         'Cartel' => 'Cartel',
         'Resumen' => 'Resumen'
     ],
+    'organismos' => [
+        'Prodep' => 'Prodep',
+        'Conacyt' => 'Conacyt',
+        'TecNM' => 'TecNM',
+        'Nacionales' => 'Nacionales',
+        'Internacionales' => 'Internacionales'
+    ],
 ];

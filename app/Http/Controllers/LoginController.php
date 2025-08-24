@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
+use App\Models\Core\User;
 use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
@@ -20,7 +20,10 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials)) {
             // Authentication passed...
-            return redirect()->intended('/');
+            // return redirect()->intended('/');
+            // return view('admin.dashboard');
+            // return redirect()->intended('/admin/dashboard');
+            return redirect()->route('admin.dashboard');
         }
 
         return back()->withErrors([
@@ -36,7 +39,7 @@ class LoginController extends Controller
 
     public function showRegistrationForm()
     {
-        return view('login.register');
+        return view('login.registro');
     }
 
     public function register(Request $request)

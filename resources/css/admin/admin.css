@@ -1,38 +1,6 @@
 /*@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');*/
 @import url('https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
 
-/* :root {
-    --color_1: #3a3132;
-    --color_2: #0f4571;
-    --color_3: #386dbd;
-    --color_4: #009ddd;
-    --color_5: #05d3f8;
-    --color_6: #f5f5f5;
-    --color_7: #000000;
-
-    --btn-subir: #1AAB8A;
-    --btn-ver: #1b9fd3;
-    --btn-autor: #B0B0B0;
-    --btn-eliminar: #AB1A3A;
-    --btn-editar: #ffaa3e;
-} */
-
-/* :root {
-    --admin_c1: #3a3132;
-    --admin_c2: #0f4571;
-    --admin_c3: #386dbd;
-    --admin_c4: #009ddd;
-    --admin_c5: #05d3f8;
-    --admin_c6: #f5f5f5;
-    --admin_c7: #000000;
-
-    --btn-subir: #1AAB8A;
-    --btn-ver: #1b9fd3;
-    --btn-autor: #B0B0B0;
-    --btn-eliminar: #AB1A3A;
-    --btn-editar: #ffaa3e;
-} */
-
 .admin .main {
     padding-top: 50px;
 }
@@ -142,6 +110,7 @@
     background-color: #fff;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
     transition: 700ms;
+    border-radius: 24px;
 }
 
 .admin .card-title {
@@ -170,168 +139,7 @@
     /*margin-right: 5.5rem;*/
 }
 
-/* Botones subir, eliminar y ver todos */
-.admin .custom-button-eliminar, .admin .custom-button-subir, .admin .custom-button-ver, .admin .custom-button-editar {
-    font-family: "Titillium Web", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-}
 
-/* Subir */
-.admin .custom-button-subir {
-    background: var(--btn-subir);
-    color: #fff;
-    border: none;
-    position: relative;
-    cursor: pointer;
-    transition: 800ms ease all;
-    outline: none;
-}
-
-.admin .custom-button-subir:hover {
-    background: #fff;
-    color: var(--btn-subir);
-}
-
-.admin .custom-button-subir:before, .admin .custom-button-subir:after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 2px;
-    width: 0;
-    background: var(--btn-subir);
-    transition: 400ms ease all;
-}
-
-.admin .custom-button-subir:after {
-    right: inherit;
-    top: inherit;
-    left: 0;
-    bottom: 0;
-}
-
-.admin .custom-button-subir:hover:before, .admin .custom-button-subir:hover:after {
-    width: 100%;
-    transition: 800ms ease all;
-}
-
-/* Ver */
-.admin .custom-button-ver {
-    background: var(--btn-ver);
-    color: #fff;
-    border: none;
-    position: relative;
-    cursor: pointer;
-    transition: 800ms ease all;
-    outline: none;
-}
-
-.admin .custom-button-ver:hover {
-    background: #fff;
-    color: var(--btn-ver);
-}
-
-.admin .custom-button-ver:before, .admin .custom-button-ver:after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 2px;
-    width: 0;
-    background: var(--btn-ver);
-    transition: 400ms ease all;
-}
-
-.admin .custom-button-ver:after {
-    right: inherit;
-    top: inherit;
-    left: 0;
-    bottom: 0;
-}
-
-.admin .custom-button-ver:hover:before, .admin .custom-button-ver:hover:after {
-    width: 100%;
-    transition: 800ms ease all;
-}
-
-/* Eliminar */
-.admin .custom-button-eliminar {
-    background: var(--btn-eliminar);
-    color: #fff;
-    border: none;
-    position: relative;
-    cursor: pointer;
-    transition: 800ms ease all;
-    outline: none;
-}
-
-.admin .custom-button-eliminar:hover {
-    background: #fff;
-    color: var(--btn-eliminar);
-}
-
-.admin .custom-button-eliminar:before, .admin .custom-button-eliminar:after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 2px;
-    width: 0;
-    background: var(--btn-eliminar);
-    transition: 400ms ease all;
-}
-
-.admin .custom-button-eliminar:after {
-    right: inherit;
-    top: inherit;
-    left: 0;
-    bottom: 0;
-}
-
-.admin .custom-button-eliminar:hover:before, .admin .custom-button-eliminar:hover:after {
-    width: 100%;
-    transition: 800ms ease all;
-}
-
-/* Editar */
-.admin .custom-button-editar {
-    background: var(--btn-editar);
-    color: #fff;
-    border: none;
-    position: relative;
-    cursor: pointer;
-    transition: 800ms ease all;
-    outline: none;
-}
-
-.admin .custom-button-editar:hover {
-    background: #fff;
-    color: var(--btn-editar);
-}
-
-.admin .custom-button-editar:before, .admin .custom-button-editar:after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 2px;
-    width: 0;
-    background: var(--btn-editar);
-    transition: 400ms ease all;
-}
-
-.admin .custom-button-editar:after {
-    right: inherit;
-    top: inherit;
-    left: 0;
-    bottom: 0;
-}
-
-.admin .custom-button-editar:hover:before, .admin .custom-button-editar:hover:after {
-    width: 100%;
-    transition: 800ms ease all;
-}
 
 .admin .file-input-container {
     position: relative;

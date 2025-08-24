@@ -1,0 +1,33 @@
+/* Estilo para el contenedor del fondo animado */
+#animated-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Asegura que el fondo esté detrás del contenido */
+    overflow: hidden;
+    background: #ffffff; /* Fondo blanco */
+}
+
+/* Estilo para las partículas */
+.particle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: rgba(0, 123, 255, 0.8); /* Azul semitransparente */
+    border-radius: 50%; /* Forma circular */
+    animation: move 10s linear infinite; /* Animación infinita */
+}
+
+/* Animación para mover las partículas hacia abajo */
+@keyframes move {
+    0% {
+        transform: translateY(0); /* Comienza en la parte superior */
+        opacity: 1; /* Totalmente visible */
+    }
+    100% {
+        transform: translateY(100vh); /* Se mueve hacia la parte inferior de la pantalla */
+        opacity: 0; /* Se desvanece al final */
+    }
+}

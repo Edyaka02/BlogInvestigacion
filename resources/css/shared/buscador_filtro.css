@@ -1,0 +1,263 @@
+.search-input-group {
+    position: relative;
+}
+
+.search-icon-container {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-right: none;
+    border-radius: 20px 0 0 20px;
+}
+
+.search-input {
+    padding-left: 0px;
+    /* Espacio para el icono */
+    height: 45px;
+    font-size: 16px;
+    /* Tamaño del texto */
+    box-sizing: border-box;
+    /* Incluye padding en el ancho total */
+    border: 1px solid #ccc;
+    /* Borde del input */
+    border-left: none;
+    /* Elimina el borde izquierdo para que se vea continuo */
+    border-radius: 0 20px 20px 0;
+    /* Bordes redondeados a la derecha */
+    outline: none;
+    /* Elimina el contorno al enfocar */
+}
+
+.search-input:focus {
+    border-color: #ccc;
+    /* Mantiene el color del borde al enfocar */
+    box-shadow: none;
+    /* Elimina el efecto de sombra al enfocar */
+}
+
+/* Estilos para el botón de búsqueda */
+.btn-search {
+    background: var(--color-5);
+    /* Color de fondo del botón */
+    color: white;
+    border: 1px solid #ccc;
+    border-radius: 14px;
+    /* Bordes redondeados */
+    padding: 0px 20px;
+    /* Espaciado interno */
+    height: 45px;
+    /* Altura del botón */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-search:hover {
+    background: var(--color-4);
+    /* Color de fondo al pasar el mouse */
+    border: 1px solid #ccc;
+    color: white;
+}
+
+
+#intervaloAnios.show {
+    display: block;
+    /* Mostrar cuando se activa */
+    max-height: 100px;
+    /* Ajusta este valor según sea necesario */
+    opacity: 1;
+}
+
+#intervaloAnios .input-group {
+    display: flex;
+    align-items: center;
+}
+
+#intervaloAnios .form-control {
+    max-width: 80px;
+    margin-right: 5px;
+}
+
+#intervaloAnios .input-group-text {
+    margin-right: 5px;
+}
+
+/* Estilo para el contenedor del intervalo de años */
+#intervaloAnios {
+    padding: 10px; /* Espaciado interno */
+    background-color: #f8f9fa; /* Fondo claro */
+    border: 1px solid var(--color-5); /* Borde consistente con radios y checkboxes */
+    border-radius: 5px; /* Bordes redondeados */
+    margin-top: 10px; /* Espaciado superior */
+    transition: all 0.3s ease; /* Transición suave para mostrar/ocultar */
+}
+
+/* Hover para el contenedor */
+#intervaloAnios:hover {
+    background-color: #e9ecef; /* Fondo más claro al pasar el cursor */
+    border-color: var(--color-4); /* Cambiar el color del borde al pasar el cursor */
+}
+
+/* Estilo para los inputs del intervalo */
+#intervaloAnios .form-control {
+    text-align: center; /* Centrar el texto */
+    font-size: 0.875rem; /* Tamaño de fuente más pequeño */
+    border: 1px solid var(--color-5); /* Borde consistente con radios y checkboxes */
+    border-radius: 3px; /* Bordes redondeados */
+    box-shadow: none; /* Sin sombra */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Transición suave para el borde */
+}
+
+/* Hover y focus para los inputs */
+#intervaloAnios .form-control:hover,
+#intervaloAnios .form-control:focus {
+    border-color: var(--color-4); /* Cambiar el color del borde al enfocar o pasar el cursor */
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Sombra azul */
+}
+
+/* Estilo para el separador (-) */
+#intervaloAnios .input-group-text {
+    background-color: #fff; /* Fondo blanco */
+    border: 1px solid var(--color-5); /* Borde consistente */
+    font-weight: bold; /* Texto en negrita */
+    color: var(--color-5); /* Color del texto */
+    border-radius: 3px; /* Bordes redondeados */
+    transition: background-color 0.3s ease, border-color 0.3s ease; /* Transición suave */
+}
+
+/* Hover para el separador */
+#intervaloAnios .input-group-text:hover {
+    background-color: #e9ecef; /* Fondo más claro al pasar el cursor */
+    border-color: var(--color-4); /* Cambiar el color del borde */
+}
+
+/* Espaciado entre los inputs */
+#intervaloAnios .input-group {
+    gap: 5px; /* Espaciado entre los elementos */
+    align-items: center; /* Alinear verticalmente los elementos */
+}
+
+#offcanvasFiltros {
+    width: 350px;
+    /* Ajusta el ancho del offcanvas */
+    background-color: white;
+    /* Color de fondo del offcanvas */
+    border-top-left-radius: 14px;
+    /* Bordes redondeados */
+    border-bottom-left-radius: 14px;
+    /* Bordes redondeados */
+    padding: 20px;
+    /* Espaciado interno */
+}
+
+.offcanvas-backdrop {
+    width: 100% !important;
+}
+
+
+/* Estilos para radios */
+.custom-radio {
+    position: absolute;
+    opacity: 0; /* Oculta visualmente el input pero lo mantiene funcional */
+    width: 1.5em; /* Asegura que el área clicable sea suficiente */
+    height: 1.5em;
+    margin: 0; /* Elimina márgenes adicionales */
+    z-index: 1; /* Asegura que sea clicable */
+}
+
+.custom-radio + .form-check-label {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    font-weight: 500;
+    position: relative;
+    overflow: hidden;
+    /* margin-bottom: 0.375em; */
+    margin-left: -20px;
+    padding: 0.375em 0.75em 0.375em 0.375em;
+    border-radius: 99em; /* Bordes redondeados */
+    transition: 0.25s ease;
+    background-color: transparent;
+}
+
+.custom-radio + .form-check-label:hover {
+    background-color: #d6d6e5; /* Color de fondo al pasar el cursor */
+}
+
+.custom-radio + .form-check-label::before {
+    display: flex;
+    flex-shrink: 0;
+    content: "";
+    background-color: #fff;
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 50%; /* Forma circular */
+    margin-right: 0.375em;
+    transition: 0.25s ease;
+    box-shadow: inset 0 0 0 0.125em var(--color-5); /* Borde inicial */
+}
+
+.custom-radio:checked + .form-check-label::before {
+    box-shadow: inset 0 0 0 0.4375em var(--color-5); /* Relleno del círculo */
+}
+
+
+
+/* Estilos para checkboxes */
+.custom-checkbox {
+    position: relative;
+    opacity: 0; 
+    width: 1.5em; 
+    height: 1.5em;
+    margin: 0; 
+    z-index: 1; 
+}
+
+.custom-checkbox + .form-check-label {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    font-weight: 500;
+    position: relative;
+    overflow: hidden;
+    /* margin-bottom: 0.375em; */
+    margin-left: -20px;
+    padding: 0.375em 0.75em 0.375em 0.375em;
+    border-radius: 3px;
+    transition: 0.25s ease;
+    background-color: transparent;
+}
+
+.custom-checkbox + .form-check-label:hover {
+    background-color: #d6d6e5;
+}
+
+.custom-checkbox + .form-check-label::before {
+    display: flex;
+    flex-shrink: 0;
+    content: "";
+    background-color: #fff;
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 3px; 
+    margin-right: 0.375em;
+    transition: 0.25s ease;
+    box-shadow: inset 0 0 0 0.125em var(--color-5); 
+}
+
+
+.custom-checkbox + .form-check-label::after {
+    content: "✔"; 
+    position: absolute;
+    color: white;
+    font-size: 1em;
+    font-weight: bold;
+    top: 45%;
+    left: 1.1em;
+    transform: translate(-50%, -50%);
+    opacity: 0; 
+    transition: opacity 0.25s ease; 
+}
+
+.custom-checkbox:checked + .form-check-label::after {
+    opacity: 1; 
+}

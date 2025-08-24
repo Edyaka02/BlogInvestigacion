@@ -1,0 +1,152 @@
+/* Custom styles for the card */
+.product-card {
+    position: relative;
+    border: none;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: var(--color-6);
+    display: flex;
+    flex-direction: column; /* Asegura que los elementos se apilen verticalmente */
+    justify-content: flex-end; /* Mantiene el contenido en la parte inferior */
+}
+
+.product-card:hover {
+    transform: translateY(-10px); /* Eleva la tarjeta completa */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.product-card-img-wrapper {
+    position: relative;
+    overflow: hidden;
+    height: 250px; /* Ajusta la altura de la imagen */
+    flex-shrink: 0; /* Evita que la imagen cambie de tamaño */
+}
+
+.product-card-img-top {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-card-img-top {
+    transform: scale(1.1); /* Zoom en la imagen al pasar el mouse */
+}
+
+.product-card-body {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    /* background: rgba(255, 255, 255, 0.95); */
+    background: var(--color-6);
+    padding: 15px;
+    text-align: justify;
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+    transform: translateY(110px); /* Inicialmente oculta fuera de la tarjeta */
+    transition: transform 0.3s ease; /* Transición suave */
+    display: flex;
+    flex-direction: column; /* Asegura que los elementos se apilen verticalmente */
+    gap: 10px; /* Espaciado entre los elementos */
+}
+
+.product-card:hover .product-card-body {
+    transform: translateY(0); /* Muestra la información al pasar el mouse */
+}
+
+.product-card-body .product-card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: var(--color-7); /* Color del título */
+    line-height: 1.2; /* Mejora la legibilidad para títulos largos */
+    word-wrap: break-word; /* Permite que los títulos largos se ajusten */
+}
+
+.product-card-body .product-card-date {
+    font-size: 0.9rem;
+    color: var(--color-3);
+    margin-bottom: 5px;
+    line-height: 1.2;
+}
+
+.product-card-body .product-card-text {
+    font-size: 0.85rem;
+    color: var(--color-3);
+    line-height: 1.5;
+    word-wrap: break-word; /* Permite que las descripciones largas se ajusten */
+    overflow: hidden; /* Oculta el contenido que exceda el contenedor */
+    text-overflow: ellipsis; /* Agrega puntos suspensivos si el texto es demasiado largo */
+    max-height: 4.5em; /* Limita la altura máxima para evitar desbordamientos */
+}
+
+.product-card-body .btn-link {
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-decoration: none;
+    align-self: flex-start; /* Alinea el botón al inicio */
+}
+
+.product-card-body .btn-link:hover {
+    text-decoration: underline;
+}
+
+.product-card-flag {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: auto;
+    border-radius: 3px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.product-card-body hr {
+    border: none;
+    border-top: 1px solid var(--color-7); /* Color de la línea */
+    margin: 1px 0; /* Espaciado vertical */
+}
+
+
+
+/* Estilo general para las cartas */
+.show-card {
+    border: 1px solid #d8d8d8; /* Borde gris claro */
+    border-radius: 14px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra suave */
+    background-color: var(--color-6); /* Fondo ligeramente gris */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transición suave */
+    margin-bottom: 1.5rem; /* Espaciado inferior */
+}
+
+/* Estilo para el cuerpo de la carta */
+.show-card .card-body {
+    padding: 1.5rem; /* Espaciado interno */
+    font-size: 0.95rem; /* Tamaño de fuente */
+    color: #333; /* Color del texto */
+}
+
+/* Títulos de las cartas */
+.show-card .card-title {
+    font-size: 1.25rem; /* Tamaño del título */
+    font-weight: bold; /* Negrita */
+    color: var(--color-7); /* Azul Bootstrap */
+    margin-bottom: 1rem; /* Espaciado inferior */
+    text-align: center; /* Centrar el título */
+}
+
+/* Texto dentro de las cartas */
+.show-card p {
+    margin-bottom: 1rem; /* Espaciado inferior */
+    line-height: 1.6; /* Altura de línea */
+    text-align: justify; /* Justificar el texto */
+}
+
+/* Enlaces dentro de las cartas */
+.show-card a {
+    color: #007bff; /* Azul Bootstrap */
+    text-decoration: none; /* Sin subrayado */
+}
