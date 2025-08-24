@@ -1,5 +1,3 @@
-// import { loadTableResults } from './tableLoader.js';
-
 import { loadTableResults } from '../../components/tables/tableLoader.js';
 
 /**

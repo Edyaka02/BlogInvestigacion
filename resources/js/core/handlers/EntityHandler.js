@@ -1,15 +1,3 @@
-// import {
-//     initializeModalAuthors,
-//     setModalData,
-//     configureFormForEdit,
-//     configureFormForCreate,
-//     updateFileDisplay,
-//     clearAuthorsModal,
-//     updateModal,
-//     setupFormSubmission,
-//     setupDeleteModal
-// } from './modalManager.js';
-
 import {
     initializeModalAuthors,
     setModalData,

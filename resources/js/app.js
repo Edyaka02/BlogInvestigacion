@@ -1,13 +1,13 @@
 import './bootstrap';
 // import './validacion';
-import { toggleOptions, initializeFilters } from './buscador_filtro';
+// import { toggleOptions, initializeFilters } from './buscador_filtro';
 
-document.addEventListener('DOMContentLoaded', function () {
-    // Inicializar filtros solo si el formulario de búsqueda y filtrado está presente
-    if (document.querySelector('.filter-form')) {
-        initializeFilters();
-    }
-});
+// document.addEventListener('DOMContentLoaded', function () {
+//     // Inicializar filtros solo si el formulario de búsqueda y filtrado está presente
+//     if (document.querySelector('.filter-form')) {
+//         initializeFilters();
+//     }
+// });
 
 // temporarl
 document.addEventListener("DOMContentLoaded", function (event) {
@@ -136,4 +136,4 @@ document.addEventListener("DOMContentLoaded", function (event) {
 import * as bootstrap from 'bootstrap';
 window.bootstrap = bootstrap;
 
-window.toggleOptions = toggleOptions;
+// window.toggleOptions = toggleOptions;

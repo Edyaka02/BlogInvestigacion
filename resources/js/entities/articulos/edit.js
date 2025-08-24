@@ -1,8 +1,3 @@
-// import { EntityConfig } from '../../shared/config/EntityConfig.js';
-// import { EntityManager } from '../../shared/config/EntityManager.js';
-// import { EntityHandler } from '../../shared/config/EntityHandler.js';
-// import { updateFileDisplay } from '../../shared/config/modalManager.js';
-
 import { EntityConfig } from '../../core/config/EntityConfig.js';
 import { EntityManager } from '../../core/managers/EntityManager.js';
 import { EntityHandler } from '../../core/handlers/EntityHandler.js';
