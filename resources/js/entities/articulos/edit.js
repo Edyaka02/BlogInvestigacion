@@ -1,15 +1,12 @@
-import { EntityConfig } from '../../shared/EntityConfig.js';
-import { EntityManager } from '../../shared/EntityManager.js';
-// import { inicializarModalAutores, setModalData, configureFormForEdit, configureFormForCreate, actualizarModal, setupFormSubmission, setupDeleteModal } from '../../shared/modal.js'; // ✅ AGREGAR setupFormSubmission y setupDeleteModal
-import { 
-    inicializarModalAutores, 
-    setModalData, 
-    configureFormForEdit, 
-    configureFormForCreate,
-    updateFileDisplay,
-    limpiarAutoresModal,
-    actualizarModal, 
-} from '../../shared/modalManager.js';
+// import { EntityConfig } from '../../shared/config/EntityConfig.js';
+// import { EntityManager } from '../../shared/config/EntityManager.js';
+// import { EntityHandler } from '../../shared/config/EntityHandler.js';
+// import { updateFileDisplay } from '../../shared/config/modalManager.js';
+
+import { EntityConfig } from '../../core/config/EntityConfig.js';
+import { EntityManager } from '../../core/managers/EntityManager.js';
+import { EntityHandler } from '../../core/handlers/EntityHandler.js';
+import { updateFileDisplay } from '../../components/modals/modalManager.js';
 
 /**
  * CONFIGURACIÓN ESPECÍFICA PARA ARTÍCULOS
@@ -18,8 +15,6 @@ const ARTICULOS_CONFIG = EntityConfig.create({
     entityType: 'Artículo',
     entityRoute: 'articulos',
     urlBase: '/dashboard/articulos',
-    modalFormId: 'articuloForm',
-    modalId: 'articuloModal',
 });
 
 /**
@@ -49,7 +44,7 @@ const ARTICULOS_RENDER_CONFIG = {
                 <div class="d-flex">
                     <div class="ms-2">
                         <button type="button" class="btn custom-button custom-button-editar"
-                            data-bs-toggle="modal" data-bs-target="#articuloModal"
+                            data-bs-toggle="modal" data-bs-target="#articulosModal"
                             onclick="window.prepararModalArticulos()"
                             data-id="${articulo.ID_ARTICULO}" 
                             data-issn="${articulo.ISSN_ARTICULO}"
@@ -84,245 +79,97 @@ const ARTICULOS_RENDER_CONFIG = {
 };
 
 /**
- * INSTANCIA PARA ARTÍCULOS
+ * HANDLER ESPECÍFICO PARA ARTÍCULOS (extiende la clase base)
  */
-const articulosManager = new EntityManager(ARTICULOS_CONFIG);
+class ArticulosHandler extends EntityHandler {
+    constructor() {
+        super(ARTICULOS_CONFIG, ARTICULOS_RENDER_CONFIG);
+    }
 
-/**
- * FUNCIÓN PARA CARGAR DATOS EN EL MODAL
- */
-function cargarDatosModal(button) {
-    const modal = document.getElementById('articuloModal');
-    const form = document.getElementById('articuloForm');
-    
-    if (!modal || !form) return;
-
-    const id = button.getAttribute('data-id');
-    const esEdicion = !!id;
-    console.log(`📝 Cargando datos para ${esEdicion ? 'editar' : 'crear'} artículo ID: ${id}`);
-
-    // // ✅ LIMPIAR: Formulario primero
-    // ModalFormCleaner.clearAll('articuloModal');
-
-    // ✅ CONFIGURAR: Modal según sea crear o editar
-    actualizarModal(esEdicion, { 
-        entidad: 'Artículo',
-        botonId: 'btn_modal',
-        iconoId: 'btn_modal_icon',
-        textoId: 'btn_modal_text',
-        tituloId: 'modalLabel'
-    });
-
-    if (esEdicion) {
-        // ✅ MODO EDICIÓN: Cargar datos del artículo
-        console.log(`📝 Cargando datos para editar artículo ID: ${id}`);
-
-        // Configurar formulario para edición
-        configureFormForEdit(form, id, 'articulos');
-
-        // ✅ CARGAR: Datos básicos del artículo
-        const datosArticulo = {
-            titulo_articulo: button.getAttribute('data-titulo') || '',
-            issn_articulo: button.getAttribute('data-issn') || '',
-            resumen_articulo: button.getAttribute('data-resumen') || '',
-            fecha_articulo: button.getAttribute('data-fecha') || '',
-            revista_articulo: button.getAttribute('data-revista') || '',
+    /**
+     * OVERRIDE: Datos específicos de artículos
+     */
+    extractButtonData(button) {
+        return {
+            titulo_articulos: button.getAttribute('data-titulo') || '',
+            issn_articulos: button.getAttribute('data-issn') || '',
+            resumen_articulos: button.getAttribute('data-resumen') || '',
+            fecha_articulos: button.getAttribute('data-fecha') || '',
+            revista_articulos: button.getAttribute('data-revista') || '',
             id_tipo: button.getAttribute('data-tipo') || '',
-            url_revista_articulo: button.getAttribute('data-url-revista') || '',
+            url_revista_articulos: button.getAttribute('data-url-revista') || ''
         };
+    }
 
-        // Aplicar datos al modal
-        setModalData(modal, datosArticulo);
-
-        // ✅ CARGAR: Archivos usando updateFileDisplay
-        updateFileDisplay('file-articulo', button.getAttribute('data-url-articulo'), 'No se ha seleccionado archivo');
-        updateFileDisplay('file-imagen', button.getAttribute('data-url-imagen'), 'No se ha seleccionado archivo');
-        // configurarEventosArchivos();
-
-        // ✅ CARGAR: Autores usando inicializarModalAutores directamente
-        inicializarModalAutores(
-            button, 
-            'authorFields_articulo', 
-            'addAuthor_articulo', 
-            'removeAuthor_articulo'
-        );
-
-    } else {
-        // ✅ MODO CREAR: Limpiar formulario
-        console.log('📝 Preparando modal para crear nuevo artículo');
-        
-        // Configurar formulario para crear
-        configureFormForCreate(form, 'articulos');
-
-        const datosArticulo = {
-            titulo_articulo: '',
-            issn_articulo: '',
-            resumen_articulo: '',
-            fecha_articulo: '',
-            revista_articulo: '',
+    /**
+     * OVERRIDE: Datos vacíos específicos de artículos
+     */
+    getEmptyData() {
+        return {
+            titulo_articulos: '',
+            issn_articulos: '',
+            resumen_articulos: '',
+            fecha_articulos: '',
+            revista_articulos: '',
             id_tipo: '',
-            url_revista_articulo: '',
+            url_revista_articulos: ''
         };
-
-        // Aplicar datos al modal
-        setModalData(modal, datosArticulo);
-
-        // Limpiar archivos
-        updateFileDisplay('file-articulo', '', 'No se ha seleccionado archivo');
-        updateFileDisplay('file-imagen', '', 'No se ha seleccionado archivo');
-
-        
-        // ✅ INICIALIZAR: Autores vacío usando botón simulado
-        const buttonSimulado = document.createElement('button');
-        buttonSimulado.setAttribute('data-nombres-autores', '');
-        buttonSimulado.setAttribute('data-apellidos-autores', '');
-        buttonSimulado.setAttribute('data-orden-autores', '');
-
-        inicializarModalAutores(
-            buttonSimulado, 
-            'authorFields_articulo', 
-            'addAuthor_articulo', 
-            'removeAuthor_articulo'
-        );
     }
-}
 
-/**
- * FUNCIÓN PARA CONFIGURAR EVENTOS DE ARCHIVOS
- */
-function configurarEventosArchivos() {
-    // ✅ CONFIGURAR: Eventos para mostrar nombre de archivo seleccionado
-    const fileInputs = [
-        { input: 'url_articulo', display: 'file-articulo', defaultMsg: 'No se ha seleccionado archivo' },
-        { input: 'url_imagen_articulo', display: 'file-imagen', defaultMsg: 'No se ha seleccionado una imagen' }
-    ];
-
-    fileInputs.forEach(({ input, display, defaultMsg }) => {
-        const inputElement = document.getElementById(input);
-        if (inputElement) {
-            inputElement.addEventListener('change', function(e) {
-                const file = e.target.files[0];
-                if (file) {
-                    updateFileDisplay(display, file.name, defaultMsg);
-                } 
-                // else {
-                //     updateFileDisplay(display, '', defaultMsg);
-                // }
-            });
-        }
-    });
-}
-
-/**
- * FUNCIÓN PARA RECARGAR TABLA
- */
-function recargarTablaArticulos() {
-    console.log('🔄 Recargando tabla de artículos...');
-    
-    // Usar el tablaController del EntityManager
-    if (articulosManager && articulosManager.tablaController && typeof articulosManager.tablaController.recargar === 'function') {
-        articulosManager.tablaController.recargar();
-        console.log('✅ Tabla recargada con tablaController');
-    } else {
-        // Fallback: usar recargarTabla del EntityManager
-        articulosManager.recargarTabla().catch(error => {
-            console.error('❌ Error al recargar, usando recarga de página:', error);
-            window.location.reload();
-        });
+    /**
+     * OVERRIDE: Configurar archivos específicos de artículos
+     */
+    loadFiles(button) {
+        updateFileDisplay('file-articulos', button.getAttribute('data-url-articulo'), 'No se ha seleccionado archivo');
+        updateFileDisplay('file-imagen', button.getAttribute('data-url-imagen'), 'No se ha seleccionado imagen');
     }
-}
 
-/**
- * FUNCIÓN PARA CONFIGURAR BOTÓN DEL MODAL
- */
-function configurarBotonModal() {
-    const btnModal = document.getElementById('btn_modal');
-    const form = document.getElementById('articuloForm');
-
-    if (btnModal && form) {
-        // ✅ CLONAR: Botón para evitar event listeners duplicados
-        const newBtn = btnModal.cloneNode(true);
-        btnModal.parentNode.replaceChild(newBtn, btnModal);
-
-        // ✅ AGREGAR: Event listener para enviar formulario
-        newBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            console.log('🔘 Botón del modal clickeado, enviando formulario...');
-            
-            // Disparar evento submit del formulario
-            const submitEvent = new Event('submit', {
-                bubbles: true,
-                cancelable: true
-            });
-            
-            form.dispatchEvent(submitEvent);
-        });
-
-        console.log('✅ Botón del modal configurado para enviar formulario');
-    } else {
-        console.warn('⚠️ No se encontró el botón del modal o el formulario');
+    /**
+     * HOOK: Eventos específicos de artículos
+     */
+    configureSpecificEvents() {
+        this.configurarEventosArchivos();
     }
-}
 
-/**
- * INICIALIZACIÓN
- */
-document.addEventListener('DOMContentLoaded', function () {
-    console.log('🚀 Inicializando sistema de artículos...');
+    /**
+     * ESPECÍFICO: Configurar eventos de archivos
+     */
+    configurarEventosArchivos() {
+        const fileInputs = [
+            { input: 'url_articulos', display: 'file-articulos', defaultMsg: 'No se ha seleccionado archivo' },
+            { input: 'url_imagen_articulos', display: 'file-imagen', defaultMsg: 'No se ha seleccionado una imagen' }
+        ];
 
-    // ✅ INICIALIZAR: Sistema completo (incluye AJAX automáticamente)
-    const result = articulosManager.inicializar(ARTICULOS_RENDER_CONFIG);
-
-    // ✅ CONFIGURAR: Eventos específicos de la entidad
-    configurarEventosArchivos();
-    // configurarContadores();
-    configurarEventosModal();
-
-    // ✅ FUNCIONES GLOBALES: Simplificadas
-    window.recargarTablaArticulos = recargarTablaArticulos;
-    window.dispararRecargaTabla = recargarTablaArticulos;
-    window.updateFileDisplay = updateFileDisplay;
-    window.articulosManager = articulosManager;
-    
-    // ✅ FUNCIÓN DE DEBUG: Mejorada
-    window.debugArticulos = function() {
-        console.log('🔍 Debug sistema artículos:', {
-            manager: articulosManager,
-            ajaxConfigurado: articulosManager.ajaxConfigurado,
-            tablaController: !!articulosManager.tablaController,
-            funciones: {
-                recargar: typeof window.recargarTablaArticulos,
-                disparar: typeof window.dispararRecargaTabla
+        fileInputs.forEach(({ input, display, defaultMsg }) => {
+            const inputElement = document.getElementById(input);
+            if (inputElement) {
+                inputElement.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        updateFileDisplay(display, file.name, defaultMsg);
+                    }
+                });
             }
         });
-    };
-
-    console.log('🎯 Sistema de artículos listo');
-});
-
-// ✅ FUNCIÓN SEPARADA: Para eventos del modal
-function configurarEventosModal() {
-    const articuloModal = document.getElementById('articuloModal');
-    if (!articuloModal) return;
-
-    articuloModal.addEventListener('show.bs.modal', function(event) {
-        const button = event.relatedTarget;
-        if (button) cargarDatosModal(button);
-    });
-
-    articuloModal.addEventListener('shown.bs.modal', function() {
-        setTimeout(configurarBotonModal, 100);
-    });
-
-    articuloModal.addEventListener('hidden.bs.modal', function() {
-        limpiarAutoresModal('authorFields_articulo');
-        actualizarModal(false, { entidad: 'Artículo' });
-    });
+    }
 }
 
 /**
- * EXPORTAR PARA TESTING O USO EXTERNO
+ * INSTANCIA Y FUNCIONES GLOBALES
  */
-export { articulosManager, ARTICULOS_CONFIG, ARTICULOS_RENDER_CONFIG };
+const articulosHandler = new ArticulosHandler();
+
+/**
+ * INICIALIZACIÓN SIMPLE
+ */
+document.addEventListener('DOMContentLoaded', async function () {
+    await articulosHandler.initialize(EntityManager);
+    
+    // ✅ FUNCIÓN DE DEBUG específica
+    window.debugArticulos = () => articulosHandler.debug();
+});
+
+/**
+ * EXPORTAR
+ */
+export { articulosHandler, ARTICULOS_CONFIG, ARTICULOS_RENDER_CONFIG };

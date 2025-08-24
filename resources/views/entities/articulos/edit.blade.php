@@ -25,14 +25,9 @@
                             </button>
 
                             @include('components.filtro')
-                            <!-- ✅ Incluir el componente filtro -->
-                            {{-- @include('components.filtro', [
-                                'tiposArticulos' => $tiposArticulos ?? [],
-                                'years' => $years ?? [],
-                            ]) --}}
 
                             <button type="button" class="btn custom-button custom-button-subir" data-bs-toggle="modal"
-                                data-bs-target="#articuloModal">
+                                data-bs-target="#articulosModal">
                                 <i class="fa-solid fa-upload"></i>
                                 <span class="btn-text">Crear</span>
                             </button>
@@ -46,24 +41,6 @@
                     <div id="tabla-resultados">
                         {{-- Aquí se cargará la tabla completa con header desde JavaScript --}}
                     </div>
-                    {{-- <div class="table-responsive">
-                                <table class="table-custom align-middle w-100"> --}}
-                    {{-- <thead>
-                                        <tr>
-                                            <th>Título</th>
-                                            <th>ISSN</th>
-                                            <th>Fecha</th>
-                                            <th>Revista</th>
-                                            <th>Tipo</th>
-                                            <th>Acciones</th>
-                                        </tr>
-                                    </thead> --}}
-                    {{-- <tbody id="tabla-resultados"> --}}
-                    {{-- Aquí se cargarán los resultados de los artículos --}}
-                    {{-- Los datos se cargarán automáticamente vía AJAX --}}
-                    {{-- </tbody> --}}
-                    {{-- </table>
-                            </div> --}}
                     <div class="d-flex justify-content-end mt-3">
                         {{-- Aquí se cargarán los controles de paginación --}}
                     </div>
@@ -79,39 +56,4 @@
 
 @push('scripts')
     @vite(['resources/js/entities/articulos/edit.js'])
-    {{-- @vite(['resources/js/entities/articulos/edit2.js']) --}}
-
-    {{-- <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('articuloModal').addEventListener('show.bs.modal', function(event) {
-                var button = event.relatedTarget;
-
-                var data = {
-                    id_articulo: button.getAttribute('data-id'),
-                    issn_articulo: button.getAttribute('data-issn'),
-                    titulo_articulo: button.getAttribute('data-titulo'),
-                    resumen_articulo: button.getAttribute('data-resumen'),
-                    fecha_articulo: button.getAttribute('data-fecha'),
-                    revista_articulo: button.getAttribute('data-revista'),
-                    tipo_articulo: button.getAttribute('data-tipo'),
-                    url_revista_articulo: button.getAttribute('data-url-revista')
-                };
-
-                var modal = this;
-                var form = modal.querySelector('#articuloForm');
-
-                // Configurar formulario para editar
-                configureFormForEdit(form, data.id_articulo, 'articulos');
-
-                // Muestra los datos en el modal
-                setModalData(modal, data);
-
-                // Mostrar nombre del archivo y la imagen
-                window.updateFileDisplay('file-articulo', button.getAttribute('data-url-articulo'),
-                    'No se ha elegido un artículo');
-                window.updateFileDisplay('file-imagen', button.getAttribute('data-url-imagen'),
-                    'No se ha elegido una imagen');
-            });
-        });
-    </script> --}}
 @endpush

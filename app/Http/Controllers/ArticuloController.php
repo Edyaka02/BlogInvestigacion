@@ -417,15 +417,15 @@ class ArticuloController extends Controller
         $uniqueRule = $id ? 'unique:tb_articulo,ISSN_ARTICULO,' . $id . ',ID_ARTICULO' : 'unique:tb_articulo,ISSN_ARTICULO';
 
         $request->validate([
-            'issn_articulo' => 'required|string|max:9|' . $uniqueRule,
-            'titulo_articulo' => 'required|string|max:255',
-            'resumen_articulo' => 'required|string',
-            'fecha_articulo' => 'required|date',
-            'revista_articulo' => 'required|string|max:100',
+            'issn_articulos' => 'required|string|max:9|' . $uniqueRule,
+            'titulo_articulos' => 'required|string|max:255',
+            'resumen_articulos' => 'required|string',
+            'fecha_articulos' => 'required|date',
+            'revista_articulos' => 'required|string|max:100',
             'id_tipo' => 'required|integer',
-            'url_revista_articulo' => 'nullable|url',
-            'url_articulo' => 'nullable|file|mimes:pdf',
-            'url_imagen_articulo' => 'nullable|file|mimes:png,jpg,jpeg,webp',
+            'url_revista_articulos' => 'nullable|url',
+            'url_articulos' => 'nullable|file|mimes:pdf',
+            'url_imagen_articulos' => 'nullable|file|mimes:png,jpg,jpeg,webp',
             'nombre_autores' => 'required|array',
             'apellido_autores' => 'required|array',
         ]);
@@ -433,23 +433,23 @@ class ArticuloController extends Controller
 
     private function assignArticuloData(Articulo $articulo, Request $request)
     {
-        $articulo->ISSN_ARTICULO = $request->issn_articulo;
-        $articulo->TITULO_ARTICULO = $request->titulo_articulo;
-        $articulo->RESUMEN_ARTICULO = $request->resumen_articulo;
-        $articulo->FECHA_ARTICULO = $request->fecha_articulo;
-        $articulo->REVISTA_ARTICULO = $request->revista_articulo;
+        $articulo->ISSN_ARTICULO = $request->issn_articulos;
+        $articulo->TITULO_ARTICULO = $request->titulo_articulos;
+        $articulo->RESUMEN_ARTICULO = $request->resumen_articulos;
+        $articulo->FECHA_ARTICULO = $request->fecha_articulos;
+        $articulo->REVISTA_ARTICULO = $request->revista_articulos;
         // Cambiar esta línea:
         $articulo->ID_TIPO = $request->id_tipo; // Era tipo_articulo, ahora id_tipo
-        $articulo->URL_REVISTA_ARTICULO = $request->url_revista_articulo;
+        $articulo->URL_REVISTA_ARTICULO = $request->url_revista_articulos;
 
         $articulo->ID_USUARIO = Auth::id();
 
-        if ($request->hasFile('url_articulo')) {
-            $articulo->URL_ARTICULO = $this->handleFileUpload($request, 'url_articulo', 'articulos');
+        if ($request->hasFile('url_articulos')) {
+            $articulo->URL_ARTICULO = $this->handleFileUpload($request, 'url_articulos', 'articulos');
         }
 
-        if ($request->hasFile('url_imagen_articulo')) {
-            $articulo->URL_IMAGEN_ARTICULO = $this->handleFileUpload($request, 'url_imagen_articulo', 'imagenes');
+        if ($request->hasFile('url_imagen_articulos')) {
+            $articulo->URL_IMAGEN_ARTICULO = $this->handleFileUpload($request, 'url_imagen_articulos', 'imagenes');
         }
     }
 }

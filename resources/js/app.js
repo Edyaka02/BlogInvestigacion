@@ -2,69 +2,11 @@ import './bootstrap';
 // import './validacion';
 import { toggleOptions, initializeFilters } from './buscador_filtro';
 
-
-
 document.addEventListener('DOMContentLoaded', function () {
     // Inicializar filtros solo si el formulario de búsqueda y filtrado está presente
     if (document.querySelector('.filter-form')) {
         initializeFilters();
     }
-});
-
-document.addEventListener('DOMContentLoaded', function () {
-
-    // // Para libros
-    // if (document.getElementById('file-libro') || document.getElementById('file-imagen_libro')) {
-    //     modalFunctions.updateFileName('url_libro', 'file-libro', 'No se ha elegido un libro');
-    //     modalFunctions.updateFileName('url_imagen_libro', 'file-imagen_libro', 'No se ha elegido una imagen');
-    // }
-
-    // // Para eventos
-    // if (document.getElementById('file-imagen-evento')) {
-    //     modalFunctions.updateFileName('url_imagen_evento', 'file-imagen-evento', 'No se ha elegido una imagen');
-    // }
-
-    // // Para premios
-    // if (document.getElementById('file-certificado_premio') || document.getElementById('file-imagen_premio')) {
-    //     modalFunctions.updateFileName('url_certificado_premio', 'file-certificado_premio', 'No se ha elegido un certificado');
-    //     modalFunctions.updateFileName('url_imagen_premio', 'file-imagen_premio', 'No se ha elegido una imagen');
-    // }
-});
-
-document.addEventListener('DOMContentLoaded', function () {
-    // Inicializar campos de autores para artículos y libros
-    // const articuloModal = document.getElementById('articuloModal');
-    // const libroModal = document.getElementById('libroModal');
-    // const eventoModal = document.getElementById('eventoModal');
-    // const premioModal = document.getElementById('premioModal');
-
-    // if (libroModal) {
-    //     libroModal.addEventListener('show.bs.modal', function (event) {
-    //         var button = event.relatedTarget;
-    //         modalFunctions.inicializarModalAutores(button, 'authorFields_libro', 'addAuthor_libro', 'removeAuthor_libro');
-    //     });
-    // }
-
-    // if (eventoModal) {
-    //     eventoModal.addEventListener('show.bs.modal', function (event) {
-    //         var button = event.relatedTarget;
-    //         modalFunctions.inicializarModalAutores(button, 'authorFields_evento', 'addAuthor_evento', 'removeAuthor_evento');
-    //     });
-    // }
-
-    // if (premioModal) {
-    //     premioModal.addEventListener('show.bs.modal', function (event) {
-    //         var button = event.relatedTarget;
-    //         modalFunctions.inicializarModalAutores(button, 'authorFields_premio', 'addAuthor_premio', 'removeAuthor_premio');
-    //     });
-    // }
-
-});
-
-// Llamar a la función para el formulario de artículos
-document.addEventListener('DOMContentLoaded', function () {
-    // modalFunctions.handleFormSubmission('btn_articulo', 'articuloForm');
-    // modalFunctions.handleFormValidationAndSubmission('btn_articulo', 'articuloForm');
 });
 
 // temporarl
@@ -190,10 +132,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     // Your code to run since DOM is loaded and ready
 });
-
-// dom de eventos
-
-
 
 import * as bootstrap from 'bootstrap';
 window.bootstrap = bootstrap;

@@ -1,9 +1,6 @@
-// ✅ CREAR: resources/js/shared/components/cargarTabla.js
 /**
  * Funciones para cargar y renderizar datos en formato tabla
  */
-
-// ✅ IMPORTAR: Función de paginación desde su archivo específico
 function generatePagination(data, queryParams, urlBase = '') {
     if (data.total > 0) {
         let paginationHTML = `
@@ -50,7 +47,10 @@ function generatePagination(data, queryParams, urlBase = '') {
     return '';
 }
 
-function gestionarPaginacion(paginacionDiv, contenido = '', selectoresFallback = ['.d-flex.justify-content-end.mt-3']) {
+/**
+ * Función para manejar la paginación
+ */
+function managePagination(paginacionDiv, contenido = '', selectoresFallback = ['.d-flex.justify-content-end.mt-3']) {
     if (paginacionDiv) {
         paginacionDiv.innerHTML = contenido;
     } else {
@@ -64,7 +64,10 @@ function gestionarPaginacion(paginacionDiv, contenido = '', selectoresFallback =
     }
 }
 
-export function cargarResultadosTabla({
+/**
+ * Función para cargar los resultados en la tabla
+ */
+export function loadTableResults({
     urlBase,
     buscadorFormId,
     filtroFormId,
@@ -102,7 +105,7 @@ export function cargarResultadosTabla({
                 aplicarBtn.addEventListener('click', function (e) {
                     e.preventDefault();
                     console.log('Botón aplicar filtros clickeado');
-                    cargarResultados();
+                    loadResults();
                 });
             }
         }
@@ -114,12 +117,12 @@ export function cargarResultadosTabla({
                 buscarBtn.addEventListener('click', function (e) {
                     e.preventDefault();
                     console.log('Botón buscar clickeado');
-                    cargarResultados();
+                    loadResults();
                 });
             }
         }
 
-        function cargarResultados(url = urlBase) {
+        function loadResults(url = urlBase) {
             const allFormData = new FormData();
 
             // Agregar datos del formulario de filtros
@@ -198,13 +201,13 @@ export function cargarResultadosTabla({
 
                         // Generar paginación
                         const paginationHTML = generatePagination(items, queryParams, urlBase);
-                        gestionarPaginacion(paginacionDiv, paginationHTML);
+                        managePagination(paginacionDiv, paginationHTML);
 
                         // Agregar event listeners a paginación
                         document.querySelectorAll('.pagination a').forEach(link => {
                             link.addEventListener('click', function (e) {
                                 e.preventDefault();
-                                cargarResultados(this.getAttribute('href'));
+                                loadResults(this.getAttribute('href'));
                             });
                         });
 
@@ -220,7 +223,7 @@ export function cargarResultadosTabla({
                                 <p class="text-muted mb-0 small">Intenta ajustar tus filtros de búsqueda</p>
                             </div>
                         `;
-                        gestionarPaginacion(paginacionDiv, '');
+                        managePagination(paginacionDiv, '');
                     }
                 }, remainingTime);
             })
@@ -244,22 +247,22 @@ export function cargarResultadosTabla({
                             <p class="text-muted mb-0 small">Intenta recargar la página</p>
                         </div>
                     `;
-                    gestionarPaginacion(paginacionDiv, '');
+                    managePagination(paginacionDiv, '');
                 }, remainingTime);
             });
         }
 
         // Cargar resultados iniciales
         if (cargarInicialmente) {
-            cargarResultados();
+            loadResults();
         }
 
         // ✅ DEVOLVER: Objeto con métodos de control
         return {
-            recargar: () => cargarResultados(),
+            recargar: () => loadResults(),
             recargarPaginaActual: () => {
                 const urlActual = new URL(window.location);
-                cargarResultados(urlActual.href);
+                loadResults(urlActual.href);
             }
         };
     }
