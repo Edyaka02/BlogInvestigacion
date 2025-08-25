@@ -22,7 +22,7 @@ use App\Http\Controllers\PremioController;
 
 // Rutas publicas
 Route::get('/', function () {
-    return view('inicio');
+    return view('entities.inicio.inicio');
 })->name('inicio');
 
 // Route::get('/')->name('inicio');

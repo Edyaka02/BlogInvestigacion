@@ -18,7 +18,8 @@ class AdminController extends Controller
         $config = $this->getConfig();
         $tipos = Tipo::pluck('NOMBRE_TIPO', 'ID_TIPO'); 
         
-        return view('admin.dashboard', compact('config', 'tipos'));
+        // return view('admin.dashboard', compact('config', 'tipos'));
+        return view('entities.dashboard.dashboard', compact('config', 'tipos'));
     }
 
     public function basurero(Request $request)

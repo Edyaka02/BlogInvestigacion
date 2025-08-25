@@ -41,7 +41,8 @@
 }
 
 /* CSS para el overlay modal */
-.table-loading-overlay {
+/* .table-loading-overlay { */
+.loading-overlay {
     position: absolute;
     top: 0;
     left: 0;

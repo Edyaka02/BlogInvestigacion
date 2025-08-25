@@ -83,42 +83,42 @@ class ArticuloController extends Controller
         return view('entities.articulos.edit', compact('years', 'tipos'));
     }
 
-    public function adminFiltrar(Request $request)
-    {
-        // $query = Articulo::with('autores');
-        $query = Articulo::with(['autores', 'tipo']);
+    // public function adminFiltrar(Request $request)
+    // {
+    //     // $query = Articulo::with('autores');
+    //     $query = Articulo::with(['autores', 'tipo']);
 
-        $hasResults = $this->applyFilters($query, $request);
+    //     $hasResults = $this->applyFilters($query, $request);
 
-        $years = $this->applyYears(2);
+    //     $years = $this->applyYears(2);
 
-        $tiposArticulos = Tipo::pluck('NOMBRE_TIPO', 'ID_TIPO');
+    //     $tiposArticulos = Tipo::pluck('NOMBRE_TIPO', 'ID_TIPO');
 
-        $articulos = $query->paginate(30)->appends($request->except('page'));
+    //     $articulos = $query->paginate(30)->appends($request->except('page'));
 
-        $route = route('admin.articulos.index');
+    //     $route = route('admin.articulos.index');
 
-        // Si es una petición AJAX, devolver JSON
+    //     // Si es una petición AJAX, devolver JSON
 
-        return response()->json([
-            'articulos' => $articulos,
-            'tiposArticulos' => $tiposArticulos,
-            'years' => $years,
-            'hasResults' => $hasResults
-        ]);
+    //     return response()->json([
+    //         'articulos' => $articulos,
+    //         'tiposArticulos' => $tiposArticulos,
+    //         'years' => $years,
+    //         'hasResults' => $hasResults
+    //     ]);
 
-        // Si es una petición AJAX, devolver JSON
-        // if ($request->ajax()) {
-        //     return response()->json([
-        //         'articulos' => $articulos,
-        //         'tiposArticulos' => $tiposArticulos,
-        //         'years' => $years,
-        //         'hasResults' => $hasResults
-        //     ]);
-        // }
+    //     // Si es una petición AJAX, devolver JSON
+    //     // if ($request->ajax()) {
+    //     //     return response()->json([
+    //     //         'articulos' => $articulos,
+    //     //         'tiposArticulos' => $tiposArticulos,
+    //     //         'years' => $years,
+    //     //         'hasResults' => $hasResults
+    //     //     ]);
+    //     // }
 
-        // return view('entities.articulos.edit', compact('articulos', 'tiposArticulos', 'years', 'route', 'hasResults'));
-    }
+    //     // return view('entities.articulos.edit', compact('articulos', 'tiposArticulos', 'years', 'route', 'hasResults'));
+    // }
 
     public function show($id)
     {
@@ -143,7 +143,7 @@ class ArticuloController extends Controller
                     'message' => 'El ISSN ya existe.'
                 ], 422);
             }
-            return redirect()->route('admin.dashboard')->with('error', 'El ISSN ya existe.');
+            return redirect()->route('entities.dashboard.dashboard')->with('error', 'El ISSN ya existe.');
         }
 
         try {
@@ -168,7 +168,7 @@ class ArticuloController extends Controller
                 return response()->json($response);
             }
 
-            return redirect()->route('admin.dashboard')->with('success', 'Artículo registrado.');
+            return redirect()->route('entities.dashboard.dashboard')->with('success', 'Artículo registrado.');
         } catch (\Illuminate\Validation\ValidationException $e) {
             if ($request->ajax()) {
                 return response()->json([
@@ -186,7 +186,7 @@ class ArticuloController extends Controller
                     'message' => 'Error al crear el artículo: ' . $e->getMessage()
                 ], 500);
             }
-            return redirect()->route('admin.dashboard')->with('error', 'Error al crear el artículo.');
+            return redirect()->route('entities.dashboard.dashboard')->with('error', 'Error al crear el artículo.');
         }
     }
 
@@ -340,21 +340,6 @@ class ArticuloController extends Controller
         }
     }
 
-    // public function destroy($id)
-    // {
-    //     try {
-    //         $articulo = Articulo::findOrFail($id);
-
-    //         // Intentar eliminar el artículo
-    //         $articulo->delete();
-
-    //         return redirect()->route('admin.articulos.index')->with('success', 'Artículo eliminado.');
-    //     } catch (\Exception $e) {
-    //         // Manejar errores y mostrar un mensaje al usuario
-    //         return redirect()->route('admin.articulos.index')->with('error', 'No se pudo eliminar el artículo. Inténtalo de nuevo.');
-    //     }
-    // }
-
     private function applyFilters($query, Request $request)
     {
         // Agregar al inicio del método applyFilters para debug
@@ -438,8 +423,7 @@ class ArticuloController extends Controller
         $articulo->RESUMEN_ARTICULO = $request->resumen_articulos;
         $articulo->FECHA_ARTICULO = $request->fecha_articulos;
         $articulo->REVISTA_ARTICULO = $request->revista_articulos;
-        // Cambiar esta línea:
-        $articulo->ID_TIPO = $request->id_tipo; // Era tipo_articulo, ahora id_tipo
+        $articulo->ID_TIPO = $request->id_tipo; 
         $articulo->URL_REVISTA_ARTICULO = $request->url_revista_articulos;
 
         $articulo->ID_USUARIO = Auth::id();
