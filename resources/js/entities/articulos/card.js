@@ -1,7 +1,6 @@
 import { EntityConfig } from '../../core/config/EntityConfig.js';
 import { EntityManager } from '../../core/managers/EntityManager.js';
 import { EntityHandler } from '../../core/handlers/EntityHandler.js';
-import { updateFileDisplay } from '../../components/modals/modalManager.js';
 
 /**
  * CONFIGURACIÓN PARA CARDS
@@ -9,7 +8,7 @@ import { updateFileDisplay } from '../../components/modals/modalManager.js';
 const ARTICULOS_CARDS_CONFIG = EntityConfig.create({
     entityType: 'Artículo',
     entityRoute: 'articulos',
-    urlBase: '/dashboard/articulos',
+    urlBase: '/articulos',
     format: 'cards',
     resultadosId: 'data-results'
 });
@@ -18,50 +17,103 @@ const ARTICULOS_CARDS_CONFIG = EntityConfig.create({
  * RENDERIZADO PARA CARDS
  */
 const ARTICULOS_CARDS_RENDER = {
-    renderCard: articulo => `
-        <div class="col-md-3 mb-3 card_busqueda">
-            <div class="card custom-card">
-                <div class="card-body">
-                    <h5 class="card-title justify-center">${articulo.TITULO_ARTICULO}</h5>
-                    <input type="hidden" name="id_evento_card" value="${articulo.ID_ARTICULO}">
+    renderCard: articulo => {
+        // ✅ CAMBIO: Manejar nueva estructura storage/
+        let imagenUrl = '/storage/images/default-article.jpg';
 
-                    <div class="custom-button-group">
-                        <div class="btn-group mt-2" role="group" aria-label="Actions">
-                            <button type="button" class="btn custom-button custom-button-editar" data-bs-toggle="modal"
-                                data-bs-target="#articulosModal"
-                                onclick="window.prepararModalArticulos()"
-                                data-id="${articulo.ID_ARTICULO}" 
-                                data-issn="${articulo.ISSN_ARTICULO}"
-                                data-titulo="${articulo.TITULO_ARTICULO}"
-                                data-resumen="${articulo.RESUMEN_ARTICULO || ''}"
-                                data-fecha="${articulo.FECHA_ARTICULO}"
-                                data-revista="${articulo.REVISTA_ARTICULO}"
-                                data-tipo="${articulo.ID_TIPO || ''}"
-                                data-url-revista="${articulo.URL_REVISTA_ARTICULO || ''}"
-                                data-url-articulo="${articulo.URL_ARTICULO || ''}"
-                                data-url-imagen="${articulo.URL_IMAGEN_ARTICULO || ''}"
-                                data-nombres-autores="${articulo.autores ? articulo.autores.map(a => a.NOMBRE_AUTOR).join(',') : ''}"
-                                data-apellidos-autores="${articulo.autores ? articulo.autores.map(a => a.APELLIDO_AUTOR).join(',') : ''}"
-                                data-orden-autores="${articulo.autores ? articulo.autores.map(a => a.pivot?.ORDEN_AUTOR || '').join(',') : ''}">
-                                <i class="fa-solid fa-pen-to-square"></i> Editar
-                            </button>
+        if (articulo.URL_IMAGEN_ARTICULO) {
+            // ✅ SI: Ya es una URL completa
+            if (articulo.URL_IMAGEN_ARTICULO.startsWith('http')) {
+                imagenUrl = articulo.URL_IMAGEN_ARTICULO;
+            }
+            // ✅ SI: Ya tiene la barra inicial
+            else if (articulo.URL_IMAGEN_ARTICULO.startsWith('/')) {
+                imagenUrl = articulo.URL_IMAGEN_ARTICULO;
+            }
+            // ✅ SI: Es ruta relativa
+            else {
+                imagenUrl = '/' + articulo.URL_IMAGEN_ARTICULO;
+            }
+        }
 
-                            <button type="button" class="btn custom-button custom-button-eliminar"
-                                data-bs-toggle="modal" data-bs-target="#modalEliminar"
-                                data-id="${articulo.ID_ARTICULO}" 
-                                data-type="artículo"
-                                data-route="articulos"
-                                data-name="${articulo.TITULO_ARTICULO}">
-                                <i class="fa-solid fa-trash-can"></i> Eliminar
-                            </button>
+        console.log('🖼️ Imagen URL (nueva estructura):', {
+            original: articulo.URL_IMAGEN_ARTICULO,
+            processed: imagenUrl,
+            articulo_id: articulo.ID_ARTICULO
+        });
+
+        const fechaFormateada = formatearFecha(articulo.FECHA_ARTICULO);
+        const autoresTexto = articulo.autores && articulo.autores.length > 0
+            ? articulo.autores.map(autor => `${autor.NOMBRE_AUTOR} ${autor.APELLIDO_AUTOR}`).join(', ')
+            : 'Sin autores';
+
+        return `
+            <div class="col-md-4 mb-4">
+                <a href="/articulos/${articulo.ID_ARTICULO}" class="card-link">
+                    <div class="product-card">
+                        <div class="product-card-img-wrapper">
+                            <img src="${imagenUrl}" 
+                                class="product-card-img-top" 
+                                alt="Imagen del artículo"
+                                loading="lazy">
+                        </div>
+                        <div class="product-card-body">
+                            <h5 class="product-card-title">
+                                ${articulo.TITULO_ARTICULO}
+                            </h5>
+                            <p class="product-card-date">
+                                ${fechaFormateada}
+                            </p>
+                            <hr>
+                            <p class="product-card-text">
+                                ISSN: ${articulo.ISSN_ARTICULO}
+                                <br>
+                                Autores: <br>
+                                ${autoresTexto}
+                            </p>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
-        </div>
-    `,
+        `;
+    },
     containerClass: 'g-4'
 };
+
+/**
+ * UTILIDAD: Formatear fecha como en Blade
+ */
+function formatearFecha(fechaString) {
+    if (!fechaString) return 'Fecha no disponible';
+
+    try {
+        const fecha = new Date(fechaString);
+
+        // ✅ DÍAS: En español
+        const diasSemana = [
+            'domingo', 'lunes', 'martes', 'miércoles',
+            'jueves', 'viernes', 'sábado'
+        ];
+
+        // ✅ MESES: En español
+        const meses = [
+            'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+            'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+        ];
+
+        const diaSemana = diasSemana[fecha.getDay()];
+        const dia = fecha.getDate();
+        const mes = meses[fecha.getMonth()];
+        const año = fecha.getFullYear();
+
+        // ✅ FORMATO: "lunes, 15 de marzo de 2024"
+        return `${diaSemana}, ${dia} de ${mes} de ${año}`;
+
+    } catch (error) {
+        console.error('Error al formatear fecha:', error);
+        return fechaString; // Devolver original si hay error
+    }
+}
 
 /**
  * HANDLER PARA CARDS (reutiliza toda la lógica)
@@ -70,40 +122,23 @@ class ArticulosCardsHandler extends EntityHandler {
     constructor() {
         super(ARTICULOS_CARDS_CONFIG, ARTICULOS_CARDS_RENDER);
     }
-    
+
     // ✅ OVERRIDE: Datos específicos de artículos (igual que en edit.js)
     extractButtonData(button) {
-        return {
-            titulo_articulos: button.getAttribute('data-titulo') || '',
-            issn_articulos: button.getAttribute('data-issn') || '',
-            resumen_articulos: button.getAttribute('data-resumen') || '',
-            fecha_articulos: button.getAttribute('data-fecha') || '',
-            revista_articulos: button.getAttribute('data-revista') || '',
-            id_tipo: button.getAttribute('data-tipo') || '',
-            url_revista_articulos: button.getAttribute('data-url-revista') || ''
-        };
+        return {};
     }
 
     // ✅ OVERRIDE: Datos vacíos específicos de artículos
     getEmptyData() {
-        return {
-            titulo_articulos: '',
-            issn_articulos: '',
-            resumen_articulos: '',
-            fecha_articulos: '',
-            revista_articulos: '',
-            id_tipo: '',
-            url_revista_articulos: ''
-        };
+        return {};
     }
 
     // ✅ OVERRIDE: Configurar archivos específicos de artículos
     loadFiles(button) {
-        updateFileDisplay('file-articulos', button.getAttribute('data-url-articulo'), 'No se ha seleccionado archivo');
-        updateFileDisplay('file-imagen', button.getAttribute('data-url-imagen'), 'No se ha seleccionado imagen');
+
     }
 
-    
+
 }
 
 /**

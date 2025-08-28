@@ -13,7 +13,7 @@
 
 
         @stack('scripts')
-        <script>
+        {{-- <script>
             document.addEventListener('DOMContentLoaded', function() {
                 // Pasar mensajes de sesión a JavaScript
                 @if (session('success'))
@@ -23,7 +23,7 @@
                     window.sessionError = "{{ session('error') }}";
                 @endif
             });
-        </script>
+        </script> --}}
         
     </body>
 @endsection

@@ -1,10 +1,8 @@
 /* @import 'bootstrap/css/bootstrap' */
 @import 'bootstrap/dist/css/bootstrap.min.css';
-
-@import 'bootstrap-icons/font/bootstrap-icons.css';
+/* @import 'bootstrap-icons/font/bootstrap-icons.css'; */
 @import '@fortawesome/fontawesome-free/css/all.min.css';
 
-/* @import './admin/admin.css'; */
 @import './admin/btn.css';
 @import './admin/sidebar.css'; 
 @import './admin/modal.css';
@@ -13,8 +11,6 @@
 @import './admin/paginacion.css';
 @import './shared/spinner.css';
 @import './shared/filtro.css';
-
-/* @import './admin/buscador_filtro.css'; */
 
 :root {
     /* Colores del página */

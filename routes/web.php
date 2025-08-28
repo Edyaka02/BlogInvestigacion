@@ -26,6 +26,7 @@ Route::get('/', function () {
 })->name('inicio');
 
 // Route::get('/')->name('inicio');
+// Route::get('/articulos', [ArticuloController::class, 'index'])->name('articulos.articulo');
 Route::get('/articulos', [ArticuloController::class, 'index'])->name('articulos.articulo');
 Route::get('/articulos/{id}', [ArticuloController::class, 'show'])->name('articulo.show');
 
@@ -49,6 +50,19 @@ Route::post('/register', [LoginController::class, 'register'])->name('register.p
 
 
 
+// ✅ AGREGAR: Al inicio de web.php
+Route::get('/test-forbidden', function () {
+    return response()->json([
+        'status' => 'OK',
+        'message' => 'Si ves esto, el problema NO es de Laravel',
+        'timestamp' => now(),
+        'request_info' => [
+            'method' => request()->method(),
+            'ip' => request()->ip(),
+            'user_agent' => request()->header('User-Agent')
+        ]
+    ]);
+});
 
 Route::prefix('dashboard')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');

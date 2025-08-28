@@ -205,7 +205,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn custom-button custom-button-cancelar" data-bs-dismiss="modal"
+                <button type="button" class="btn custom-button custom-button-gris" data-bs-dismiss="modal"
                     aria-label="Close">
                     <i class="fa-solid fa-xmark"></i>
                     Cancelar

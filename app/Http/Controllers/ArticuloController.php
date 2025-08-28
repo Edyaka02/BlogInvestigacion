@@ -8,6 +8,7 @@ use App\Models\Core\Autor;
 use App\Models\Options\Tipo;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\file;
 use App\Traits\Archivos;
 use App\Traits\AutorTrait;
 use App\Traits\YearTrait;
@@ -21,112 +22,207 @@ class ArticuloController extends Controller
 {
     use Archivos, AutorTrait, YearTrait, OpcionesTrait;
 
+    public function __construct()
+    {
+        $this->middleware('auth')->only([
+            'adminIndex',
+            'store',
+            'update',
+            'destroy'
+        ]);
+    }
+
+    // public function index(Request $request)
+    // {
+    //     $query = Articulo::with('autores')
+    //         // ->where('ELIMINADO_ARTICULO', false)
+    //         ->select('ID_ARTICULO', 'ISSN_ARTICULO', 'TITULO_ARTICULO', 'FECHA_ARTICULO', 'REVISTA_ARTICULO', 'URL_IMAGEN_ARTICULO');
+
+    //     $hasResults = $this->applyFilters($query, $request);
+    //     $years = $this->applyYears(2);
+
+    //     $tiposArticulos = Tipo::pluck('NOMBRE_TIPO', 'ID_TIPO');
+
+    //     $articulos = $query->paginate(1)->appends($request->except('page'));
+
+    //     // $config = $this->getConfig(['tiposArticulos']);
+
+    //     $route = route('articulos.articulo');
+
+    //     // Procesar los nombres y apellidos de los autores
+    //     foreach ($articulos as $articulo) {
+    //         foreach ($articulo->autores as $autor) {
+    //             $this->splitAuthorName($autor);
+    //         }
+    //         $articulo->URL_IMAGEN_ARTICULO = Storage::url($articulo->URL_IMAGEN_ARTICULO);
+    //     }
+
+    //     // return view('articulos.articulo', compact('articulos', 'tiposArticulos', 'years', 'route', 'hasResults'));
+    //     return view('entities.articulos.index', compact('articulos', 'tiposArticulos', 'years', 'route', 'hasResults'));
+    // }
+    // public function index(Request $request)
+    // {
+    //     // ✅ QUERY: Exactamente como lo tenías pero optimizado
+    //     $query = Articulo::with('autores')
+    //         ->select('ID_ARTICULO', 'ISSN_ARTICULO', 'TITULO_ARTICULO', 'FECHA_ARTICULO', 'REVISTA_ARTICULO', 'URL_IMAGEN_ARTICULO');
+
+    //     $this->applyFilters($query, $request);
+
+    //     $articulos = $query->paginate(10)->appends($request->except('page'));
+
+    //     // ✅ AJAX: Procesar datos como en adminIndex
+    //     if ($request->ajax()) {
+    //         foreach ($articulos as $articulo) {
+    //             // Procesar nombres de autores
+    //             foreach ($articulo->autores as $autor) {
+    //                 $this->splitAuthorName($autor);
+    //             }
+    //             // ✅ PROCESAR: URL de imagen SIEMPRE
+    //             if ($articulo->URL_IMAGEN_ARTICULO) {
+    //                 $articulo->URL_IMAGEN_ARTICULO = Storage::url($articulo->URL_IMAGEN_ARTICULO);
+    //             } else {
+    //                 $articulo->URL_IMAGEN_ARTICULO = null; // Explícitamente null si no hay imagen
+    //             }
+    //         }
+
+    //         return response()->json([
+    //             'articulos' => $articulos,
+    //         ]);
+    //     }
+
+    //     // ✅ PRIMERA CARGA: Como adminIndex - solo vista
+    //     $tipos = Tipo::pluck('NOMBRE_TIPO', 'ID_TIPO');
+    //     $years = $this->applyYears(2);
+
+    //     return view('entities.articulos.index', compact('years', 'tipos'));
+    // }
     public function index(Request $request)
     {
         $query = Articulo::with('autores')
-            // ->where('ELIMINADO_ARTICULO', false)
             ->select('ID_ARTICULO', 'ISSN_ARTICULO', 'TITULO_ARTICULO', 'FECHA_ARTICULO', 'REVISTA_ARTICULO', 'URL_IMAGEN_ARTICULO');
 
-        $hasResults = $this->applyFilters($query, $request);
-        $years = $this->applyYears(2);
+        $this->applyFilters($query, $request);
 
-        $tiposArticulos = Tipo::pluck('NOMBRE_TIPO', 'ID_TIPO');
+        $articulos = $query->paginate(10)->appends($request->except('page'));
 
-        $articulos = $query->paginate(1)->appends($request->except('page'));
+        if ($request->ajax()) {
+            foreach ($articulos as $articulo) {
+                foreach ($articulo->autores as $autor) {
+                    $this->splitAuthorName($autor);
+                }
 
-        // $config = $this->getConfig(['tiposArticulos']);
-
-        $route = route('articulos.articulo');
-
-        // Procesar los nombres y apellidos de los autores
-        foreach ($articulos as $articulo) {
-            foreach ($articulo->autores as $autor) {
-                $this->splitAuthorName($autor);
+                // ✅ CAMBIO: URLs ya incluyen storage/
+                if ($articulo->URL_IMAGEN_ARTICULO) {
+                    // Si ya empieza con storage/, no agregar nada
+                    if (!str_starts_with($articulo->URL_IMAGEN_ARTICULO, 'storage/')) {
+                        $articulo->URL_IMAGEN_ARTICULO = 'storage/' . $articulo->URL_IMAGEN_ARTICULO;
+                    }
+                    // Agregar la barra inicial si no la tiene
+                    if (!str_starts_with($articulo->URL_IMAGEN_ARTICULO, '/')) {
+                        $articulo->URL_IMAGEN_ARTICULO = '/' . $articulo->URL_IMAGEN_ARTICULO;
+                    }
+                }
             }
-            $articulo->URL_IMAGEN_ARTICULO = Storage::url($articulo->URL_IMAGEN_ARTICULO);
+
+            return response()->json([
+                'success' => true,
+                'articulos' => $articulos,
+            ]);
         }
 
-        // return view('articulos.articulo', compact('articulos', 'tiposArticulos', 'years', 'route', 'hasResults'));
-        return view('entities.articulos.index', compact('articulos', 'tiposArticulos', 'years', 'route', 'hasResults'));
+        $tipos = Tipo::pluck('NOMBRE_TIPO', 'ID_TIPO');
+        $years = $this->applyYears(2);
+
+        return view('entities.articulos.index', compact('years', 'tipos'));
     }
 
+    // public function adminIndex(Request $request)
+    // {
+    //     $query = Articulo::select('tb_articulo.*')
+    //         ->distinct()
+    //         ->with(['autores', 'tipo']);
+
+    //     $this->applyFilters($query, $request);
+
+    //     $articulos = $query->paginate(30)->appends($request->except('page'));
+
+    //     // Procesar URLs de imágenes para las peticiones AJAX
+    //     if ($request->ajax()) {
+    //         foreach ($articulos as $articulo) {
+    //             if ($articulo->URL_IMAGEN_ARTICULO) {
+    //                 $articulo->URL_IMAGEN_ARTICULO = Storage::url($articulo->URL_IMAGEN_ARTICULO);
+    //             }
+    //         }
+
+    //         return response()->json([
+    //             'articulos' => $articulos,
+    //         ]);
+    //     }
+
+    //     // Para la primera carga (no AJAX), solo devolver la vista
+    //     $tipos = Tipo::pluck('NOMBRE_TIPO', 'ID_TIPO');
+    //     $years = $this->applyYears(2);
+
+    //     return view('entities.articulos.edit', compact('years', 'tipos'));
+    // }
     public function adminIndex(Request $request)
     {
-        // $query = Articulo::with(['autores', 'tipo']);
         $query = Articulo::select('tb_articulo.*')
             ->distinct()
             ->with(['autores', 'tipo']);
 
-        // $hasResults = $this->applyFilters($query, $request);
         $this->applyFilters($query, $request);
 
-        $articulos = $query->paginate(2)->appends($request->except('page'));
+        $articulos = $query->paginate(30)->appends($request->except('page'));
 
-        // Procesar URLs de imágenes para las peticiones AJAX
         if ($request->ajax()) {
             foreach ($articulos as $articulo) {
-                if ($articulo->URL_IMAGEN_ARTICULO) {
-                    $articulo->URL_IMAGEN_ARTICULO = Storage::url($articulo->URL_IMAGEN_ARTICULO);
+                // ✅ CAMBIO: URL pública directa
+                // if ($articulo->URL_IMAGEN_ARTICULO) {
+                //     $articulo->URL_IMAGEN_ARTICULO = '/' . $articulo->URL_IMAGEN_ARTICULO;
+                // }
+                if (!str_starts_with($articulo->URL_IMAGEN_ARTICULO, 'storage/')) {
+                    $articulo->URL_IMAGEN_ARTICULO = 'storage/' . $articulo->URL_IMAGEN_ARTICULO;
                 }
             }
 
             return response()->json([
                 'articulos' => $articulos,
-                // 'hasResults' => $hasResults
             ]);
         }
 
-        // Para la primera carga (no AJAX), solo devolver la vista
         $tipos = Tipo::pluck('NOMBRE_TIPO', 'ID_TIPO');
         $years = $this->applyYears(2);
 
         return view('entities.articulos.edit', compact('years', 'tipos'));
     }
 
-    // public function adminFiltrar(Request $request)
+    // public function show($id)
     // {
-    //     // $query = Articulo::with('autores');
-    //     $query = Articulo::with(['autores', 'tipo']);
+    //     $articulo = Articulo::with('autores')->findOrFail($id);
 
-    //     $hasResults = $this->applyFilters($query, $request);
+    //     // Generar URLs públicas
+    //     $articulo->URL_ARTICULO = Storage::url($articulo->URL_ARTICULO);
+    //     $articulo->URL_IMAGEN_ARTICULO = Storage::url($articulo->URL_IMAGEN_ARTICULO);
 
-    //     $years = $this->applyYears(2);
-
-    //     $tiposArticulos = Tipo::pluck('NOMBRE_TIPO', 'ID_TIPO');
-
-    //     $articulos = $query->paginate(30)->appends($request->except('page'));
-
-    //     $route = route('admin.articulos.index');
-
-    //     // Si es una petición AJAX, devolver JSON
-
-    //     return response()->json([
-    //         'articulos' => $articulos,
-    //         'tiposArticulos' => $tiposArticulos,
-    //         'years' => $years,
-    //         'hasResults' => $hasResults
-    //     ]);
-
-    //     // Si es una petición AJAX, devolver JSON
-    //     // if ($request->ajax()) {
-    //     //     return response()->json([
-    //     //         'articulos' => $articulos,
-    //     //         'tiposArticulos' => $tiposArticulos,
-    //     //         'years' => $years,
-    //     //         'hasResults' => $hasResults
-    //     //     ]);
-    //     // }
-
-    //     // return view('entities.articulos.edit', compact('articulos', 'tiposArticulos', 'years', 'route', 'hasResults'));
+    //     return view('entities.articulos.show', compact('articulo'));
     // }
-
     public function show($id)
     {
         $articulo = Articulo::with('autores')->findOrFail($id);
 
-        // Generar URLs públicas
-        $articulo->URL_ARTICULO = Storage::url($articulo->URL_ARTICULO);
-        $articulo->URL_IMAGEN_ARTICULO = Storage::url($articulo->URL_IMAGEN_ARTICULO);
+        // ✅ CAMBIO: Procesar URLs con nueva estructura
+        if ($articulo->URL_ARTICULO) {
+            if (!str_starts_with($articulo->URL_ARTICULO, '/')) {
+                $articulo->URL_ARTICULO = '/' . $articulo->URL_ARTICULO;
+            }
+        }
+
+        if ($articulo->URL_IMAGEN_ARTICULO) {
+            if (!str_starts_with($articulo->URL_IMAGEN_ARTICULO, '/')) {
+                $articulo->URL_IMAGEN_ARTICULO = '/' . $articulo->URL_IMAGEN_ARTICULO;
+            }
+        }
 
         return view('entities.articulos.show', compact('articulo'));
     }
@@ -260,85 +356,85 @@ class ArticuloController extends Controller
         }
     }
 
-    public function destroy($id, Request $request)
-    {
-        try {
-            $articulo = Articulo::findOrFail($id);
+    // public function destroy($id, Request $request)
+    // {
+    //     try {
+    //         $articulo = Articulo::findOrFail($id);
 
-            // Guardar el título para el mensaje
-            $tituloArticulo = $articulo->TITULO_ARTICULO;
+    //         // Guardar el título para el mensaje
+    //         $tituloArticulo = $articulo->TITULO_ARTICULO;
 
-            // Eliminar archivos asociados si existen
-            if ($articulo->URL_ARTICULO) {
-                Storage::delete($articulo->URL_ARTICULO);
-            }
+    //         // Eliminar archivos asociados si existen
+    //         if ($articulo->URL_ARTICULO) {
+    //             Storage::delete($articulo->URL_ARTICULO);
+    //         }
 
-            if ($articulo->URL_IMAGEN_ARTICULO) {
-                Storage::delete($articulo->URL_IMAGEN_ARTICULO);
-            }
+    //         if ($articulo->URL_IMAGEN_ARTICULO) {
+    //             Storage::delete($articulo->URL_IMAGEN_ARTICULO);
+    //         }
 
-            // Eliminar relaciones con autores
-            $articulo->autores()->detach();
+    //         // Eliminar relaciones con autores
+    //         $articulo->autores()->detach();
 
-            // Eliminar el artículo
-            $articulo->delete();
+    //         // Eliminar el artículo
+    //         $articulo->delete();
 
-            // ✅ RESPUESTA AJAX
-            if ($request->ajax()) {
-                return response()->json([
-                    'success' => true,
-                    'message' => "Artículo '{$tituloArticulo}' eliminado correctamente."
-                ]);
-            }
+    //         // ✅ RESPUESTA AJAX
+    //         if ($request->ajax()) {
+    //             return response()->json([
+    //                 'success' => true,
+    //                 'message' => "Artículo '{$tituloArticulo}' eliminado correctamente."
+    //             ]);
+    //         }
 
-            return redirect()->route('admin.articulos.index')
-                ->with('success', "Artículo '{$tituloArticulo}' eliminado correctamente.");
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            // Artículo no encontrado
-            if ($request->ajax()) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'El artículo no existe o ya fue eliminado.'
-                ], 404);
-            }
+    //         return redirect()->route('admin.articulos.index')
+    //             ->with('success', "Artículo '{$tituloArticulo}' eliminado correctamente.");
+    //     } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+    //         // Artículo no encontrado
+    //         if ($request->ajax()) {
+    //             return response()->json([
+    //                 'success' => false,
+    //                 'message' => 'El artículo no existe o ya fue eliminado.'
+    //             ], 404);
+    //         }
 
-            return redirect()->route('admin.articulos.index')
-                ->with('error', 'El artículo no existe o ya fue eliminado.');
-        } catch (\Illuminate\Database\QueryException $e) {
-            // Error de base de datos (restricciones de foreign key, etc.)
-            Log::error('Error de base de datos al eliminar artículo:', [
-                'id' => $id,
-                'error' => $e->getMessage()
-            ]);
+    //         return redirect()->route('admin.articulos.index')
+    //             ->with('error', 'El artículo no existe o ya fue eliminado.');
+    //     } catch (\Illuminate\Database\QueryException $e) {
+    //         // Error de base de datos (restricciones de foreign key, etc.)
+    //         Log::error('Error de base de datos al eliminar artículo:', [
+    //             'id' => $id,
+    //             'error' => $e->getMessage()
+    //         ]);
 
-            if ($request->ajax()) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'No se puede eliminar el artículo porque está relacionado con otros elementos del sistema.'
-                ], 422);
-            }
+    //         if ($request->ajax()) {
+    //             return response()->json([
+    //                 'success' => false,
+    //                 'message' => 'No se puede eliminar el artículo porque está relacionado con otros elementos del sistema.'
+    //             ], 422);
+    //         }
 
-            return redirect()->route('admin.articulos.index')
-                ->with('error', 'No se puede eliminar el artículo porque está relacionado con otros elementos del sistema.');
-        } catch (\Exception $e) {
-            // Error general
-            Log::error('Error general al eliminar artículo:', [
-                'id' => $id,
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
-            ]);
+    //         return redirect()->route('admin.articulos.index')
+    //             ->with('error', 'No se puede eliminar el artículo porque está relacionado con otros elementos del sistema.');
+    //     } catch (\Exception $e) {
+    //         // Error general
+    //         Log::error('Error general al eliminar artículo:', [
+    //             'id' => $id,
+    //             'error' => $e->getMessage(),
+    //             'trace' => $e->getTraceAsString()
+    //         ]);
 
-            if ($request->ajax()) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Error inesperado al eliminar el artículo. Inténtalo de nuevo.'
-                ], 500);
-            }
+    //         if ($request->ajax()) {
+    //             return response()->json([
+    //                 'success' => false,
+    //                 'message' => 'Error inesperado al eliminar el artículo. Inténtalo de nuevo.'
+    //             ], 500);
+    //         }
 
-            return redirect()->route('admin.articulos.index')
-                ->with('error', 'Error inesperado al eliminar el artículo. Inténtalo de nuevo.');
-        }
-    }
+    //         return redirect()->route('admin.articulos.index')
+    //             ->with('error', 'Error inesperado al eliminar el artículo. Inténtalo de nuevo.');
+    //     }
+    // }
 
     private function applyFilters($query, Request $request)
     {
@@ -396,6 +492,56 @@ class ArticuloController extends Controller
         // return $query->exists();
         return $query;
     }
+    public function destroy($id, Request $request)
+    {
+        try {
+            $articulo = Articulo::findOrFail($id);
+            $tituloArticulo = $articulo->TITULO_ARTICULO;
+
+            // ✅ CAMBIO: Eliminar archivos de public
+            if ($articulo->URL_ARTICULO) {
+                $publicFilePath = public_path($articulo->URL_ARTICULO);
+                if (File::exists($publicFilePath)) {
+                    File::delete($publicFilePath);
+                }
+            }
+
+            if ($articulo->URL_IMAGEN_ARTICULO) {
+                $publicImagePath = public_path($articulo->URL_IMAGEN_ARTICULO);
+                if (File::exists($publicImagePath)) {
+                    File::delete($publicImagePath);
+                }
+            }
+
+            $articulo->autores()->detach();
+            $articulo->delete();
+
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => "Artículo '{$tituloArticulo}' eliminado correctamente."
+                ]);
+            }
+
+            return redirect()->route('admin.articulos.index')
+                ->with('success', "Artículo '{$tituloArticulo}' eliminado correctamente.");
+        } catch (\Exception $e) {
+            Log::error('Error al eliminar artículo:', [
+                'id' => $id,
+                'error' => $e->getMessage()
+            ]);
+
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Error inesperado al eliminar el artículo.'
+                ], 500);
+            }
+
+            return redirect()->route('admin.articulos.index')
+                ->with('error', 'Error inesperado al eliminar el artículo.');
+        }
+    }
 
     private function validateArticulo(Request $request, $id = null)
     {
@@ -423,7 +569,7 @@ class ArticuloController extends Controller
         $articulo->RESUMEN_ARTICULO = $request->resumen_articulos;
         $articulo->FECHA_ARTICULO = $request->fecha_articulos;
         $articulo->REVISTA_ARTICULO = $request->revista_articulos;
-        $articulo->ID_TIPO = $request->id_tipo; 
+        $articulo->ID_TIPO = $request->id_tipo;
         $articulo->URL_REVISTA_ARTICULO = $request->url_revista_articulos;
 
         $articulo->ID_USUARIO = Auth::id();

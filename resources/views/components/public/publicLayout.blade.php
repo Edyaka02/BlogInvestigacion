@@ -1,5 +1,14 @@
 @extends('app')
 
+@section('meta')
+    @yield('meta')
+@endsection
+
+{{-- ✅ AGREGAR: Estilos adicionales antes del cierre del head --}}
+@push('styles')
+    @stack('styles')
+@endpush
+
 @section('body')
     <body class="public body d-flex flex-column min-vh-100">
         <!-- Rectángulo azul -->
@@ -20,4 +29,6 @@
         @include('components.public.footer')
 
     </body>
+
+    @stack('scripts')
 @endsection

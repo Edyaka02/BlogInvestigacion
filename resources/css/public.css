@@ -16,6 +16,7 @@
 @import './public/paginacion.css';
 @import './public/animacion.css';
 @import './public/fondo.css';
+@import './public/btn.css';
 
 :root {
     --color-1:#f5f5f5;
@@ -70,5 +71,16 @@
 
     /* --font-title: "Montserrat", sans-serif;
     --font-text: "Lato", sans-serif; */
+
+    --btn-verde: #28a745;
+    --btn-azul: #007bff;
+    --btn-rojo: #dc3545;
+    --btn-naranja: #fd7e14;
+    --btn-gris: #6c757d;
+    --btn-amarillo: #ffc107;
+    --btn-descargar: #28a745;
+    --btn-ver: #17a2b8;
+    --color-primario: #007bff;
+    --color-secundario: #6c757d;
 }
 

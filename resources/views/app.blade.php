@@ -14,7 +14,8 @@
         <!-- Archivos específicos de public -->
         @vite(['resources/css/public.css', 'resources/js/app.js'])
     @endif
-    
+
+    @stack('styles')
 
 </head>
 <body>
