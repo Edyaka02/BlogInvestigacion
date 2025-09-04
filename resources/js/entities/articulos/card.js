@@ -1,7 +1,8 @@
 import { EntityConfig } from '../../core/config/EntityConfig.js';
 import { EntityManager } from '../../core/managers/EntityManager.js';
 import { EntityHandler } from '../../core/handlers/EntityHandler.js';
-
+import { formatearFecha } from '../../components/ui/dateManager.js';
+import { resolveImageUrl } from '../../components/ui/imageManager.js';
 /**
  * CONFIGURACIÓN PARA CARDS
  */
@@ -18,29 +19,7 @@ const ARTICULOS_CARDS_CONFIG = EntityConfig.create({
  */
 const ARTICULOS_CARDS_RENDER = {
     renderCard: articulo => {
-        // ✅ CAMBIO: Manejar nueva estructura storage/
-        let imagenUrl = '/storage/images/default-article.jpg';
-
-        if (articulo.URL_IMAGEN_ARTICULO) {
-            // ✅ SI: Ya es una URL completa
-            if (articulo.URL_IMAGEN_ARTICULO.startsWith('http')) {
-                imagenUrl = articulo.URL_IMAGEN_ARTICULO;
-            }
-            // ✅ SI: Ya tiene la barra inicial
-            else if (articulo.URL_IMAGEN_ARTICULO.startsWith('/')) {
-                imagenUrl = articulo.URL_IMAGEN_ARTICULO;
-            }
-            // ✅ SI: Es ruta relativa
-            else {
-                imagenUrl = '/' + articulo.URL_IMAGEN_ARTICULO;
-            }
-        }
-
-        console.log('🖼️ Imagen URL (nueva estructura):', {
-            original: articulo.URL_IMAGEN_ARTICULO,
-            processed: imagenUrl,
-            articulo_id: articulo.ID_ARTICULO
-        });
+        let imagenUrl = resolveImageUrl(articulo.URL_IMAGEN_ARTICULO, '/assets/img/default-article.png');
 
         const fechaFormateada = formatearFecha(articulo.FECHA_ARTICULO);
         const autoresTexto = articulo.autores && articulo.autores.length > 0
@@ -48,34 +27,54 @@ const ARTICULOS_CARDS_RENDER = {
             : 'Sin autores';
 
         return `
-            <div class="col-md-4 mb-4">
-                <a href="/articulos/${articulo.ID_ARTICULO}" class="card-link">
-                    <div class="product-card">
-                        <div class="product-card-img-wrapper">
-                            <img src="${imagenUrl}" 
-                                class="product-card-img-top" 
-                                alt="Imagen del artículo"
-                                loading="lazy">
-                        </div>
-                        <div class="product-card-body">
-                            <h5 class="product-card-title">
-                                ${articulo.TITULO_ARTICULO}
-                            </h5>
-                            <p class="product-card-date">
-                                ${fechaFormateada}
-                            </p>
-                            <hr>
-                            <p class="product-card-text">
-                                ISSN: ${articulo.ISSN_ARTICULO}
-                                <br>
-                                Autores: <br>
-                                ${autoresTexto}
-                            </p>
-                        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <a href="/articulos/${articulo.ID_ARTICULO}" class="card-link">
+                <div class="product-card">
+                    <div class="product-card-img-wrapper">
+                        <img src="${imagenUrl}" 
+                            class="product-card-img-top" 
+                            alt="Imagen del artículo: ${articulo.TITULO_ARTICULO}"
+                            loading="lazy"
+                            onerror="this.src='/assets/img/default-article.png'">
                     </div>
-                </a>
-            </div>
-        `;
+                    
+                    <div class="product-card-body">
+                        <h5 class="product-card-title">
+                            ${articulo.TITULO_ARTICULO}
+                        </h5>
+                        
+                        <p class="product-card-date">
+                            ${fechaFormateada}
+                        </p>
+
+                        <hr>
+                        
+                        <!-- 🎯 TABLA COMO EN SHOW -->
+                        <table class="metadata-table-card">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <i class="fas fa-barcode me-2"></i>ISSN
+                                    </td>
+                                    <td>
+                                        <code class="code">${articulo.ISSN_ARTICULO}</code>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <i class="fas fa-user me-2"></i>Autores
+                                    </td>
+                                    <td class="authors-text">
+                                        ${autoresTexto}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </a>
+        </div>
+    `;
     },
     containerClass: 'g-4'
 };
@@ -83,37 +82,37 @@ const ARTICULOS_CARDS_RENDER = {
 /**
  * UTILIDAD: Formatear fecha como en Blade
  */
-function formatearFecha(fechaString) {
-    if (!fechaString) return 'Fecha no disponible';
+// function formatearFecha(fechaString) {
+//     if (!fechaString) return 'Fecha no disponible';
 
-    try {
-        const fecha = new Date(fechaString);
+//     try {
+//         const fecha = new Date(fechaString);
 
-        // ✅ DÍAS: En español
-        const diasSemana = [
-            'domingo', 'lunes', 'martes', 'miércoles',
-            'jueves', 'viernes', 'sábado'
-        ];
+//         // ✅ DÍAS: En español
+//         const diasSemana = [
+//             'domingo', 'lunes', 'martes', 'miércoles',
+//             'jueves', 'viernes', 'sábado'
+//         ];
 
-        // ✅ MESES: En español
-        const meses = [
-            'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
-            'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
-        ];
+//         // ✅ MESES: En español
+//         const meses = [
+//             'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+//             'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+//         ];
 
-        const diaSemana = diasSemana[fecha.getDay()];
-        const dia = fecha.getDate();
-        const mes = meses[fecha.getMonth()];
-        const año = fecha.getFullYear();
+//         const diaSemana = diasSemana[fecha.getDay()];
+//         const dia = fecha.getDate();
+//         const mes = meses[fecha.getMonth()];
+//         const año = fecha.getFullYear();
 
-        // ✅ FORMATO: "lunes, 15 de marzo de 2024"
-        return `${diaSemana}, ${dia} de ${mes} de ${año}`;
+//         // ✅ FORMATO: "lunes, 15 de marzo de 2024"
+//         return `${diaSemana}, ${dia} de ${mes} de ${año}`;
 
-    } catch (error) {
-        console.error('Error al formatear fecha:', error);
-        return fechaString; // Devolver original si hay error
-    }
-}
+//     } catch (error) {
+//         console.error('Error al formatear fecha:', error);
+//         return fechaString; // Devolver original si hay error
+//     }
+// }
 
 /**
  * HANDLER PARA CARDS (reutiliza toda la lógica)

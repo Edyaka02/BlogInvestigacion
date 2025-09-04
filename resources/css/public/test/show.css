@@ -1,28 +1,3 @@
-:root {
-    --primary-executive: #1e40af;      /* Azul ejecutivo */
-    --secondary-executive: #3b82f6;    /* Azul corporativo */
-    --accent-executive: #0ea5e9;       /* Azul cielo profesional */
-    --success-executive: #059669;      /* Verde corporativo */
-    --warning-executive: #d97706;      /* Ámbar profesional */
-    --danger-executive: #dc2626;       /* Rojo corporativo */
-    --dark-executive: #0f172a;         /* Gris ejecutivo */
-    --light-executive: #f8fafc;        /* Blanco profesional */
-    --gray-executive: #475569;         /* Gris neutro */
-    --border-executive: #e2e8f0;       /* Borde sutil */
-    --shadow-executive: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    --shadow-hover-executive: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-}
-
-/* ==== ESTILOS BASE ==== */
-body {
-    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-    color: var(--dark-executive);
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    line-height: 1.6;
-    letter-spacing: -0.01em;
-}
-
-/* ==== HERO SECTION ==== */
 .hero-executive {
     background: linear-gradient(135deg, var(--primary-executive) 0%, var(--secondary-executive) 100%);
     color: white;
@@ -53,7 +28,6 @@ body {
     background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
 }
 
-/* ==== CARDS Y COMPONENTES ==== */
 .executive-card {
     background: white;
     border: 1px solid var(--border-executive);
@@ -87,7 +61,6 @@ body {
     opacity: 1;
 }
 
-/* ==== IMÁGENES ==== */
 .research-image-executive {
     border: 2px solid var(--border-executive);
     border-radius: 8px;
@@ -116,7 +89,6 @@ body {
     transform: scale(1.05);
 }
 
-/* ==== MÉTRICAS Y BADGES ==== */
 .metric-executive {
     background: linear-gradient(135deg, var(--primary-executive), var(--secondary-executive));
     color: white;
@@ -172,7 +144,32 @@ body {
     transform: translateX(0);
 }
 
-/* ==== NAVEGACIÓN Y UI ==== */
+.download-executive {
+    background: linear-gradient(135deg, rgba(30, 64, 175, 0.02), rgba(14, 165, 233, 0.02));
+    border: 2px solid var(--primary-executive);
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    margin-top: 2rem;
+    position: relative;
+}
+
+.download-executive::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(30, 64, 175, 0.05), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.download-executive:hover::before {
+    opacity: 1;
+}
+
 .floating-nav-executive {
     position: fixed;
     top: 20px;
@@ -207,7 +204,6 @@ body {
     transition: width 0.3s ease;
 }
 
-/* ==== BOTONES DE COMPARTIR ==== */
 .share-executive {
     width: 44px;
     height: 44px;
@@ -232,10 +228,24 @@ body {
     border-color: var(--primary-executive);
 }
 
-/* ==== BOTONES PRINCIPALES ==== */
-.btn-executive {
+.info-item-executive {
+    border-left: 3px solid var(--primary-executive);
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background: rgba(30, 64, 175, 0.02);
+    border-radius: 0 6px 6px 0;
+    transition: all 0.3s ease;
+}
+
+.info-item-executive:hover {
+    background: rgba(30, 64, 175, 0.05);
+    border-left-color: var(--accent-executive);
+    transform: translateX(2px);
+}
+
+/* .btn-executive {
     --color: var(--primary-executive);
-    
+
     background: transparent;
     border: 2px solid var(--color);
     color: var(--color);
@@ -279,9 +289,8 @@ body {
 
 .btn-executive-warning {
     --color: var(--warning-executive);
-}
+} */
 
-/* ==== TÍTULOS Y SECCIONES ==== */
 .section-title-executive {
     color: var(--primary-executive);
     font-weight: 700;
@@ -307,7 +316,6 @@ body {
     color: var(--primary-executive);
 }
 
-/* ==== TEXTO Y CONTENIDO ==== */
 .academic-text-executive {
     color: var(--dark-executive);
     line-height: 1.7;
@@ -329,7 +337,6 @@ body {
     font-style: italic;
 }
 
-/* ==== ESTADÍSTICAS ==== */
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -366,7 +373,6 @@ body {
     margin-top: 0.25rem;
 }
 
-/* ==== BREADCRUMB ==== */
 .breadcrumb-executive {
     background: transparent;
     padding: 0;
@@ -383,12 +389,11 @@ body {
     font-weight: 600;
 }
 
-.breadcrumb-executive .breadcrumb-item + .breadcrumb-item::before {
+.breadcrumb-executive .breadcrumb-item+.breadcrumb-item::before {
     content: "›";
     color: var(--gray-executive);
 }
 
-/* ==== TABLA DE METADATOS ==== */
 .metadata-table {
     width: 100%;
     border-collapse: separate;
@@ -411,49 +416,30 @@ body {
     background: rgba(30, 64, 175, 0.02);
 }
 
-/* ==== SECCIONES ESPECIALES ==== */
-.download-executive {
-    background: linear-gradient(135deg, rgba(30, 64, 175, 0.02), rgba(14, 165, 233, 0.02));
-    border: 2px solid var(--primary-executive);
-    border-radius: 8px;
-    padding: 2rem;
-    text-align: center;
-    margin-top: 2rem;
-    position: relative;
+@media (max-width: 768px) {
+    .hero-executive {
+        padding: 3rem 0 2rem;
+    }
+
+    .floating-nav-executive {
+        position: relative;
+        top: auto;
+        left: auto;
+        margin-bottom: 1rem;
+        display: block;
+        width: fit-content;
+    }
+
+    .section-title-executive {
+        font-size: 1.125rem;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
-.download-executive::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(30, 64, 175, 0.05), transparent);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.download-executive:hover::before {
-    opacity: 1;
-}
-
-.info-item-executive {
-    border-left: 3px solid var(--primary-executive);
-    padding: 1rem;
-    margin-bottom: 1rem;
-    background: rgba(30, 64, 175, 0.02);
-    border-radius: 0 6px 6px 0;
-    transition: all 0.3s ease;
-}
-
-.info-item-executive:hover {
-    background: rgba(30, 64, 175, 0.05);
-    border-left-color: var(--accent-executive);
-    transform: translateX(2px);
-}
-
-/* ==== ANIMACIONES ==== */
+/* Animaciones profesionales */
 .fade-in-professional {
     opacity: 0;
     transform: translateY(15px);
@@ -476,8 +462,13 @@ body {
     transform: translateX(0);
 }
 
-/* ==== TIPOGRAFÍA ==== */
-h1, h2, h3, h4, h5, h6 {
+/* Tipografía profesional */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     color: var(--dark-executive);
     font-weight: 700;
     letter-spacing: -0.02em;
@@ -489,13 +480,14 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 1rem;
 }
 
-/* ==== UTILIDADES ==== */
+/* Elementos de separación */
 .divider-executive {
     height: 1px;
     background: linear-gradient(90deg, transparent, var(--border-executive), transparent);
     margin: 2rem 0;
 }
 
+/* Estados de loading */
 .loading-placeholder {
     background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
     background-size: 200% 100%;
@@ -503,30 +495,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @keyframes loading {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
-}
-
-/* ==== RESPONSIVE ==== */
-@media (max-width: 768px) {
-    .hero-executive {
-        padding: 3rem 0 2rem;
-    }
-    
-    .floating-nav-executive {
-        position: relative;
-        top: auto;
-        left: auto;
-        margin-bottom: 1rem;
-        display: block;
-        width: fit-content;
+    0% {
+        background-position: 200% 0;
     }
 
-    .section-title-executive {
-        font-size: 1.125rem;
-    }
-
-    .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
+    100% {
+        background-position: -200% 0;
     }
 }

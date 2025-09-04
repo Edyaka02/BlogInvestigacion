@@ -13,20 +13,21 @@
 ::after {
     box-sizing: border-box
 }
-
-h1,
-h2,
-h3 {
-    font-family: var(--font-title);
-    /* Usa Neutron para títulos */
+/* 
+h1, h2, h3 {
+    font-family: var(--font-title) !important;
+    font-weight: 700;
 }
 
-p,
-span,
-a {
-    font-family: var(--font-text);
-    /* Usa Noto Sans para texto */
+h4, h5, h6 {
+    font-family: var(--font-title) !important;
+    font-weight: 600;
 }
+
+p, span, a, button, input, textarea, select {
+    font-family: var(--font-text) !important;
+    font-weight: 400;
+} */
 
 body {
     position: static;

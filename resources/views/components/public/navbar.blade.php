@@ -2,6 +2,7 @@
     <div class="container-fluid">
         <a class="navbar-brand me-auto" href="#">Logo</a>
 
+
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
             <div class="offcanvas-header">
                 <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
@@ -27,7 +28,7 @@
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" href="{{ route('articulos.articulo') }}">Artículos</a></li>
+                                <li><a class="dropdown-item" href="{{ route('articulos.index') }}">Artículos</a></li>
                                 <li><a class="dropdown-item" href="{{ route('libros.libro') }}">Libros</a></li>
                             </ul>
 
@@ -57,27 +58,18 @@
                         </ul>
                     </li>
 
-                    <!-- Formación Dropdown -->
-                    {{-- <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Formación
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Formación de Recursos Humanos</a></li>
-                            <li><a class="dropdown-item" href="#">Sobre mí</a></li>
-                        </ul>
-                    </li> --}}
-
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="#">¿Quién soy?</a>
                     </li>
                 </ul>
             </div>
+
         </div>
 
-        <a href="{{ route('login') }}" class="btn custom-btn custom-btn-login">
-            <i class="bi bi-door-open-fill"></i>Login</a>
+        <a href="{{ route('login') }}" class="custom-button">
+            <i class="fa-solid fa-right-to-bracket"></i>
+            <span class="btn-text">Login</span>
+        </a>
 
         <button class="navbar-toggler " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
             aria-controls="offcanvasNavbar" aria-label="Toggle navigation">

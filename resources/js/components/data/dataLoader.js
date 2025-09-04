@@ -59,6 +59,10 @@ export function loadDataResults({
         }
 
         function loadResults(url = urlBase) {
+            hideEmptyState();
+            hideErrorState();
+
+
             const allFormData = new FormData();
 
             // Agregar datos del formulario de filtros
@@ -94,93 +98,98 @@ export function loadDataResults({
             axios.get(fullUrl, {
                 headers: { 'X-Requested-With': 'XMLHttpRequest' }
             })
-            .then(response => {
-                const elapsedTime = Date.now() - startTime;
-                const remainingTime = Math.max(0, minLoadTime - elapsedTime);
+                .then(response => {
+                    const elapsedTime = Date.now() - startTime;
+                    const remainingTime = Math.max(0, minLoadTime - elapsedTime);
 
-                setTimeout(() => {
-                    if (loadingOverlay) {
-                        loadingOverlay.style.display = 'none';
-                    }
-                    
-                    const items = response.data[key];
-
-                    if (items.data && items.data.length > 0) {
-                        let contenidoHTML = '';
-
-                        // ✅ RENDERIZAR: Según el formato especificado
-                        switch (format) {
-                            case 'table':
-                                contenidoHTML = renderTableFormat(items.data, renderHeader, renderRow);
-                                break;
-                            
-                            case 'cards':
-                                contenidoHTML = renderCardsFormat(items.data, renderCard, containerClass);
-                                break;
-                            
-                            case 'list':
-                                contenidoHTML = renderListFormat(items.data, renderListItem, containerClass);
-                                break;
-                            
-                            default:
-                                console.warn(`Formato no reconocido: ${format}`);
-                                contenidoHTML = renderTableFormat(items.data, renderHeader, renderRow);
+                    setTimeout(() => {
+                        if (loadingOverlay) {
+                            loadingOverlay.style.display = 'none';
                         }
 
-                        // ✅ RENDERIZAR: Contenido final
-                        resultadosDiv.innerHTML = contenidoHTML;
+                        const items = response.data[key];
 
-                        // ✅ PAGINACIÓN: Igual para todos los formatos
-                        const paginationHTML = generatePagination(items, queryParams, urlBase);
-                        managePagination(paginacionDiv, paginationHTML);
+                        if (items.data && items.data.length > 0) {
+                            let contenidoHTML = '';
 
-                        // ✅ EVENTOS: Paginación igual para todos
-                        document.querySelectorAll('.pagination a').forEach(link => {
-                            link.addEventListener('click', function (e) {
-                                e.preventDefault();
-                                loadResults(this.getAttribute('href'));
+                            // ✅ RENDERIZAR: Según el formato especificado
+                            switch (format) {
+                                case 'table':
+                                    contenidoHTML = renderTableFormat(items.data, renderHeader, renderRow);
+                                    break;
+
+                                case 'cards':
+                                    contenidoHTML = renderCardsFormat(items.data, renderCard, containerClass);
+                                    break;
+
+                                case 'list':
+                                    contenidoHTML = renderListFormat(items.data, renderListItem, containerClass);
+                                    break;
+
+                                default:
+                                    console.warn(`Formato no reconocido: ${format}`);
+                                    contenidoHTML = renderTableFormat(items.data, renderHeader, renderRow);
+                            }
+
+                            // ✅ RENDERIZAR: Contenido final
+                            resultadosDiv.innerHTML = contenidoHTML;
+
+                            // ✅ PAGINACIÓN: Igual para todos los formatos
+                            const paginationHTML = generatePagination(items, queryParams, urlBase);
+                            managePagination(paginacionDiv, paginationHTML);
+
+                            // ✅ EVENTOS: Paginación igual para todos
+                            document.querySelectorAll('.pagination a').forEach(link => {
+                                link.addEventListener('click', function (e) {
+                                    e.preventDefault();
+                                    loadResults(this.getAttribute('href'));
+                                });
                             });
+
+                        } else {
+                            // Sin resultados
+                            // resultadosDiv.innerHTML = `
+                            //     <div class="d-flex flex-column align-items-center justify-content-center text-center py-5" style="min-height: 300px;">
+                            //         <img src="${window.location.origin}/assets/svg/Not-Found.svg" 
+                            //             alt="No se encontraron resultados" 
+                            //             class="img-fluid mb-3" 
+                            //             style="max-width: 300px;">
+                            //         <h6 class="text-muted mb-2">No se encontraron resultados</h6>
+                            //         <p class="text-muted mb-0 small">Intenta ajustar tus filtros de búsqueda</p>
+                            //     </div>
+                            // `;
+                            resultadosDiv.innerHTML = ''; // Limpiar contenido
+                            showEmptyState(); // Mostrar overlay de estado vacío
+                            managePagination(paginacionDiv, '');
+                        }
+                    }, remainingTime);
+                })
+                .catch(error => {
+                    const elapsedTime = Date.now() - startTime;
+                    const remainingTime = Math.max(0, minLoadTime - elapsedTime);
+
+                    setTimeout(() => {
+                        if (loadingOverlay) {
+                            loadingOverlay.style.display = 'none';
+                        }
+
+                        console.error('Error al cargar resultados:', error);
+                        //     resultadosDiv.innerHTML = `
+                        //     <div class="d-flex flex-column align-items-center justify-content-center text-center py-5" style="min-height: 300px;">
+                        //         <img src="${window.location.origin}/assets/svg/Not-Found.svg" 
+                        //             alt="Error de carga" 
+                        //             class="img-fluid mb-3" 
+                        //             style="max-width: 300px;">
+                        //         <h6 class="text-muted mb-2">Error al cargar los datos</h6>
+                        //         <p class="text-muted mb-0 small">Intenta recargar la página</p>
+                        //     </div>
+                        // `;
+                        showErrorState("Error al cargar los datos", "Verifica tu conexión e intenta nuevamente", () => {
+                            loadResults(url); // Retry function
                         });
-
-                    } else {
-                        // Sin resultados
-                        resultadosDiv.innerHTML = `
-                            <div class="d-flex flex-column align-items-center justify-content-center text-center py-5" style="min-height: 300px;">
-                                <img src="${window.location.origin}/assets/svg/Not-Found.svg" 
-                                    alt="No se encontraron resultados" 
-                                    class="img-fluid mb-3" 
-                                    style="max-width: 300px;">
-                                <h6 class="text-muted mb-2">No se encontraron resultados</h6>
-                                <p class="text-muted mb-0 small">Intenta ajustar tus filtros de búsqueda</p>
-                            </div>
-                        `;
                         managePagination(paginacionDiv, '');
-                    }
-                }, remainingTime);
-            })
-            .catch(error => {
-                const elapsedTime = Date.now() - startTime;
-                const remainingTime = Math.max(0, minLoadTime - elapsedTime);
-
-                setTimeout(() => {
-                    if (loadingOverlay) {
-                        loadingOverlay.style.display = 'none';
-                    }
-
-                    console.error('Error al cargar resultados:', error);
-                    resultadosDiv.innerHTML = `
-                        <div class="d-flex flex-column align-items-center justify-content-center text-center py-5" style="min-height: 300px;">
-                            <img src="${window.location.origin}/assets/svg/Not-Found.svg" 
-                                alt="Error de carga" 
-                                class="img-fluid mb-3" 
-                                style="max-width: 300px;">
-                            <h6 class="text-muted mb-2">Error al cargar los datos</h6>
-                            <p class="text-muted mb-0 small">Intenta recargar la página</p>
-                        </div>
-                    `;
-                    managePagination(paginacionDiv, '');
-                }, remainingTime);
-            });
+                    }, remainingTime);
+                });
         }
 
         if (cargarInicialmente) {
@@ -204,42 +213,99 @@ export function loadDataResults({
  */
 function renderTableFormat(data, renderHeader, renderRow) {
     let html = '<div class="table-responsive"><table class="table-custom align-middle w-100">';
-    
+
     if (renderHeader) {
         html += renderHeader();
     }
-    
+
     html += '<tbody>';
     data.forEach(item => {
         html += renderRow(item);
     });
     html += '</tbody></table></div>';
-    
+
     return html;
 }
 
 function renderCardsFormat(data, renderCard, containerClass = '') {
     let html = `<div class="row ${containerClass}">`;
-    
+
     data.forEach(item => {
         html += renderCard(item);
     });
-    
+
     html += '</div>';
     return html;
 }
 
 function renderListFormat(data, renderListItem, containerClass = '') {
     let html = `<div class="list-group ${containerClass}">`;
-    
+
     data.forEach(item => {
         html += renderListItem(item);
     });
-    
+
     html += '</div>';
     return html;
 }
 
+function showEmptyState(message = "No se encontraron resultados", description = "Intenta ajustar tus filtros de búsqueda") {
+    const emptyOverlay = document.getElementById('empty-state-overlay');
+    if (emptyOverlay) {
+        // Actualizar contenido
+        // const title = emptyOverlay.querySelector('.empty-title');
+        // const desc = emptyOverlay.querySelector('.empty-description');
+
+        // if (title) title.textContent = message;
+        // if (desc) desc.textContent = description;
+
+        // Mostrar overlay
+        emptyOverlay.style.display = 'flex';
+
+        // Ocultar después de unos segundos (opcional)
+        // setTimeout(() => {
+        //     hideEmptyState();
+        // }, 3000);
+    }
+}
+
+function hideEmptyState() {
+    const emptyOverlay = document.getElementById('empty-state-overlay');
+    if (emptyOverlay) {
+        emptyOverlay.style.display = 'none';
+    }
+}
+
+function showErrorState(message = "Error al cargar los datos", description = "Intenta recargar la página", retryCallback = null) {
+    const errorOverlay = document.getElementById('error-state-overlay');
+    if (errorOverlay) {
+        // Actualizar contenido
+        // const title = errorOverlay.querySelector('.error-title');
+        // const desc = errorOverlay.querySelector('.error-description');
+        const actionBtn = errorOverlay.querySelector('.error-action');
+
+        // if (title) title.textContent = message;
+        // if (desc) desc.textContent = description;
+
+        // Configurar botón de retry
+        if (actionBtn && retryCallback) {
+            actionBtn.onclick = () => {
+                hideErrorState();
+                retryCallback();
+            };
+        }
+
+        // Mostrar overlay
+        errorOverlay.style.display = 'flex';
+    }
+}
+
+function hideErrorState() {
+    const errorOverlay = document.getElementById('error-state-overlay');
+    if (errorOverlay) {
+        errorOverlay.style.display = 'none';
+    }
+}
 /**
  * FUNCIONES DE COMPATIBILIDAD
  */

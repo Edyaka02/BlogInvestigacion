@@ -52,6 +52,8 @@
                 </div>
             </div>
             @include('components.shared.loading')
+            @include('components.shared.emptyState')
+            @include('components.shared.errorState')
         </div>
     </div>
     @include('entities.articulos.modal')

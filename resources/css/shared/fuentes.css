@@ -1,14 +1,14 @@
-/* Fuente Neutron */
+/* Fuente Neuton */
 @font-face {
-    font-family: "Neutron";
-    src: url("../fonts/Neuton/Neuton-Regular.ttf") format("truetype");
+    font-family: "Neuton";
+    src: url("../../fonts/Neuton/Neuton-Regular.ttf") format("truetype");
     font-weight: 400;
     font-style: normal;
 }
 
 @font-face {
-    font-family: "Neutron";
-    src: url("../fonts/Neuton/Neuton-Bold.ttf") format("truetype");
+    font-family: "Neuton";
+    src: url("../../fonts/Neuton/Neuton-Bold.ttf") format("truetype");
     font-weight: 700;
     font-style: normal;
 }
@@ -16,14 +16,14 @@
 /* Fuente Noto Sans */
 @font-face {
     font-family: "Noto Sans";
-    src: url("../fonts/Noto_Sans/static/NotoSans-Regular.ttf") format("truetype");
+    src: url("../../fonts/Noto_Sans/static/NotoSans-Regular.ttf") format("truetype");
     font-weight: 400;
     font-style: normal;
 }
 
 @font-face {
     font-family: "Noto Sans";
-    src: url("../fonts/Noto_Sans/static/NotoSans-Bold.ttf") format("truetype");
+    src: url("../../fonts/Noto_Sans/static/NotoSans-Bold.ttf") format("truetype");
     font-weight: 700;
     font-style: normal;
 }
@@ -31,14 +31,14 @@
 /* Fuente Nunito */
 @font-face {
     font-family: "Nunito";
-    src: url("../fonts/Nunito/Nunito-Regular.ttf") format("truetype");
+    src: url("../../fonts/Nunito/static/Nunito-Regular.ttf") format("truetype");
     font-weight: 400;
     font-style: normal;
 }
 
 @font-face {
     font-family: "Nunito";
-    src: url("../fonts/Nunito/Nunito-Bold.ttf") format("truetype");
+    src: url("../../fonts/Nunito/static/Nunito-Bold.ttf") format("truetype");
     font-weight: 700;
     font-style: normal;
 }
@@ -46,14 +46,15 @@
 /* Fuente Baloo 2 */
 @font-face {
     font-family: "Baloo 2";
-    src: url("../fonts/Baloo_2/Baloo2-Regular.ttf") format("truetype");
+    src: url("../../fonts/Baloo_2/static/Baloo2-Regular.ttf") format("truetype");
     font-weight: 400;
     font-style: normal;
 }
 
 @font-face {
     font-family: "Baloo 2";
-    src: url("../fonts/Baloo_2/Baloo2-Bold.ttf") format("truetype");
+    /* src: url("../../fonts/Baloo_2/Baloo2-Bold.ttf") format("truetype"); */
+    src: url("../../fonts/Baloo_2/static/Baloo2-Bold.ttf") format("truetype");
     font-weight: 700;
     font-style: normal;
 }

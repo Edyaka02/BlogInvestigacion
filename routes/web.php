@@ -27,7 +27,8 @@ Route::get('/', function () {
 
 // Route::get('/')->name('inicio');
 // Route::get('/articulos', [ArticuloController::class, 'index'])->name('articulos.articulo');
-Route::get('/articulos', [ArticuloController::class, 'index'])->name('articulos.articulo');
+Route::get('/articulos', [ArticuloController::class, 'index'])->name('articulos.index');
+Route::get('/articulos/{id}/download', [ArticuloController::class, 'download'])->name('articulo.download');
 Route::get('/articulos/{id}', [ArticuloController::class, 'show'])->name('articulo.show');
 
 // Libros

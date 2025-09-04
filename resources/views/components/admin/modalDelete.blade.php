@@ -1,4 +1,3 @@
-<!-- filepath: /c:/laragon/www/BlogInvestigacion/resources/views/admin/modals/modal_eliminar.blade.php -->
 <div class="modal fade" id="modalEliminar" tabindex="-1" aria-labelledby="modalEliminarLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content custom-modal-border">

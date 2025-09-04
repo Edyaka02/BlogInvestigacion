@@ -7,7 +7,16 @@ use Illuminate\Support\Facades\DB;
 
 trait YearTrait
 {
-    public function applyYearFilters($query, Request $request, $yearColumn, $isDate = false)
+    /**
+     * Aplica filtros de año a la consulta.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param \Illuminate\Http\Request $request
+     * @param string $yearColumn
+     * @param bool $isDate
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    private function applyYearFilters($query, Request $request, $yearColumn, $isDate = false)
     {
         if ($request->input('anio') === 'intervalo' && $request->has('anio_inicio') && $request->has('anio_fin') && !is_null($request->input('anio_inicio')) && !is_null($request->input('anio_fin'))) {
             $anio_inicio = $request->input('anio_inicio');

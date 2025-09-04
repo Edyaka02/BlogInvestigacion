@@ -24,6 +24,8 @@ class Articulo extends Model
         'URL_REVISTA_ARTICULO',
         'URL_ARTICULO',
         'URL_IMAGEN_ARTICULO',
+        'VISTA_ARTICULO',
+        'DESCARGA_ARTICULO',
         'ID_USUARIO',
     ];
 

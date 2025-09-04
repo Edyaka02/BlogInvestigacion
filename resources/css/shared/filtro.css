@@ -113,6 +113,7 @@
 }
 
 .custom-radio + .form-check-label:hover {
+    color: var(--color-fondo);
     background-color: var(--color-secundario); /* Color de fondo al pasar el cursor */
 }
 
@@ -161,7 +162,9 @@
 }
 
 .custom-checkbox + .form-check-label:hover {
-    background-color: #d6d6e5;
+    /* background-color: #d6d6e5; */
+    color: var(--color-fondo);
+    background-color: var(--color-secundario);
 }
 
 .custom-checkbox + .form-check-label::before {

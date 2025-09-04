@@ -137,17 +137,17 @@ export class EntityHandler {
      */
     loadFiles(button) {
         // ✅ Por defecto, busca patrones comunes
-        const archivos = [
-            { dataAttr: 'data-url-archivo', displayId: 'file-archivo', defaultMsg: 'No se ha seleccionado archivo' },
-            { dataAttr: 'data-url-imagen', displayId: 'file-imagen', defaultMsg: 'No se ha seleccionado imagen' }
-        ];
+        // const archivos = [
+        //     { dataAttr: 'data-url-archivo', displayId: 'file-archivo', defaultMsg: 'No se ha seleccionado archivo' },
+        //     { dataAttr: 'data-url-imagen', displayId: 'file-imagenes', defaultMsg: 'No se ha seleccionado imagen' }
+        // ];
 
-        archivos.forEach(({ dataAttr, displayId, defaultMsg }) => {
-            const url = button.getAttribute(dataAttr);
-            if (document.getElementById(displayId)) {
-                updateFileDisplay(displayId, url || '', defaultMsg);
-            }
-        });
+        // archivos.forEach(({ dataAttr, displayId, defaultMsg }) => {
+        //     const url = button.getAttribute(dataAttr);
+        //     if (document.getElementById(displayId)) {
+        //         updateFileDisplay(displayId, url || '', defaultMsg);
+        //     }
+        // });
     }
 
     /**

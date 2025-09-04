@@ -4,7 +4,6 @@
     @yield('meta')
 @endsection
 
-{{-- ✅ AGREGAR: Estilos adicionales antes del cierre del head --}}
 @push('styles')
     @stack('styles')
 @endpush

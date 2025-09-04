@@ -3,13 +3,16 @@
 /* @import 'bootstrap-icons/font/bootstrap-icons.css'; */
 @import '@fortawesome/fontawesome-free/css/all.min.css';
 
+@import './shared/fuentes.css';
+@import './admin/content.css';
+@import './admin/sidebar.css';
 @import './admin/btn.css';
-@import './admin/sidebar.css'; 
 @import './admin/modal.css';
 @import './admin/cards.css';
 @import './admin/tabla.css';
 @import './admin/paginacion.css';
 @import './shared/spinner.css';
+@import './shared/empty.css';
 @import './shared/filtro.css';
 
 :root {
@@ -33,6 +36,8 @@
     --btn-rojo: #AB1A3A;
     --btn-naranja: #ffaa3e;
 
-    --font-title: "Neutron", sans-serif;
-    --font-text: "Noto Sans", sans-serif;
+    /* --font-title: "Neuton", sans-serif;
+    --font-text: "Noto Sans", sans-serif; */
+    --font-title: "Baloo 2", sans-serif;
+    --font-text: "Nunito", sans-serif;
 }

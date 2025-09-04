@@ -7,7 +7,7 @@
 
         <div class="row mb-3">
             <div class="col-12">
-                <h1 class="text-start fw-bold">Artículos</h1>
+                <h1 class="text-start">Artículos</h1>
             </div>
         </div>
 
@@ -20,19 +20,13 @@
 
                         <div class="d-flex gap-1">
 
-                            <button type="button" class="btn custom-button custom-button-ver" data-bs-toggle="offcanvas"
+                            <button type="button" class="btn custom-button" data-bs-toggle="offcanvas"
                                 data-bs-target="#offcanvasFiltros" aria-controls="offcanvasFiltros">
                                 <i class="fa-solid fa-filter"></i>
                                 <span class="btn-text">Filtro</span>
                             </button>
 
                             @include('components.shared.filter')
-
-                            <button type="button" class="btn custom-button custom-button-subir" data-bs-toggle="modal"
-                                data-bs-target="#articulosModal">
-                                <i class="fa-solid fa-upload"></i>
-                                <span class="btn-text">Crear</span>
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -50,6 +44,8 @@
                 </div>
             </div>
             @include('components.shared.loading')
+            @include('components.shared.emptyState')
+            @include('components.shared.errorState')
         </div>
     </div>
 

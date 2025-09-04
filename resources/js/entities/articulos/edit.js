@@ -149,6 +149,11 @@ class ArticulosHandler extends EntityHandler {
             }
         });
     }
+
+    clearFiles() {
+        updateFileDisplay('file-articulos', '', 'No se ha seleccionado archivo');
+        updateFileDisplay('file-imagen', '', 'No se ha seleccionado imagen');
+    }
 }
 
 /**

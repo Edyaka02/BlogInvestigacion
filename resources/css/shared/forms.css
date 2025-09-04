@@ -1,0 +1,35 @@
+.form-control {
+    border-radius: 12px;
+    border: 2px solid var(--color-secundario);
+    transition: all 0.3s ease;
+}
+
+/* Textarea mejorado */
+.form-control:focus {
+    border-color: var(--color-primario);
+    box-shadow: 0 0 0 0.2rem rgba(var(--color-primario-oscuro), 0.25);
+}
+
+.form-control:hover {
+    border-color: var(--color-primario);
+    border-radius: 12px;
+}
+
+/* Select con bordes redondeados */
+.form-select {
+    border-radius: 12px;
+    border: 2px solid var(--color-secundario);
+}
+
+/* Focus del select */
+.form-select:focus {
+    border-color: var(--color-primario);
+    box-shadow: 0 0 0 0.2rem rgba(var(--color-primario-oscuro), 0.25);
+    border-radius: 12px;
+}
+
+/* Hover del select principal */
+.form-select:hover {
+    border-color: var(--color-primario);
+    border-radius: 12px;
+}
