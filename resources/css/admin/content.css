@@ -1,0 +1,14 @@
+h1, h2, h3 {
+    font-family: var(--font-title) !important;
+    font-weight: 700;
+}
+
+h4, h5, h6, th {
+    font-family: var(--font-title) !important;
+    font-weight: 600;
+}
+
+p, span, a, button, input, textarea, select, td {
+    font-family: var(--font-text) !important;
+    font-weight: 400;
+}

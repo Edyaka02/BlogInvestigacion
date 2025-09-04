@@ -1,0 +1,390 @@
+/* ==== ANIMACIÓN WAVE CON EFECTOS PROFESIONALES ==== */
+@keyframes cardWaveIn {
+    0% {
+        opacity: 0;
+        transform: translateY(60px) scale(0.9);
+        filter: blur(3px);
+    }
+
+    60% {
+        opacity: 0.8;
+        transform: translateY(-10px) scale(1.02);
+        filter: blur(1px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
+}
+
+.product-card {
+    position: relative;
+    /* border: none; */
+    border: 2px solid transparent;
+    /* background: linear-gradient(white, white) padding-box,
+                linear-gradient(135deg, var(--color-secundario), var(--color-primario)) border-box; */
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: var(--color-fondo);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    /* 🎯 ESTADO INICIAL */
+    opacity: 0;
+    transform: translateY(60px) scale(0.9);
+    filter: blur(3px);
+    animation: cardWaveIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Retrasos escalonados en ola */
+.product-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.product-card:nth-child(2) {
+    animation-delay: 0.15s;
+}
+
+.product-card:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+.product-card:nth-child(4) {
+    animation-delay: 0.25s;
+}
+
+.product-card:nth-child(5) {
+    animation-delay: 0.3s;
+}
+
+.product-card:nth-child(6) {
+    animation-delay: 0.35s;
+}
+
+.product-card:nth-child(7) {
+    animation-delay: 0.4s;
+}
+
+.product-card:nth-child(8) {
+    animation-delay: 0.45s;
+}
+
+.product-card:nth-child(9) {
+    animation-delay: 0.5s;
+}
+
+/* Hover profesional */
+.product-card:hover {
+    transform: translateY(-15px) scale(1.03);
+    box-shadow: 0 15px 35px rgba(30, 64, 175, 0.2);
+    filter: brightness(1.05);
+    border: 2px solid transparent;
+    background: linear-gradient(white, white) padding-box,
+                linear-gradient(135deg, var(--color-primario), var(--color-secundario)) border-box;
+}
+
+/* Custom styles for the card */
+/* .product-card {
+    position: relative;
+    border: none;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: var( --color-fondo);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; 
+}
+
+.product-card:hover {
+    transform: translateY(-10px); 
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+} */
+
+.product-card-img-wrapper {
+    position: relative;
+    overflow: hidden;
+    height: 250px;
+    /* Ajusta la altura de la imagen */
+    flex-shrink: 0;
+    /* Evita que la imagen cambie de tamaño */
+}
+
+.product-card-img-top {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-card-img-top {
+    transform: scale(1.1);
+    /* Zoom en la imagen al pasar el mouse */
+}
+
+.product-card-body {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    /* background: rgba(255, 255, 255, 0.95); */
+    background: var(--color-fondo);
+    padding: 15px;
+    text-align: justify;
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+    transform: translateY(110px);
+    /* Inicialmente oculta fuera de la tarjeta */
+    transition: transform 0.3s ease;
+    /* Transición suave */
+    display: flex;
+    flex-direction: column;
+    /* Asegura que los elementos se apilen verticalmente */
+    gap: 10px;
+    /* Espaciado entre los elementos */
+}
+
+.product-card:hover .product-card-body {
+    transform: translateY(0);
+    /* Muestra la información al pasar el mouse */
+}
+
+.product-card-body .product-card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: var(--color-primario);
+    /* Color del título */
+    line-height: 1.2;
+    /* Mejora la legibilidad para títulos largos */
+    word-wrap: break-word;
+    /* Permite que los títulos largos se ajusten */
+}
+
+.product-card-body .product-card-date {
+    font-size: 0.9rem;
+    color: var(--color-3);
+    margin-bottom: 5px;
+    line-height: 1.2;
+}
+
+.product-card-body .product-card-text {
+    font-size: 0.85rem;
+    color: var(--color-3);
+    line-height: 1.5;
+    word-wrap: break-word;
+    /* Permite que las descripciones largas se ajusten */
+    overflow: hidden;
+    /* Oculta el contenido que exceda el contenedor */
+    text-overflow: ellipsis;
+    /* Agrega puntos suspensivos si el texto es demasiado largo */
+    max-height: 4.5em;
+    /* Limita la altura máxima para evitar desbordamientos */
+}
+
+.product-card-body .btn-link {
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-decoration: none;
+    align-self: flex-start;
+    /* Alinea el botón al inicio */
+}
+
+.product-card-body .btn-link:hover {
+    text-decoration: underline;
+}
+
+.product-card-flag {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: auto;
+    border-radius: 3px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.product-card-body hr {
+    border: none;
+    border-top: 1px solid var(--color-primario);
+    /* Color de la línea */
+    margin: 1px 0;
+    /* Espaciado vertical */
+}
+
+/* Estilo general para las cartas */
+.show-card {
+    border: 1px solid #d8d8d8;
+    /* Borde gris claro */
+    border-radius: 14px;
+    /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    /* Sombra suave */
+    background-color: var(--color-fondo);
+    /* Fondo ligeramente gris */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* Transición suave */
+    margin-bottom: 1.5rem;
+    /* Espaciado inferior */
+}
+
+/* Estilo para el cuerpo de la carta */
+.show-card .card-body {
+    padding: 1.5rem;
+    /* Espaciado interno */
+    font-size: 0.95rem;
+    /* Tamaño de fuente */
+    color: #333;
+    /* Color del texto */
+}
+
+/* Títulos de las cartas */
+.show-card .card-title {
+    font-size: 1.25rem;
+    /* Tamaño del título */
+    font-weight: bold;
+    /* Negrita */
+    color: var(--color-primario);
+    /* Azul Bootstrap */
+    margin-bottom: 1rem;
+    /* Espaciado inferior */
+    text-align: center;
+    /* Centrar el título */
+}
+
+/* Texto dentro de las cartas */
+.show-card p {
+    margin-bottom: 1rem;
+    /* Espaciado inferior */
+    line-height: 1.6;
+    /* Altura de línea */
+    text-align: justify;
+    /* Justificar el texto */
+}
+
+/* Enlaces dentro de las cartas */
+.show-card a {
+    color: #007bff;
+    /* Azul Bootstrap */
+    text-decoration: none;
+    /* Sin subrayado */
+}
+
+/* ==== TABLA METADATA PARA CARDS ==== */
+.metadata-table-card {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+}
+
+.metadata-table-card td {
+    padding: 0.5rem 0.25rem;
+    border-bottom: 1px solid rgba(30, 64, 175, 0.1);
+    vertical-align: top;
+    line-height: 1.4;
+}
+
+.metadata-table-card td:first-child {
+    font-weight: 600;
+    color: var(--color-primario);
+    width: 35%;
+    white-space: nowrap;
+}
+
+.metadata-table-card td:last-child {
+    color: var(--color-primario-oscuro);
+    word-wrap: break-word;
+}
+
+.metadata-table-card tr:hover {
+    background: rgba(30, 64, 175, 0.02);
+}
+
+.metadata-table-card tr:last-child td {
+    border-bottom: none;
+}
+
+/* ==== CÓDIGO EN CARDS ==== */
+.code {
+    background: rgba(30, 64, 175, 0.1);
+    color: var(--color-primario);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    /* font-family: 'Courier New', monospace; */
+    font-size: 0.8rem;
+    font-weight: 600;
+    border: 1px solid rgba(30, 64, 175, 0.2);
+}
+
+/* ==== TEXTO DE AUTORES EN CARDS ==== */
+.authors-text {
+    font-size: 0.8rem;
+    line-height: 1.3;
+    max-height: 3.2em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    /* -webkit-line-clamp: 2; */
+    -webkit-box-orient: vertical;
+}
+
+/* ==== ANIMACIÓN DE LA TABLA ==== */
+.product-card:hover .metadata-table-card {
+    animation: tableSlideIn 0.3s ease forwards;
+}
+
+@keyframes tableSlideIn {
+    from {
+        opacity: 0.7;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==== RESPONSIVE PARA LA TABLA ==== */
+@media (max-width: 768px) {
+    .metadata-table-card {
+        font-size: 0.8rem;
+    }
+
+    .metadata-table-card td {
+        padding: 0.4rem 0.2rem;
+    }
+
+    .metadata-table-card td:first-child {
+        width: 40%;
+    }
+
+    .code {
+        font-size: 0.75rem;
+        padding: 0.2rem 0.4rem;
+    }
+
+    .authors-text {
+        font-size: 0.75rem;
+        /* -webkit-line-clamp: 1; */
+        max-height: 1.6em;
+    }
+}
+
+@media (max-width: 576px) {
+    .metadata-table-card td:first-child {
+        width: 45%;
+    }
+
+    /* .authors-text {
+        -webkit-line-clamp: 1;
+    } */
+}

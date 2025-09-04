@@ -1,4 +1,3 @@
-// import { ValidationErrorHandler, ModalFormCleaner } from './validationHandler.js'; // ✅ AGREGAR
 import { ValidationErrorHandler } from '../validations/ValidationErrorHandler.js'
 import { ModalFormCleaner } from './ModalFormCleaner.js';
 
@@ -284,7 +283,8 @@ export function setupFormSubmission(formId, modalId, entityType, entityRoute) {
 
                     // Recargar tabla
                     setTimeout(() => {
-                        rechargeTable(entityRoute);
+                        // rechargeTable(entityRoute);
+                        rechargeData(entityRoute);
                     }, 300);
 
                 } else {
@@ -365,7 +365,8 @@ export function setupDeleteModal(modalId, formId) {
                     }
 
                     setTimeout(() => {
-                        rechargeTable(itemRoute);
+                        // rechargeTable(itemRoute);
+                        rechargeData(itemRoute);
                     }, 300);
 
                 } else {
@@ -383,18 +384,29 @@ export function setupDeleteModal(modalId, formId) {
 }
 
 /**
- * Función para recargar tabla según entidad
+ * Función para recargar datos según entidad (GENÉRICA)
  */
-function rechargeTable(entityRoute) {
+// function rechargeTable(entityRoute) {
+function rechargeData(entityRoute) {
     const entityName = entityRoute.charAt(0).toUpperCase() + entityRoute.slice(1);
-    const reloadFunctionName = `reloadTable${entityName}`;
-
-    if (typeof window[reloadFunctionName] === 'function') {
-        console.log(`🔄 Recargando tabla: ${reloadFunctionName}`);
-        window[reloadFunctionName]();
-    } else {
-        console.log(`⚠️ Función ${reloadFunctionName} no encontrada`);
+    
+    // ✅ INTENTAR: Función genérica primero
+    const reloadDataFunction = `reloadData${entityName}`;
+    if (typeof window[reloadDataFunction] === 'function') {
+        console.log(`🔄 Recargando datos: ${reloadDataFunction}`);
+        window[reloadDataFunction]();
+        return;
     }
+    
+    // ✅ FALLBACK: Función de tabla (compatibilidad)
+    const reloadTableFunction = `reloadTable${entityName}`;
+    if (typeof window[reloadTableFunction] === 'function') {
+        console.log(`🔄 Recargando tabla: ${reloadTableFunction}`);
+        window[reloadTableFunction]();
+        return;
+    }
+    
+    console.log(`⚠️ No se encontró función de recarga para ${entityName}`);
 }
 
 /**

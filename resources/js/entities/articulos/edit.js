@@ -1,8 +1,3 @@
-// import { EntityConfig } from '../../shared/config/EntityConfig.js';
-// import { EntityManager } from '../../shared/config/EntityManager.js';
-// import { EntityHandler } from '../../shared/config/EntityHandler.js';
-// import { updateFileDisplay } from '../../shared/config/modalManager.js';
-
 import { EntityConfig } from '../../core/config/EntityConfig.js';
 import { EntityManager } from '../../core/managers/EntityManager.js';
 import { EntityHandler } from '../../core/handlers/EntityHandler.js';
@@ -15,6 +10,8 @@ const ARTICULOS_CONFIG = EntityConfig.create({
     entityType: 'Artículo',
     entityRoute: 'articulos',
     urlBase: '/dashboard/articulos',
+    format: 'table',
+    resultadosId: 'data-results'
 });
 
 /**
@@ -151,6 +148,11 @@ class ArticulosHandler extends EntityHandler {
                 });
             }
         });
+    }
+
+    clearFiles() {
+        updateFileDisplay('file-articulos', '', 'No se ha seleccionado archivo');
+        updateFileDisplay('file-imagen', '', 'No se ha seleccionado imagen');
     }
 }
 

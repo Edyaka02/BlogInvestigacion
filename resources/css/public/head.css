@@ -1,6 +1,6 @@
 /* Rectángulo azul */
 .blue-banner {
-    background-color: var(--color-2); /* Azul Bootstrap */
+    background-color: var(--color-primario); /* Azul Bootstrap */
     padding: 50px 0; /* Espaciado vertical */
     text-align: center;
 }

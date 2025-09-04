@@ -3,7 +3,9 @@ export class EntityConfig {
         this.entityType = options.entityType;
         this.entityRoute = options.entityRoute;
         this.urlBase = options.urlBase;
-        
+
+        this.format = options.format || 'table';  // 'table', 'cards', 'list'
+
         // ✅ DEFAULTS INTELIGENTES
         const route = options.entityRoute;
         this.modalFormId = options.modalFormId || `${route}Form`;
@@ -14,12 +16,12 @@ export class EntityConfig {
         this.filtroFormId = options.filtroFormId || 'filtro-form';
         this.resultadosId = options.resultadosId || 'tabla-resultados';
         this.paginacionId = options.paginacionId || 'paginacion-container';
-        
+
         // ✅ CONFIGURACIÓN DE AUTORES
         this.authorFieldsId = options.authorFieldsId || `authorFields_${route}`;
         this.addAuthorButtonId = options.addAuthorButtonId || `addAuthor_${route}`;
         this.removeAuthorButtonId = options.removeAuthorButtonId || `removeAuthor_${route}`;
-        
+
         this.validate();
     }
 
@@ -29,6 +31,12 @@ export class EntityConfig {
             if (!this[field]) {
                 throw new Error(`EntityConfig: '${field}' es requerido`);
             }
+        }
+
+        // ✅ VALIDAR: Formato soportado
+        const supportedFormats = ['table', 'cards', 'list'];
+        if (!supportedFormats.includes(this.format)) {
+            throw new Error(`EntityConfig: formato '${this.format}' no soportado. Use: ${supportedFormats.join(', ')}`);
         }
     }
 

@@ -89,10 +89,6 @@
                                 </label>
                                 <textarea class="form-control" id="resumen_articulos" name="resumen_articulos" style="height: 120px;"
                                     placeholder="Describe brevemente el contenido, metodología y principales hallazgos..." required></textarea>
-                                <div class="d-flex justify-content-between mt-1">
-                                    <small class="form-text text-muted">Mínimo 50 caracteres recomendado</small>
-                                    <small class="text-muted" id="resumen-counter">0 caracteres</small>
-                                </div>
                                 <div class="invalid-feedback"></div>
                             </div>
 
@@ -209,7 +205,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn custom-button custom-button-cancelar" data-bs-dismiss="modal"
+                <button type="button" class="btn custom-button custom-button-gris" data-bs-dismiss="modal"
                     aria-label="Close">
                     <i class="fa-solid fa-xmark"></i>
                     Cancelar

@@ -31,6 +31,7 @@ export default defineConfig({
                 // Public
                 'resources/css/public.css',
                 'resources/js/app.js',
+                'resources/js/components/ui/ShowPageManager.js',
 
                 // Agrega aquí tu archivo de eventos:
                 // 'resources/js/entities/eventos/index.js',

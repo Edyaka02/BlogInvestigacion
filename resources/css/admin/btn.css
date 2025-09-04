@@ -137,7 +137,7 @@
 
 /* botones con otro nombre */
 
-/* Botón Crear */
+/* Botón Verde */
 .custom-button-verde {
     background: var(--btn-verde);
 }
@@ -150,7 +150,7 @@
     background: var(--btn-verde);
 }
 
-/* Botón Ver */
+/* Botón Azul */
 .custom-button-azul {
     background: var(--btn-azul);
 }
@@ -163,7 +163,7 @@
     background: var(--btn-azul);
 }
 
-/* Botón Eliminar */
+/* Botón Rojo */
 .custom-button-rojo {
     background: var(--btn-rojo);
 }
@@ -176,7 +176,7 @@
     background: var(--btn-rojo);
 }
 
-/* Botón Editar */
+/* Botón Naranja */
 .custom-button-naranja {
     background: var(--btn-naranja);
 }
@@ -189,7 +189,7 @@
     background: var(--btn-naranja);
 }
 
-/* Botón cancelar */
+/* Botón Gris */
 .custom-button-gris {
     background: var(--btn-gris);
 }

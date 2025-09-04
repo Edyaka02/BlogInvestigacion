@@ -56,16 +56,33 @@
 .body {
     /* height: 100vh;
     width: 1vw; */
-    background: var(--color-1);
+    background: var(--color-fondo);
 }
 
-h1, h2, h3 {
-    font-family: var(--font-title) !important; /* Usa Neutron para títulos */
+/* h1, h2, h3 {
+    font-family: var(--font-title) !important; 
 }
 
 p, span, a, button, h4, h5, h6, input {
-    font-family: var(--font-text) !important; /* Usa Noto Sans para texto */
+    font-family: var(--font-text) !important; 
+} */
+
+/* En content.css - más específico */
+h1, h2, h3 {
+    font-family: var(--font-title) !important;
+    font-weight: 700;
 }
+
+h4, h5, h6 {
+    font-family: var(--font-title) !important;
+    font-weight: 600;
+}
+
+p, span, a, button, input, textarea, select {
+    font-family: var(--font-text) !important;
+    font-weight: 400;
+}
+
 
 /* .body {
     height: 100vh;

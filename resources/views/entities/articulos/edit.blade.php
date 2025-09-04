@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('components.admin.adminLayout')
 
 @section('title', 'Artículos')
 
@@ -15,16 +15,18 @@
             <div class="row mb-3">
                 <div class="col-12">
                     <div class="d-flex justify-content-between align-items-center mb-2 gap-2">
-                        @include('components.buscador.buscador')
+
+                        @include('components.shared.search')
 
                         <div class="d-flex gap-1">
+
                             <button type="button" class="btn custom-button custom-button-ver" data-bs-toggle="offcanvas"
                                 data-bs-target="#offcanvasFiltros" aria-controls="offcanvasFiltros">
                                 <i class="fa-solid fa-filter"></i>
                                 <span class="btn-text">Filtro</span>
                             </button>
 
-                            @include('components.filtro')
+                            @include('components.shared.filter')
 
                             <button type="button" class="btn custom-button custom-button-subir" data-bs-toggle="modal"
                                 data-bs-target="#articulosModal">
@@ -32,13 +34,16 @@
                                 <span class="btn-text">Crear</span>
                             </button>
                         </div>
+
+
                     </div>
                 </div>
             </div>
 
             <div class="row mb-3">
                 <div class="col-12">
-                    <div id="tabla-resultados">
+
+                    <div id="data-results">
                         {{-- Aquí se cargará la tabla completa con header desde JavaScript --}}
                     </div>
                     <div class="d-flex justify-content-end mt-3">
@@ -46,11 +51,13 @@
                     </div>
                 </div>
             </div>
-            @include('components.carga')
+            @include('components.shared.loading')
+            @include('components.shared.emptyState')
+            @include('components.shared.errorState')
         </div>
     </div>
     @include('entities.articulos.modal')
-    @include('components.modal-eliminar')
+    @include('components.admin.modalDelete')
 
 @endsection
 

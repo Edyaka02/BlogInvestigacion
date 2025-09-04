@@ -11,14 +11,14 @@ use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
-    use OpcionesTrait;
 
     public function dashboard($action = 'subir')
     {
-        $config = $this->getConfig();
+        // $config = $this->getConfig();
         $tipos = Tipo::pluck('NOMBRE_TIPO', 'ID_TIPO'); 
         
-        return view('admin.dashboard', compact('config', 'tipos'));
+        // return view('admin.dashboard', compact('config', 'tipos'));
+        return view('entities.dashboard.dashboard', compact('tipos'));
     }
 
     public function basurero(Request $request)

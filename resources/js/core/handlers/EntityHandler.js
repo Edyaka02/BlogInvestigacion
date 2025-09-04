@@ -1,15 +1,3 @@
-// import {
-//     initializeModalAuthors,
-//     setModalData,
-//     configureFormForEdit,
-//     configureFormForCreate,
-//     updateFileDisplay,
-//     clearAuthorsModal,
-//     updateModal,
-//     setupFormSubmission,
-//     setupDeleteModal
-// } from './modalManager.js';
-
 import {
     initializeModalAuthors,
     setModalData,
@@ -149,17 +137,17 @@ export class EntityHandler {
      */
     loadFiles(button) {
         // ✅ Por defecto, busca patrones comunes
-        const archivos = [
-            { dataAttr: 'data-url-archivo', displayId: 'file-archivo', defaultMsg: 'No se ha seleccionado archivo' },
-            { dataAttr: 'data-url-imagen', displayId: 'file-imagen', defaultMsg: 'No se ha seleccionado imagen' }
-        ];
+        // const archivos = [
+        //     { dataAttr: 'data-url-archivo', displayId: 'file-archivo', defaultMsg: 'No se ha seleccionado archivo' },
+        //     { dataAttr: 'data-url-imagen', displayId: 'file-imagenes', defaultMsg: 'No se ha seleccionado imagen' }
+        // ];
 
-        archivos.forEach(({ dataAttr, displayId, defaultMsg }) => {
-            const url = button.getAttribute(dataAttr);
-            if (document.getElementById(displayId)) {
-                updateFileDisplay(displayId, url || '', defaultMsg);
-            }
-        });
+        // archivos.forEach(({ dataAttr, displayId, defaultMsg }) => {
+        //     const url = button.getAttribute(dataAttr);
+        //     if (document.getElementById(displayId)) {
+        //         updateFileDisplay(displayId, url || '', defaultMsg);
+        //     }
+        // });
     }
 
     /**
@@ -309,18 +297,25 @@ export class EntityHandler {
     }
 
     /**
-     * FUNCIÓN GENÉRICA PARA RECARGAR TABLA
+     * FUNCIÓN GENÉRICA PARA RECARGAR DATOS (actualizada)
      */
-    reloadTable() {
-        console.log(`🔄 Recargando tabla de ${this.config.entityRoute}...`);
+    reloadData() {
+        console.log(`🔄 Recargando ${this.config.format} de ${this.config.entityRoute}...`);
 
-        if (this.manager?.tablaController?.recargar) {
-            this.manager.tablaController.recargar();
-        } else if (this.manager?.reloadTable) {
-            this.manager.reloadTable().catch(() => window.location.reload());
+        if (this.manager?.dataController?.recargar) {
+            this.manager.dataController.recargar();
+        } else if (this.manager?.reloadData) {
+            this.manager.reloadData().catch(() => window.location.reload());
         } else {
             window.location.reload();
         }
+    }
+
+    /**
+     * MANTENER: Compatibilidad con reloadTable
+     */
+    reloadTable() {
+        this.reloadData();
     }
 
     /**
@@ -343,14 +338,18 @@ export class EntityHandler {
     }
 
     /**
-     * CONFIGURAR FUNCIONES GLOBALES (genérico)
+     * CONFIGURAR FUNCIONES GLOBALES (actualizado)
      */
     configureGlobalFunctions() {
         const entityName = this.config.entityRoute.charAt(0).toUpperCase() + this.config.entityRoute.slice(1);
 
-        window[`reloadTable${entityName}`] = () => this.reloadTable();
+        // ✅ FUNCIÓN: Principal genérica
+        window[`reloadData${entityName}`] = () => this.reloadData();
+        
+        // ✅ MANTENER: Compatibilidad
+        window[`reloadTable${entityName}`] = () => this.reloadData();
         window[`prepararModal${entityName}`] = () => console.log(`🔧 Preparando modal de ${this.config.entityType}...`);
-        window.dispararRecargaTabla = () => this.reloadTable();
+        window.dispararRecargaTabla = () => this.reloadData();
         window[`${this.config.entityRoute}Manager`] = this.manager;
 
         console.log(`✅ Funciones globales configuradas para ${this.config.entityType}`);

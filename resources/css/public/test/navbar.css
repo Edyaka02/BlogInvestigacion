@@ -1,0 +1,151 @@
+/* Navbar styles */
+.navbar {
+    /* background-color: var(--color_6); */
+    background-color: var(--color-fondo);
+    height: 80px;
+    max-width: 1400px;
+    margin: 60px auto;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+/* Ajustar el contenido interno */
+.container-fluid {
+    max-width: 100%;
+    /* Asegura que el contenido no se desborde */
+    padding: 0;
+    /* Elimina el relleno adicional */
+}
+
+.navbar-brand {
+    font-weight: 500;
+    /* color: var(--color_1); */
+    color: var(--color-3);
+    font-size: 24px;
+    transition: 0.3s color;
+}
+
+.navbar-toggler {
+    border: none;
+    font-size: 1.25rem;
+}
+
+.navbar-toggler:focus,
+.btn-close:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+.nav-link {
+    color: var(--color-3);
+    /* color: var(--color_7); */
+    font-weight: 500;
+    position: relative;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    /* color: var(--color_8); */
+    color: var(--color-primario);
+}
+
+@media (max-width: 991px) {
+    .navbar {
+        margin: 0 15px;
+        /* Agrega un margen lateral */
+        border-radius: 8px;
+        /* Mantén las esquinas redondeadas */
+        top: 60px;
+        /* Resetea cualquier desplazamiento */
+    }
+
+    .container-fluid {
+        padding: 0;
+        /* Elimina el relleno adicional del contenedor */
+    }
+}
+
+@media (min-width: 991px) {
+
+    .nav-link::before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 2px;
+        /* background-color: var(--color_1); */
+        background-color: var(--color-primario);
+        visibility: hidden;
+        transition: 0.3s ease-in-out;
+    }
+
+    .nav-link:hover::before,
+    .nav-link.active::before {
+        width: 100%;
+        color: var(--color-primario);
+        visibility: visible;
+    }
+}
+
+/* Dropdown mega menu */
+.custom-dropdown-menu-mega ul {
+    list-style: none;
+    padding: 0;
+
+}
+
+.custom-dropdown-menu-mega li:first-child a {
+    font-weight: 600;
+    font-size: 1.2em;
+    /* color: var(--color_letras); */
+    color: var(--color-7);
+}
+
+@media only screen and (min-width: 992px) {
+    .custom-dropdown-menu-mega.show {
+        display: flex;
+    }
+}
+
+/* Dropdown Menu Styles */
+.dropdown-menu {
+    /* background-color: var(--color_6); */
+    background-color: var(--color-fondo);
+    border: none;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-radius: 8px;
+}
+
+.dropdown-item {
+    /* color: var(--color_7); */
+    color: var(--color-7);
+    border-radius: 8px;
+    transition: background-color 0.3s, color 0.3s;
+    /* transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out; */
+}
+
+/*   .nav-item .nav-link {
+    color: var(--color-primario); 
+    transition: color 0.3s ease;
+} */
+
+
+.dropdown-item:hover,
+.dropdown-item.active {
+    /* background-color: var(--color_3);
+    color: var(--color_8); */
+    background-color: var(--color-primario);
+    color: var(--color-fondo);
+    border-radius: 8px;
+}
+
+/* Estilo inicial del dropdown cerrado */
+.dropdown-menu {
+    background-color: var(--color-fondo);
+    border: none;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-radius: 8px;
+}

@@ -1,32 +1,30 @@
-// import { loadTableResults } from './tableLoader.js';
-
-import { loadTableResults } from '../../components/tables/tableLoader.js';
+import { loadDataResults } from '../../components/data/dataLoader.js';
 
 /**
- * CLASE GENÉRICA PARA MANEJAR ENTIDADES (SIMPLIFICADA)
+ * CLASE GENÉRICA PARA MANEJAR ENTIDADES (MULTI-FORMATO)
  */
 export class EntityManager {
     constructor(config) {
         this.config = config;
-        this.tablaController = null;
+        this.dataController = null;
     }
 
     /**
-     * Función genérica para recargar tabla con AJAX
+     * Función genérica para recargar datos con AJAX
      */
-    async reloadTable() {
-        console.log(`🔄 Recargando tabla de ${this.config.entityRoute}...`);
+    async reloadData() {
+        console.log(`🔄 Recargando ${this.config.format} de ${this.config.entityRoute}...`);
 
-        const tablaContainer = document.getElementById(this.config.resultadosId);
+        const dataContainer = document.getElementById(this.config.resultadosId);
         const paginacionContainer = document.getElementById(this.config.paginacionId);
 
-        if (!tablaContainer) {
-            console.error('❌ Contenedor de tabla no encontrado');
+        if (!dataContainer) {
+            console.error('❌ Contenedor de datos no encontrado');
             return Promise.reject('Contenedor no encontrado');
         }
 
         // Mostrar indicador de carga
-        tablaContainer.innerHTML = '<div class="text-center p-4"><i class="fas fa-spinner fa-spin"></i> Cargando...</div>';
+        dataContainer.innerHTML = '<div class="text-center p-4"><i class="fas fa-spinner fa-spin"></i> Cargando...</div>';
 
         // Obtener filtros actuales
         const searchForm = document.getElementById(this.config.searchFormId);
@@ -64,19 +62,14 @@ export class EntityManager {
                 throw new Error(`Error ${response.status}`);
             }
 
-            const contentType = response.headers.get('content-type');
-            if (!contentType || !contentType.includes('text/html')) {
-                throw new Error(`Respuesta inesperada. Content-Type: ${contentType}`);
-            }
-
             const html = await response.text();
 
             if (!html.trim()) {
                 throw new Error('Respuesta HTML vacía');
             }
 
-            // Actualizar tabla
-            tablaContainer.innerHTML = html;
+            // Actualizar contenido
+            dataContainer.innerHTML = html;
 
             // Actualizar paginación si existe
             if (paginacionContainer) {
@@ -89,18 +82,18 @@ export class EntityManager {
                 }
             }
 
-            console.log(`✅ Tabla de ${this.config.entityRoute} recargada`);
+            console.log(`✅ ${this.config.format} de ${this.config.entityRoute} recargado`);
             return html;
 
         } catch (error) {
-            console.error(`❌ Error al recargar tabla de ${this.config.entityRoute}:`, error);
+            console.error(`❌ Error al recargar ${this.config.format} de ${this.config.entityRoute}:`, error);
 
             const entityName = this.config.entityRoute.charAt(0).toUpperCase() + this.config.entityRoute.slice(1);
-            tablaContainer.innerHTML = `
+            dataContainer.innerHTML = `
                 <div class="alert alert-danger">
                     <h6>Error al cargar datos</h6>
                     <p><strong>Detalle:</strong> ${error.message}</p>
-                    <button onclick="window.reloadTable${entityName}()" 
+                    <button onclick="window.reloadData${entityName}()" 
                             class="btn btn-sm btn-primary ms-2">
                         <i class="fas fa-sync"></i> Reintentar
                     </button>
@@ -115,15 +108,16 @@ export class EntityManager {
     }
 
     /**
-     * Configurar tabla con renderizado
+     * Configurar visualización con renderizado (GENÉRICO)
      */
-    configureTable(renderConfig) {
+    configureDisplay(renderConfig) {
         if (!renderConfig) {
             console.warn('⚠️ No se proporcionó configuración de renderizado');
             return null;
         }
 
-        this.tablaController = loadTableResults({
+        // ✅ CONFIGURAR: Según el formato especificado
+        const config = {
             urlBase: this.config.urlBase,
             buscadorFormId: this.config.searchFormId,
             filtroFormId: this.config.filtroFormId,
@@ -131,49 +125,77 @@ export class EntityManager {
             paginacionDivId: this.config.paginacionId,
             key: this.config.entityRoute,
             cargarInicialmente: true,
-            renderHeader: renderConfig.renderHeader,
-            renderRow: renderConfig.renderRow,
+            format: this.config.format,        // ✅ USAR: Formato de la configuración
             entityType: this.config.entityType,
             entityRoute: this.config.entityRoute
-        });
+        };
 
-        console.log(`✅ Tabla de ${this.config.entityRoute} configurada`);
-        return this.tablaController;
+        // ✅ AGREGAR: Funciones de renderizado según formato
+        switch (this.config.format) {
+            case 'table':
+                config.renderHeader = renderConfig.renderHeader;
+                config.renderRow = renderConfig.renderRow;
+                break;
+            
+            case 'cards':
+                config.renderCard = renderConfig.renderCard;
+                config.containerClass = renderConfig.containerClass || 'g-3';
+                break;
+            
+            case 'list':
+                config.renderListItem = renderConfig.renderListItem;
+                config.containerClass = renderConfig.containerClass || '';
+                break;
+        }
+
+        this.dataController = loadDataResults(config);
+
+        console.log(`✅ ${this.config.format} de ${this.config.entityRoute} configurado`);
+        return this.dataController;
     }
 
     /**
-     * Crear función global básica de recarga
+     * Crear función global básica de recarga (GENÉRICA)
      */
     createGlobalFunctions() {
-        // ✅ SOLO: Función genérica de recarga
-        window.dispararRecargaTabla = () => {
-            if (this.tablaController && typeof this.tablaController.recargar === 'function') {
-                this.tablaController.recargar();
+        const entityName = this.config.entityRoute.charAt(0).toUpperCase() + this.config.entityRoute.slice(1);
+
+        // ✅ FUNCIÓN: Genérica que funciona para cualquier formato
+        window[`reloadData${entityName}`] = () => {
+            if (this.dataController && typeof this.dataController.recargar === 'function') {
+                this.dataController.recargar();
             } else {
-                this.reloadTable();
+                this.reloadData();
             }
         };
 
-        console.log(`✅ Función global base creada para ${this.config.entityRoute}`);
+        // ✅ MANTENER: Compatibilidad con nombres anteriores
+        window.dispararRecargaTabla = () => window[`reloadData${entityName}`]();
+        window[`reloadTable${entityName}`] = () => window[`reloadData${entityName}`]();
+
+        console.log(`✅ Funciones globales genéricas creadas para ${this.config.entityType}`);
 
         return {
-            recargarGenericaFunction: 'dispararRecargaTabla'
+            reloadFunction: `reloadData${entityName}`,
+            legacyFunctions: ['dispararRecargaTabla', `reloadTable${entityName}`]
         };
     }
 
     /**
-     * Configurar event listeners
+     * Configurar event listeners (GENÉRICO)
      */
     configureEventListeners() {
+        const entityName = this.config.entityRoute.charAt(0).toUpperCase() + this.config.entityRoute.slice(1);
+
         // Event listener para eventos de recarga específicos
-        document.addEventListener(`reloadTable${this.config.entityRoute}`, () => {
-            this.reloadTable();
+        document.addEventListener(`reloadData${entityName}`, () => {
+            this.reloadData();
         });
 
         // Event listener genérico
-        document.addEventListener('reloadTable', (e) => {
+        document.addEventListener('reloadData', (e) => {
             if (e.detail?.entityRoute === this.config.entityRoute) {
-                this.reloadTable();
+                this.reloadData();
             }
         });
 
@@ -181,35 +203,39 @@ export class EntityManager {
     }
 
     /**
-     * Inicializar sistema de tabla (SIN AJAX)
+     * Inicializar sistema (GENÉRICO)
      */
     initialize(renderConfig) {
-        console.log(`🚀 Inicializando sistema de tabla para ${this.config.entityRoute}...`);
+        console.log(`🚀 Inicializando sistema ${this.config.format} para ${this.config.entityRoute}...`);
 
-        // ✅ CONFIGURAR: Tabla con renderizado
-        this.configureTable(renderConfig);
+        // ✅ CONFIGURAR: Visualización según formato
+        this.configureDisplay(renderConfig);
 
-        // ✅ CREAR: Función global básica
+        // ✅ CREAR: Funciones globales genéricas
         const globalFunctions = this.createGlobalFunctions();
 
         // ✅ CONFIGURAR: Event listeners
         this.configureEventListeners();
 
-        console.log(`✅ Sistema de tabla para ${this.config.entityRoute} inicializado`);
+        console.log(`✅ Sistema ${this.config.format} para ${this.config.entityRoute} inicializado`);
 
         return {
             manager: this,
             globalFunctions,
-            tablaController: this.tablaController
+            dataController: this.dataController
         };
     }
 
     /**
-     * Destruir y limpiar recursos
+     * Destruir y limpiar recursos (GENÉRICO)
      */
     destroy() {
-        // Limpiar función global básica
+        const entityName = this.config.entityRoute.charAt(0).toUpperCase() + this.config.entityRoute.slice(1);
+        
+        // Limpiar funciones globales
+        delete window[`reloadData${entityName}`];
         delete window.dispararRecargaTabla;
+        delete window[`reloadTable${entityName}`];
 
         console.log(`🗑️ Recursos de ${this.config.entityRoute} liberados`);
     }

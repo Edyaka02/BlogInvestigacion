@@ -22,11 +22,13 @@ use App\Http\Controllers\PremioController;
 
 // Rutas publicas
 Route::get('/', function () {
-    return view('inicio');
+    return view('entities.inicio.inicio');
 })->name('inicio');
 
 // Route::get('/')->name('inicio');
-Route::get('/articulos', [ArticuloController::class, 'index'])->name('articulos.articulo');
+// Route::get('/articulos', [ArticuloController::class, 'index'])->name('articulos.articulo');
+Route::get('/articulos', [ArticuloController::class, 'index'])->name('articulos.index');
+Route::get('/articulos/{id}/download', [ArticuloController::class, 'download'])->name('articulo.download');
 Route::get('/articulos/{id}', [ArticuloController::class, 'show'])->name('articulo.show');
 
 // Libros
@@ -49,6 +51,19 @@ Route::post('/register', [LoginController::class, 'register'])->name('register.p
 
 
 
+// ✅ AGREGAR: Al inicio de web.php
+Route::get('/test-forbidden', function () {
+    return response()->json([
+        'status' => 'OK',
+        'message' => 'Si ves esto, el problema NO es de Laravel',
+        'timestamp' => now(),
+        'request_info' => [
+            'method' => request()->method(),
+            'ip' => request()->ip(),
+            'user_agent' => request()->header('User-Agent')
+        ]
+    ]);
+});
 
 Route::prefix('dashboard')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');

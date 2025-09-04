@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 class AutorFactory extends Factory
 {
-    protected $model = Autor::class;
+    // protected $model = Autor::class;
 
     public function definition()
     {
