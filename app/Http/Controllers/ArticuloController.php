@@ -12,8 +12,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
-
-
 class ArticuloController extends Controller
 {
     use FilesTrait, AuthorTrait, YearTrait;
@@ -143,7 +141,7 @@ class ArticuloController extends Controller
 
         if (empty($articulo->URL_ARTICULO)) {
             abort(404, 'Archivo no disponible');
-            
+
         }
 
         $filePath = public_path(ltrim($articulo->URL_ARTICULO, '/'));

@@ -36,12 +36,12 @@
                             <i class='fa-solid fa-file-text'></i>
                             <span>Artículos</span>
                         </a>
-                        <a href="#" class="nav_dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                        <a href="{{ route('admin.libros.index') }}" class="nav_dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                             data-bs-title="Libros">
                             <i class='fa-solid fa-book'></i>
                             <span>Libros</span>
                         </a>
-                        <a href="#" class="nav_dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                        <a href="{{ route('admin.proyectos.index') }}" class="nav_dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                             data-bs-title="Proyectos">
                             <i class="fa-solid fa-lightbulb"></i>
                             <span>Proyectos</span>
@@ -86,6 +86,7 @@
                             <i class='fa-solid fa-trophy'></i>
                             <span>Premios</span>
                         </a>
+                        
 
                     </div>
                 </div>

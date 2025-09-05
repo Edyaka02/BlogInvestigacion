@@ -141,10 +141,6 @@
                             <div id="authorFields_articulos" class="authors-container">
                                 <!-- Autores se agregarán aquí dinámicamente -->
                             </div>
-                            {{-- <div class="alert alert-info" id="no-authors-alert">
-                                <i class="fa-solid fa-info-circle me-2"></i>
-                                No hay autores agregados. Haz clic en "Agregar" para comenzar.
-                            </div> --}}
                         </div>
                     </div>
 

@@ -110,3 +110,7 @@
     vertical-align: middle;
 }
 
+.code {
+    background-color: var(--btn-azul);
+    color: white;
+}

@@ -99,7 +99,8 @@
                     <div class="col-lg-4 text-center slide-in-professional">
                         <div class="research-image-executive">
                             <img src="{{ asset($articulo->URL_IMAGEN_ARTICULO) }}"
-                                alt="Imagen representativa de {{ $articulo->TITULO_ARTICULO }}" style="max-height: 300px;">
+                                alt="Imagen representativa de {{ $articulo->TITULO_ARTICULO }}" style="max-height: 300px;"
+                                onerror="this.src='/assets/img/default-article.png'">
                         </div>
                     </div>
                 @endif

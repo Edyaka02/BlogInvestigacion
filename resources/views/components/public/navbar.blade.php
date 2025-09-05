@@ -29,7 +29,7 @@
                                     <hr class="dropdown-divider">
                                 </li>
                                 <li><a class="dropdown-item" href="{{ route('articulos.index') }}">Artículos</a></li>
-                                <li><a class="dropdown-item" href="{{ route('libros.libro') }}">Libros</a></li>
+                                <li><a class="dropdown-item" href="{{ route('libros.index') }}">Libros</a></li>
                             </ul>
 
                             <!-- Investigación Dropdown -->
@@ -38,7 +38,7 @@
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" href="#">Proyectos de investigación</a></li>
+                                <li><a class="dropdown-item" href="{{ route('proyectos.index') }}">Proyectos de investigación</a></li>
                                 <li><a class="dropdown-item" href="#">Estancias de Investigación</a></li>
                                 <li><a class="dropdown-item" href="#">Prototipos</a></li>
                                 <li><a class="dropdown-item" href="#">Reviewer</a></li>

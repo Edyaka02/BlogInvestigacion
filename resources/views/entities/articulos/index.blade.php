@@ -7,7 +7,8 @@
 
         <div class="row mb-3">
             <div class="col-12">
-                <h1 class="text-start">Artículos</h1>
+                <h1 class="text-start">Artículos de Investigación</h1>
+                <p class="lead text-muted">Explora nuestra colección de artículos publicados</p>
             </div>
         </div>
 
