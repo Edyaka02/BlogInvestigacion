@@ -32,11 +32,23 @@ const ARTICULOS_RENDER_CONFIG = {
     `,
     renderRow: articulo => `
         <tr>
-            <td>${articulo.TITULO_ARTICULO}</td>
-            <td>${articulo.ISSN_ARTICULO}</td>
-            <td>${articulo.FECHA_ARTICULO}</td>
-            <td>${articulo.REVISTA_ARTICULO}</td>
-            <td>${articulo.tipo ? articulo.tipo.NOMBRE_TIPO : ''}</td>
+            <td>
+                <div class="articulo-info">
+                    <h6 class="mb-1 fw-medium">${articulo.TITULO_ARTICULO}</h6>
+                </div>
+            </td>
+            <td>
+                <span class="badge code">${articulo.ISSN_ARTICULO}</span>
+            </td>
+            <td>
+                ${new Date(articulo.FECHA_ARTICULO).toLocaleDateString('es-ES')}
+            </td>
+            <td>
+                <small class="text-muted">${articulo.REVISTA_ARTICULO || 'N/A'}</small>
+            </td>
+            <td>
+                <small class="text-muted">${articulo.tipo ? articulo.tipo.NOMBRE_TIPO : ''}</small>
+            </td>
             <td>
                 <div class="d-flex">
                     <div class="ms-2">
@@ -140,7 +152,7 @@ class ArticulosHandler extends EntityHandler {
         fileInputs.forEach(({ input, display, defaultMsg }) => {
             const inputElement = document.getElementById(input);
             if (inputElement) {
-                inputElement.addEventListener('change', function(e) {
+                inputElement.addEventListener('change', function (e) {
                     const file = e.target.files[0];
                     if (file) {
                         updateFileDisplay(display, file.name, defaultMsg);
@@ -166,7 +178,7 @@ const articulosHandler = new ArticulosHandler();
  */
 document.addEventListener('DOMContentLoaded', async function () {
     await articulosHandler.initialize(EntityManager);
-    
+
     // ✅ FUNCIÓN DE DEBUG específica
     window.debugArticulos = () => articulosHandler.debug();
 });

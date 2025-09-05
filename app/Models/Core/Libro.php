@@ -22,6 +22,8 @@ class Libro extends Model
         'DOI_LIBRO',
         'URL_IMAGEN_LIBRO',
         'URL_LIBRO',
+        'VISTA_LIBRO',
+        'DESCARGA_LIBRO',
         'ID_USUARIO',
     ];
 
@@ -30,4 +32,5 @@ class Libro extends Model
         return $this->belongsToMany(Autor::class, 'tb_libro_autor', 'ID_LIBRO', 'ID_AUTOR')
                     ->withPivot('ORDEN_AUTOR');
     }
+
 }

@@ -57,12 +57,12 @@ const ARTICULOS_CARDS_RENDER = {
                                         <i class="fas fa-barcode me-2"></i>ISSN
                                     </td>
                                     <td>
-                                        <code class="code">${articulo.ISSN_ARTICULO}</code>
+                                        <code class="badge code">${articulo.ISSN_ARTICULO}</code>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <i class="fas fa-user me-2"></i>Autores
+                                        <i class="fas fa-users me-2"></i>Autores
                                     </td>
                                     <td class="authors-text">
                                         ${autoresTexto}
@@ -79,43 +79,9 @@ const ARTICULOS_CARDS_RENDER = {
     containerClass: 'g-4'
 };
 
-/**
- * UTILIDAD: Formatear fecha como en Blade
- */
-// function formatearFecha(fechaString) {
-//     if (!fechaString) return 'Fecha no disponible';
-
-//     try {
-//         const fecha = new Date(fechaString);
-
-//         // ✅ DÍAS: En español
-//         const diasSemana = [
-//             'domingo', 'lunes', 'martes', 'miércoles',
-//             'jueves', 'viernes', 'sábado'
-//         ];
-
-//         // ✅ MESES: En español
-//         const meses = [
-//             'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
-//             'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
-//         ];
-
-//         const diaSemana = diasSemana[fecha.getDay()];
-//         const dia = fecha.getDate();
-//         const mes = meses[fecha.getMonth()];
-//         const año = fecha.getFullYear();
-
-//         // ✅ FORMATO: "lunes, 15 de marzo de 2024"
-//         return `${diaSemana}, ${dia} de ${mes} de ${año}`;
-
-//     } catch (error) {
-//         console.error('Error al formatear fecha:', error);
-//         return fechaString; // Devolver original si hay error
-//     }
-// }
 
 /**
- * HANDLER PARA CARDS (reutiliza toda la lógica)
+ * HANDLER PARA CARDS 
  */
 class ArticulosCardsHandler extends EntityHandler {
     constructor() {

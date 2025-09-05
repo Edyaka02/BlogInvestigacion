@@ -58,7 +58,6 @@
                 </div>
 
                 <!-- Sección: Por tipo -->
-                {{-- @if (!empty($config['tiposArticulos'])) --}}
                 @if (!empty($tipos))
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingTipo">
@@ -77,6 +76,64 @@
                                             {{ in_array($key, request()->query('tipo', [])) ? 'checked' : '' }}>
                                         <label class="form-check-label" for="tipo{{ $key }}">
                                             {{ $value }}
+                                        </label>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
+                {{-- ✅ NUEVO: Sección Por Organismo (Solo para proyectos) --}}
+                @if (!empty($organismos))
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOrganismo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseOrganismo" aria-expanded="false"
+                                aria-controls="collapseOrganismo">
+                                Por organismo
+                            </button>
+                        </h2>
+                        <div id="collapseOrganismo" class="accordion-collapse collapse"
+                            aria-labelledby="headingOrganismo" data-bs-parent="#accordionFiltros">
+                            <div class="accordion-body">
+                                @foreach ($organismos as $id => $nombre)
+                                    <div class="form-check">
+                                        <input class="form-check-input custom-checkbox" type="checkbox"
+                                            name="organismo[]" value="{{ $id }}"
+                                            id="organismo{{ $id }}"
+                                            {{ in_array($id, request()->query('organismo', [])) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="organismo{{ $id }}">
+                                            {{ $nombre }}
+                                        </label>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
+                {{-- ✅ NUEVO: Sección Por Ámbito (Solo para proyectos) --}}
+                @if (!empty($ambitos))
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingAmbito">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseAmbito" aria-expanded="false"
+                                aria-controls="collapseAmbito">
+                                Por ámbito
+                            </button>
+                        </h2>
+                        <div id="collapseAmbito" class="accordion-collapse collapse" aria-labelledby="headingAmbito"
+                            data-bs-parent="#accordionFiltros">
+                            <div class="accordion-body">
+                                @foreach ($ambitos as $id => $nombre)
+                                    <div class="form-check">
+                                        <input class="form-check-input custom-checkbox" type="checkbox"
+                                            name="ambito[]" value="{{ $id }}"
+                                            id="ambito{{ $id }}"
+                                            {{ in_array($id, request()->query('ambito', [])) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="ambito{{ $id }}">
+                                            {{ $nombre }}
                                         </label>
                                     </div>
                                 @endforeach
@@ -106,14 +163,6 @@
                                     </label>
                                 </div>
                                 @foreach ($years as $year)
-                                    {{-- <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="anio"
-                                            value="{{ $year }}" id="anio{{ $year }}"
-                                            {{ request()->query('anio') == $year ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="anio{{ $year }}">
-                                            {{ $year }}
-                                        </label>
-                                    </div> --}}
                                     <div class="form-check">
                                         <input class="custom-radio" type="radio" name="anio"
                                             value="{{ $year }}" id="anio{{ $year }}"
@@ -131,16 +180,6 @@
                                         Intervalo de años
                                     </label>
                                 </div>
-                                {{-- <div id="intervaloAnios" class="mt-2"
-                                    style="display: {{ request()->query('anio') == 'intervalo' ? 'block' : 'none' }};">
-                                    <div class="input-group input-group-sm">
-                                        <input type="number" name="anio_inicio" class="form-control flex-fill"
-                                            placeholder="Inicio" value="{{ request()->query('anio_inicio') }}">
-                                        <span class="input-group-text">-</span>
-                                        <input type="number" name="anio_fin" class="form-control flex-fill" placeholder="Fin"
-                                            value="{{ request()->query('anio_fin') }}">
-                                    </div>
-                                </div> --}}
                                 <div id="intervaloAnios" class="intervalo-container"
                                     style="display: {{ request()->query('anio') == 'intervalo' ? 'block' : 'none' }};">
                                     <div class="intervalo-wrapper">
@@ -163,45 +202,14 @@
 
             <!-- Botón para aplicar filtros -->
             <div class="d-flex justify-content-center mt-3">
-                {{-- <button type="button" class="btn btn-outline-custom" id="aplicar-filtros-btn">Aplicar
-                    Filtros</button> --}}
-                <button type="button" class="btn custom-button custom-button-primario" id="aplicar-filtros-btn">
+                <button type="button" class="btn custom-button custom-button-primario" id="aplicar-filtros-btn"
+                    data-bs-dismiss="offcanvas" aria-label="Close">
                     <i class="fa-solid fa-filter"></i> Aplicar
                 </button>
             </div>
         </div>
     </div>
 </form>
-
-
-{{-- @push('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Inicializar filtros solo si el formulario de búsqueda y filtrado está presente
-            if (document.querySelector('.filter-form')) {
-                const anioRadios = document.querySelectorAll('input[name="anio"]');
-                const intervaloAniosCheckbox = document.getElementById('intervaloAniosCheckbox');
-                const intervaloAnios = document.getElementById('intervaloAnios');
-
-                anioRadios.forEach(radio => {
-                    radio.addEventListener('change', function() {
-                        if (this.value === 'intervalo') {
-                            intervaloAnios.style.display = 'block';
-                        } else {
-                            intervaloAnios.style.display = 'none';
-                            intervaloAnios.querySelectorAll('input').forEach(input => input.value =
-                                '');
-                        }
-                    });
-                });
-
-                if (intervaloAniosCheckbox.checked) {
-                    intervaloAnios.style.display = 'block';
-                }
-            }
-        });
-    </script>
-@endpush --}}
 
 @push('scripts')
     <script>

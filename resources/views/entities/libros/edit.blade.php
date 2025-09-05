@@ -1,96 +1,67 @@
-@extends('layouts.admin_layout')
+
+{{-- resources/views/entities/libros/edit.blade.php --}}
+@extends('components.admin.adminLayout')
+
+@section('title', 'Libros')
 
 @section('content')
-    <div class="container mt-5 flex-grow-1 d-flex flex-column">
-        <h1 class="h-white mb-3 tracking-in-expand">Libros</h1>
+    <div class="container-fluid mt-5 flex-grow-1 d-flex flex-column">
 
-        {{-- Formulario de búsqueda y filtrado --}}
-        @include('components.buscador_filtrado')
-
-        @if (!$hasResults)
-            @component('components.no_resultados', ['entityName' => 'libros'])
-            @endcomponent
-        @else
-            <div class="row flex-grow-1">
-                @foreach ($libros as $row)
-                    <div class="col-md-3 mb-3 card_busqueda">
-                        <div class="card custom-card">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ $row->TITULO_LIBRO }}</h5>
-                                <input type="hidden" name="id_libro_card" value="{{ $row->ID_LIBRO }}">
-
-                                <div class="custom-button-group">
-                                    <div class="btn-group mt-2" role="group" aria-label="Actions">
-                                        <button type="button" class="btn custom-button-editar" data-bs-toggle="modal"
-                                            data-bs-target="#libroModal" data-id="{{ $row->ID_LIBRO }}"
-                                            data-titulo="{{ $row->TITULO_LIBRO }}"
-                                            data-capitulo="{{ $row->CAPITULO_LIBRO }}" data-isbn="{{ $row->ISBN_LIBRO }}"
-                                            data-year="{{ $row->YEAR_LIBRO }}" data-editorial="{{ $row->EDITORIAL_LIBRO }}"
-                                            data-doi="{{ $row->DOI_LIBRO }}" data-url-libro="{{ $row->URL_LIBRO }}"
-                                            data-url-imagen="{{ $row->URL_IMAGEN_LIBRO }}"
-                                            data-nombres-autores="{{ $row->autores->pluck('NOMBRE_AUTOR')->implode(',') }}"
-                                            data-apellidos-autores="{{ $row->autores->pluck('APELLIDO_AUTOR')->implode(',') }}"
-                                            data-orden-autores="{{ $row->autores->pluck('pivot.ORDEN_AUTOR')->implode(',') }}">
-                                            <i class="bi bi-pencil-square"></i> Editar
-                                        </button>
-
-                                        <button type="button" class="btn custom-button-eliminar" data-bs-toggle="modal"
-                                            data-bs-target="#modalEliminar" data-id="{{ $row->ID_LIBRO }}"
-                                            data-type="libro" data-route="libros">
-                                            <i class="bi bi-trash"></i> Eliminar
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
+        <div class="row mb-3">
+            <div class="col-12">
+                <h1 class="text-start fw-bold">Libros</h1>
             </div>
-        @endif
+        </div>
 
-        @include('entities.libros.modal')
-        @include('components.modal-eliminar')
+        <div class="tabla-container">
+            <div class="row mb-3">
+                <div class="col-12">
+                    <div class="d-flex justify-content-between align-items-center mb-2 gap-2">
 
-        <!-- Mostrar enlaces de paginación -->
-        <div class="d-flex justify-content-center mt-auto">
-            {{ $libros->links() }}
+                        @include('components.shared.search')
+
+                        <div class="d-flex gap-1">
+
+                            <button type="button" class="btn custom-button custom-button-ver" data-bs-toggle="offcanvas"
+                                data-bs-target="#offcanvasFiltros" aria-controls="offcanvasFiltros">
+                                <i class="fa-solid fa-filter"></i>
+                                <span class="btn-text">Filtro</span>
+                            </button>
+
+                            @include('components.shared.filter')
+
+                            <button type="button" class="btn custom-button custom-button-subir" data-bs-toggle="modal"
+                                data-bs-target="#librosModal">
+                                <i class="fa-solid fa-upload"></i>
+                                <span class="btn-text">Crear</span>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-12">
+
+                    <div id="data-results">
+                        {{-- Aquí se cargará la tabla completa con header desde JavaScript --}}
+                    </div>
+                    <div class="d-flex justify-content-end mt-3">
+                        {{-- Aquí se cargarán los controles de paginación --}}
+                    </div>
+                </div>
+            </div>
+            @include('components.shared.loading')
+            @include('components.shared.emptyState')
+            @include('components.shared.errorState')
         </div>
     </div>
+    @include('entities.libros.modal')
+    @include('components.admin.modalDelete')
+
 @endsection
 
 @push('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('libroModal').addEventListener('show.bs.modal', function(event) {
-
-                var button = event.relatedTarget;
-
-                var data = {
-                    id_libro: button.getAttribute('data-id'),
-                    titulo_libro: button.getAttribute('data-titulo'),
-                    capitulo_libro: button.getAttribute('data-capitulo'),
-                    isbn_libro: button.getAttribute('data-isbn'),
-                    year_libro: button.getAttribute('data-year'),
-                    editorial_libro: button.getAttribute('data-editorial'),
-                    doi_libro: button.getAttribute('data-doi')
-                };
-
-                var modal = this;
-                var form = modal.querySelector('#libroForm');
-
-                // Configurar formulario para editar
-                configureFormForEdit(form, data.id_libro, 'libros');
-
-                // Muestra los datos en el modal
-                setModalData(modal, data);
-
-                // Mostrar nombre del archivo y la imagen
-                window.updateFileDisplay('file-libro', button.getAttribute('data-url-libro'),
-                    'No se ha elegido un libro');
-                window.updateFileDisplay('file-imagen_libro', button.getAttribute('data-url-imagen'),
-                    'No se ha elegido una imagen');
-
-            });
-        });
-    </script>
+    @vite(['resources/js/entities/libros/edit.js'])
 @endpush
