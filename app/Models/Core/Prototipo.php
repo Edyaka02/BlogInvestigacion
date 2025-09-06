@@ -22,6 +22,9 @@ class Prototipo extends Model
         'CARACTERISTICAS_PROTOTIPO',
         'FECHA_PROTOTIPO',
         'URL_PROTOTIPO',
+        'URL_IMAGEN_PROTOTIPO',
+        'VISTA_PROTOTIPO',
+        'DESCARGA_PROTOTIPO',
         'ID_USUARIO'
     ];
 

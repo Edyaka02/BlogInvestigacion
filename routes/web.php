@@ -7,6 +7,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LibroController;
 use App\Http\Controllers\EventoController;
 use App\Http\Controllers\PremioController;
+use App\Http\Controllers\PrototipoController;
 use App\Http\Controllers\ProyectoController;
 
 
@@ -83,6 +84,12 @@ Route::prefix('dashboard')->name('admin.')->middleware('auth')->group(function (
     Route::post('/premios', [PremioController::class, 'store'])->name('premios.store');
     Route::put('/premios/{id}', [PremioController::class, 'update'])->name('premios.update');
     Route::delete('/premios/{id}', [PremioController::class, 'destroy'])->name('premios.destroy');
+
+    // ------------------- Prototipos -------------------
+    Route::get('/prototipos', [PrototipoController::class, 'adminIndex'])->name('prototipos.index');
+    Route::post('/prototipos', [PrototipoController::class, 'store'])->name('prototipos.store');
+    Route::put('/prototipos/{id}', [PrototipoController::class, 'update'])->name('prototipos.update');
+    Route::delete('/prototipos/{id}', [PrototipoController::class, 'destroy'])->name('prototipos.destroy');
 
     // ------------------- Proyectos -------------------
     Route::get('/proyectos', [ProyectoController::class, 'adminIndex'])->name('proyectos.index');
