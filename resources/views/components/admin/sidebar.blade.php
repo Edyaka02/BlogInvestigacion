@@ -51,7 +51,7 @@
                             <i class="fa-solid fa-earth-americas"></i>
                             <span>Estancias</span>
                         </a>
-                        <a href="#" class="nav_dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                        <a href="{{ route('admin.prototipos.index') }}" class="nav_dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                             data-bs-title="Prototipos">
                             <i class="fa-solid fa-screwdriver-wrench"></i>
                             <span>Prototipos</span>

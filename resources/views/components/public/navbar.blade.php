@@ -40,7 +40,7 @@
                                 </li>
                                 <li><a class="dropdown-item" href="{{ route('proyectos.index') }}">Proyectos de investigación</a></li>
                                 <li><a class="dropdown-item" href="#">Estancias de Investigación</a></li>
-                                <li><a class="dropdown-item" href="#">Prototipos</a></li>
+                                <li><a class="dropdown-item" href="{{ route('prototipos.index') }}">Prototipos</a></li>
                                 <li><a class="dropdown-item" href="#">Reviewer</a></li>
                             </ul>
                         </div>

@@ -42,6 +42,14 @@ Route::get('/eventos', [EventoController::class, 'index'])->name('eventos.evento
 Route::get('/eventos/filtrar', [EventoController::class, 'filtrar'])->name('eventos.filtrar');
 Route::get('/eventos/{id}', [EventoController::class, 'show'])->name('evento.show');
 
+// Premios
+Route::get('/premios', [PremioController::class, 'index'])->name('premios.index');
+Route::get('/premios/{id}', [PremioController::class, 'show'])->name('premio.show');
+// Prototipos
+Route::get('/prototipos', [PrototipoController::class, 'index'])->name('prototipos.index');
+Route::get('/prototipos/{id}/download', [PrototipoController::class, 'download'])->name('prototipos.download');
+Route::get('/prototipos/{id}', [PrototipoController::class, 'show'])->name('prototipos.show');
+
 // Proyectos
 Route::get('/proyectos', [ProyectoController::class, 'index'])->name('proyectos.index');
 Route::get('/proyectos/{id}/download', [ProyectoController::class, 'download'])->name('proyectos.download');
